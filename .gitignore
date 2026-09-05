@@ -1,0 +1,29 @@
+# Ambienti virtuali
+.venv/
+*/.venv/
+venv/
+env/
+
+# Modelli e file binari pesanti
+*.gguf
+*.bin
+*.pt
+*.safetensors
+poc/models/
+
+# Variabili d'ambiente e chiavi
+.env
+*.env
+
+# Cache Python
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+
+# File di sistema macOS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
