@@ -16,19 +16,33 @@ class OutputInferenza:
     tempo_prefill_sec: float
     token_al_secondo: float
 
+def assicura_presenza_modello(model_path: str):
+    """Scarica il file GGUF se non è presente in locale."""
+    if os.path.exists(model_path):
+        return
+    os.makedirs(os.path.dirname(model_path), exist_ok=True)
+    print(f"Modello non trovato in locale. Download automatico in corso da Hugging Face (~468 MB)...")
+    url = "https://huggingface.co/Qwen/Qwen2.5-0.5B-Instruct-GGUF/resolve/main/qwen2.5-0.5b-instruct-q4_k_m.gguf"
+    import requests
+    with requests.get(url, stream=True, timeout=60) as r:
+        r.raise_for_status()
+        with open(model_path, "wb") as f:
+            for chunk in r.iter_content(chunk_size=131072):
+                f.write(chunk)
+    print("Download del modello completato con successo.")
+
 class LocalNeuralEngine:
     def __init__(self, model_path: Optional[str] = None, n_ctx: int = 4096):
         if not model_path:
             model_path = os.path.join(os.path.dirname(__file__), "..", "models", "qwen2.5-0.5b-instruct-q4_k_m.gguf")
         
-        if not os.path.exists(model_path):
-            raise FileNotFoundError(f"Modello non trovato in {model_path}")
+        assicura_presenza_modello(model_path)
 
         from llama_cpp import Llama
         self.model_path = model_path
         self.llm = Llama(
             model_path=model_path,
-            n_gpu_layers=-1,  # Tutta la rete su GPU (Metal su Apple Silicon, CUDA su PC)
+            n_gpu_layers=-1,  # Offload su GPU se presente (Metal su Mac, CUDA su Linux); altrimenti ricade su CPU
             n_ctx=n_ctx,
             verbose=False
         )
