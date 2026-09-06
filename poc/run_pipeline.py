@@ -1,196 +1,441 @@
 #!/usr/bin/env python3
-"""
-Pipeline DP-RAG Completa e Modulare con Dati Reali da Benchmark Accademico (SQuAD).
-Architettura pulita orientata alle best practices di ingegneria del software:
-- core.dataset: caricamento dataset accademico reale
-- core.engine: inferenza neurale locale (Metal/CUDA) con telemetria token
-- core.privacy: filtro di Privacy Differenziale PTR con rumore di Laplace
-- core.cloud: generazione Cloud e calcolo risparmio di banda
-- core.telemetry: tracciamento distribuito su Langfuse
+"""Run the adaptive DP-KSA edge-to-cloud pipeline.
+
+The executable flow is:
+
+1. Load a local SQuAD-derived benchmark and sample candidate documents.
+2. Ask :class:`core.scheduler.AdaptiveScheduler` for the effective ensemble
+   size under the latency SLA.
+3. Generate one local draft per selected document.
+4. Run formal DP-KSA keyword extraction with RDP accounting.
+5. Send only released keywords to the cloud adapter.
 """
 
-import os
-import sys
+from __future__ import annotations
+
 import argparse
+from collections.abc import Sequence
+
 from dotenv import load_dotenv
 from rich.console import Console
-from rich.table import Table
 from rich.panel import Panel
 from rich.progress import Progress, SpinnerColumn, TextColumn
+from rich.table import Table
 
-# Carica credenziali da file .env se presente
-load_dotenv()
-
-from core.dataset import DatasetLoader
-from core.engine import LocalNeuralEngine
-from core.privacy import PrivacyFilterPTR
 from core.cloud import CloudGenerator
+from core.dataset import DatasetLoader
+from core.engine import LocalNeuralEngine, ModelDownloadError
+from core.privacy import DP_KSA_Filter
+from core.scheduler import (
+    AdaptiveScheduler,
+    DecisioneScheduler,
+    PrivacyBudgetExhaustedError,
+)
 from core.telemetry import LangfuseTracer
 
-console = Console()
+__all__ = ["build_parser", "main"]
 
-def main():
-    parser = argparse.ArgumentParser(description="Pipeline DP-RAG con Benchmark Reale e Langfuse")
-    parser.add_argument("--ensemble-size", type=int, default=5, help="Numero di documenti/bozze nell'ensemble locale")
-    parser.add_argument("--epsilon", type=float, default=1.0, help="Budget di privacy differenziale")
-    parser.add_argument("--tau", type=float, default=2.5, help="Soglia di rilascio PTR")
-    parser.add_argument("--api-key", type=str, default=None, help="Chiave OpenAI (opzionale)")
-    args = parser.parse_args()
+load_dotenv()
 
-    console.print(Panel.fit(
-        "[bold cyan]Pipeline Architetturale DP-RAG: Benchmark Reale & Osservabilità[/bold cyan]\n"
-        "[dim]Esecuzione modulare: Dati SQuAD &bull; llama.cpp (Metal) &bull; DP-PTR &bull; Cloud &bull; Langfuse[/dim]",
-        border_style="cyan"
-    ))
+CONSOLE = Console()
+DEFAULT_ENSEMBLE_CANDIDATES = 40
+DEFAULT_EPSILON = 1.0
+DEFAULT_DELTA = 1e-4
+DEFAULT_MAX_LATENCY_MS = 1500.0
+DEFAULT_RTT_MS = 50.0
+DEFAULT_CLOUD_LATENCY_MS = 150.0
+DEFAULT_PREFILL_TOKENS_PER_SECOND = 250.0
+DEFAULT_GENERATION_TOKENS_PER_SECOND = 50.0
+DEFAULT_MAX_TOKENS = 30
+DEFAULT_QUERY = None
 
-    # 1. Caricamento Dataset Reale
+
+def _positive_int(value: str) -> int:
+    """Parse a strictly positive CLI integer."""
+
+    parsed = int(value)
+    if parsed < 1:
+        raise argparse.ArgumentTypeError("il valore deve essere positivo")
+    return parsed
+
+
+def _non_negative_float(value: str) -> float:
+    """Parse a finite non-negative CLI float."""
+
+    parsed = float(value)
+    if parsed < 0.0:
+        raise argparse.ArgumentTypeError("il valore non può essere negativo")
+    return parsed
+
+
+def build_parser() -> argparse.ArgumentParser:
+    """Build the command-line parser for the adaptive pipeline."""
+
+    parser = argparse.ArgumentParser(
+        description="Pipeline DP-KSA con scheduler adattivo e accounting RDP"
+    )
+    parser.add_argument(
+        "--ensemble-size",
+        type=_positive_int,
+        default=DEFAULT_ENSEMBLE_CANDIDATES,
+        help="Numero massimo di documenti candidati; N finale è deciso dallo scheduler",
+    )
+    parser.add_argument(
+        "--epsilon",
+        type=float,
+        default=DEFAULT_EPSILON,
+        help="Budget epsilon totale DP-KSA",
+    )
+    parser.add_argument(
+        "--delta",
+        type=float,
+        default=DEFAULT_DELTA,
+        help="Failure probability delta del test PTR",
+    )
+    parser.add_argument(
+        "--max-latency-ms",
+        type=_non_negative_float,
+        default=DEFAULT_MAX_LATENCY_MS,
+        help="SLA end-to-end percepito dall'utente in millisecondi",
+    )
+    parser.add_argument(
+        "--rtt-ms",
+        type=_non_negative_float,
+        default=DEFAULT_RTT_MS,
+        help="RTT stimato verso il provider cloud",
+    )
+    parser.add_argument(
+        "--tempo-cloud-ms",
+        type=_non_negative_float,
+        default=DEFAULT_CLOUD_LATENCY_MS,
+        help="Tempo stimato di inferenza cloud",
+    )
+    parser.add_argument(
+        "--tok-per-sec-prefill",
+        type=float,
+        default=DEFAULT_PREFILL_TOKENS_PER_SECOND,
+        help="Throughput locale prefill usato dallo scheduler",
+    )
+    parser.add_argument(
+        "--tok-per-sec-generazione",
+        type=float,
+        default=DEFAULT_GENERATION_TOKENS_PER_SECOND,
+        help="Throughput locale di generazione usato dallo scheduler",
+    )
+    parser.add_argument(
+        "--max-tokens",
+        type=_positive_int,
+        default=DEFAULT_MAX_TOKENS,
+        help="Massimo token generati per ogni bozza locale",
+    )
+    parser.add_argument(
+        "--seed",
+        type=int,
+        default=None,
+        help="Seed opzionale per rendere riproducibile il campionamento",
+    )
+    parser.add_argument(
+        "--query",
+        type=str,
+        default=DEFAULT_QUERY,
+        help="Query da usare; di default usa quella del primo documento campionato",
+    )
+    parser.add_argument(
+        "--api-key",
+        type=str,
+        default=None,
+        help="Chiave del provider OpenAI-compatible; senza endpoint o chiave viene usata la simulazione",
+    )
+    parser.add_argument(
+        "--cloud-base-url",
+        type=str,
+        default=None,
+        help="Endpoint OpenAI-compatible opzionale, altrimenti CLOUD_BASE_URL",
+    )
+    parser.add_argument(
+        "--cloud-model",
+        type=str,
+        default=None,
+        help="Identificativo modello cloud, altrimenti CLOUD_MODEL",
+    )
+    parser.add_argument(
+        "--model-path",
+        type=str,
+        default=None,
+        help="Percorso locale del modello GGUF; di default poc/models",
+    )
+    parser.add_argument(
+        "--model-url",
+        type=str,
+        default=None,
+        help="URL per scaricare il modello GGUF quando manca localmente",
+    )
+    parser.add_argument(
+        "--langfuse-capture-sensitive",
+        action="store_true",
+        default=None,
+        help="Abilita nei trace dati sensibili; usare solo con Langfuse fidato o locale",
+    )
+    return parser
+
+
+def _stampa_decisione(decisione: DecisioneScheduler) -> None:
+    """Render the scheduler decision without coupling the console to its class."""
+
+    CONSOLE.print(
+        Panel(
+            "[bold]Decisione Scheduler Adattivo[/bold]\n"
+            f"{decisione.motivazione}\n"
+            f"N={decisione.n_ensemble} | sigma={decisione.sigma:.4f} | "
+            f"PTR pass-rate attesa={decisione.ptr_pass_rate_attesa:.1%}",
+            border_style="yellow",
+        )
+    )
+
+
+def main(argv: Sequence[str] | None = None) -> int:
+    """Execute the adaptive DP-KSA pipeline.
+
+    Args:
+        argv: Optional argument sequence. ``None`` reads the process command
+            line, while a sequence makes the function easy to test.
+
+    Returns:
+        Process exit code, zero on success.
+    """
+
+    args = build_parser().parse_args(argv)
+    CONSOLE.print(
+        Panel.fit(
+            "[bold cyan]Pipeline DP-KSA: Edge + Privacy + Cloud[/bold cyan]\n"
+            "[dim]FindBestK + TopKWithPTR + Scheduler adattivo + RDP[/dim]",
+            border_style="cyan",
+        )
+    )
+
+    dataset = DatasetLoader()
+    scheduler = AdaptiveScheduler(max_tokens=args.max_tokens)
+    numero_candidati = min(
+        max(args.ensemble_size, scheduler.n_min),
+        scheduler.n_max,
+        len(dataset.documenti),
+    )
+    documenti_candidati = dataset.ottieni_campione_ensemble(
+        numero_candidati, seed=args.seed
+    )
+    domanda_target = args.query or documenti_candidati[0].domanda
+
     try:
-        dataset = DatasetLoader()
-        documenti_ensemble = dataset.ottieni_campione_ensemble(args.ensemble_size)
-    except FileNotFoundError as e:
-        console.print(f"[red]{e}[/red]")
-        sys.exit(1)
+        decisione = scheduler.schedule(
+            [documento.token_stimati for documento in documenti_candidati],
+            epsilon_budget=args.epsilon,
+            delta=args.delta,
+            latenza_rete_ms=args.rtt_ms,
+            latenza_massima_ms=args.max_latency_ms,
+            tempo_cloud_ms=args.tempo_cloud_ms,
+            tok_per_sec_prefill=args.tok_per_sec_prefill,
+            tok_per_sec_generazione=args.tok_per_sec_generazione,
+        )
+    except PrivacyBudgetExhaustedError as exc:
+        CONSOLE.print(f"[red]Budget privacy non sufficiente: {exc}[/red]")
+        return 2
 
-    domanda_target = documenti_ensemble[0].domanda
+    documenti_ensemble = documenti_candidati[: decisione.n_ensemble]
     argomento = documenti_ensemble[0].argomento
-    
-    console.print(f"[bold yellow]Argomento reale:[/bold yellow] [bold]{argomento}[/bold]")
-    console.print(f"[bold yellow]Domanda di test:[/bold yellow] [italic]{domanda_target}[/italic]\n")
+    _stampa_decisione(decisione)
+    CONSOLE.print(f"[bold yellow]Argomento campione:[/bold yellow] {argomento}")
+    CONSOLE.print(f"[bold yellow]Domanda:[/bold yellow] [italic]{domanda_target}[/italic]\n")
 
-    # Tabella documenti reali
-    t_docs = Table(title=f"Contesti Reali Ingestiti dal Database Locale (Ensemble N={len(documenti_ensemble)})", show_header=True)
-    t_docs.add_column("Doc ID", style="dim", width=14)
-    t_docs.add_column("Token Stimati", justify="right", width=14)
-    t_docs.add_column("Estratto del Testo Reale")
-    for doc in documenti_ensemble:
-        anteprima = doc.contesto[:120].replace("\n", " ") + "..."
-        t_docs.add_row(doc.id, str(doc.token_stimati), anteprima)
-    console.print(t_docs)
-    console.print()
+    document_table = Table(
+        title=f"Documenti candidati selezionati (N={len(documenti_ensemble)})",
+        show_header=True,
+    )
+    document_table.add_column("Doc ID", style="dim", width=14)
+    document_table.add_column("Token stimati", justify="right")
+    document_table.add_column("Estratto contesto locale")
+    for documento in documenti_ensemble:
+        preview = documento.contesto[:120].replace("\n", " ") + "..."
+        document_table.add_row(
+            documento.id,
+            str(documento.token_stimati),
+            preview,
+        )
+    CONSOLE.print(document_table)
 
-    # 2. Inizializzazione Tracciamento
-    tracer = LangfuseTracer()
-    tracer.avvia_richiesta(domanda_target, metadata={
-        "argomento": argomento,
-        "ensemble_size": args.ensemble_size,
-        "epsilon": args.epsilon,
-        "tau": args.tau,
-        "hardware": "Apple Silicon (Metal)"
-    })
+    tracer = LangfuseTracer(capture_sensitive=args.langfuse_capture_sensitive)
+    tracer.avvia_richiesta(
+        domanda_target,
+        metadata={
+            "ensemble_size": decisione.n_ensemble,
+            "epsilon": args.epsilon,
+            "delta": args.delta,
+            "rtt_ms": args.rtt_ms,
+            "max_latency_ms": args.max_latency_ms,
+        },
+    )
+    tracer.registra_decisione_scheduler(decisione)
 
-    # 3. Inferenza Locale Neurale
-    console.print(Panel("[bold]Fase 1: Elaborazione Locale (Hardware M1 / Metal)[/bold]", border_style="blue"))
+    CONSOLE.print(
+        Panel(
+            "[bold]Fase 1: inferenza locale sull'ensemble[/bold]",
+            border_style="blue",
+        )
+    )
     try:
-        engine = LocalNeuralEngine()
-    except FileNotFoundError as e:
-        console.print(f"[red]{e}[/red]")
-        sys.exit(1)
+        engine = LocalNeuralEngine(
+            model_path=args.model_path,
+            model_url=args.model_url,
+        )
+    except ModelDownloadError as exc:
+        CONSOLE.print(f"[red]Impossibile predisporre il modello: {exc}[/red]")
+        return 3
 
-    bozze = []
-    tempi_prefill = []
-    tempi_totali = []
+    bozze: list[str] = []
+    tempi_totali: list[float] = []
     totale_tokens_generati = 0
-
-    t_bozze = Table(title="Bozze Generate dal Modello Compatto Locale", show_header=True)
-    t_bozze.add_column("Doc ID", style="dim", width=14)
-    t_bozze.add_column("Input Tok", justify="right")
-    t_bozze.add_column("Output Neurale Estratto")
-    t_bozze.add_column("Prefill (ms)", justify="right")
-    t_bozze.add_column("Totale (ms)", justify="right")
-    t_bozze.add_column("Velocità", justify="right")
+    draft_table = Table(title="Bozze locali", show_header=True)
+    draft_table.add_column("Doc ID", style="dim", width=14)
+    draft_table.add_column("Input token", justify="right")
+    draft_table.add_column("Output")
+    draft_table.add_column("Prefill stimato (ms)", justify="right")
+    draft_table.add_column("Totale (ms)", justify="right")
+    draft_table.add_column("Velocità", justify="right")
 
     with Progress(
         SpinnerColumn(),
         TextColumn("[progress.description]{task.description}"),
-        console=console
+        console=CONSOLE,
     ) as progress:
-        task = progress.add_task("[cyan]Esecuzione inferenza neurale sull'hardware locale...", total=len(documenti_ensemble))
-        for doc in documenti_ensemble:
-            out = engine.genera_bozza(doc.contesto, domanda_target)
-            bozze.append(out.testo)
-            tempi_prefill.append(out.tempo_prefill_sec)
-            tempi_totali.append(out.durata_totale_sec)
-            totale_tokens_generati += out.completion_tokens
-
-            t_bozze.add_row(
-                doc.id,
-                str(out.prompt_tokens),
-                f"[italic]\"{out.testo}\"[/italic]",
-                f"{out.tempo_prefill_sec * 1000:.1f}",
-                f"{out.durata_totale_sec * 1000:.1f}",
-                f"{out.token_al_secondo:.1f} tok/s"
+        task = progress.add_task(
+            "Esecuzione inferenza locale...", total=len(documenti_ensemble)
+        )
+        for documento in documenti_ensemble:
+            output = engine.genera_bozza(
+                documento.contesto,
+                domanda_target,
+                max_tokens=args.max_tokens,
+            )
+            bozze.append(output.testo)
+            tempi_totali.append(output.durata_totale_sec)
+            totale_tokens_generati += output.completion_tokens
+            draft_table.add_row(
+                documento.id,
+                str(output.prompt_tokens),
+                f'[italic]"{output.testo}"[/italic]',
+                f"{output.tempo_prefill_stimato_sec * 1000.0:.1f}",
+                f"{output.durata_totale_sec * 1000.0:.1f}",
+                f"{output.token_al_secondo:.1f} tok/s",
             )
             progress.advance(task)
 
-    console.print(t_bozze)
+    CONSOLE.print(draft_table)
     durata_locale_totale = sum(tempi_totali)
-    vel_media = totale_tokens_generati / durata_locale_totale if durata_locale_totale > 0 else 0
-    tracer.registra_fase_edge(len(documenti_ensemble), bozze, durata_locale_totale * 1000, vel_media)
-    console.print(f"[dim]Tempo totale computazione locale: {durata_locale_totale:.3f} s | Velocità media: {vel_media:.1f} tok/s[/dim]\n")
+    velocita_media = (
+        totale_tokens_generati / durata_locale_totale
+        if durata_locale_totale > 0.0
+        else 0.0
+    )
+    tracer.registra_fase_edge(
+        len(documenti_ensemble),
+        bozze,
+        durata_locale_totale * 1000.0,
+        velocita_media,
+    )
 
-    # 4. Filtro di Privacy Differenziale
-    console.print(Panel(
-        f"[bold]Fase 2: Filtro DP-KSA Propose-Test-Release (Epsilon={args.epsilon}, Tau={args.tau})[/bold]",
-        border_style="yellow"
-    ))
-    filtro_dp = PrivacyFilterPTR(epsilon=args.epsilon, soglia_tau=args.tau)
+    CONSOLE.print(
+        Panel(
+            "[bold]Fase 2: DP-KSA FindBestK + TopKWithPTR[/bold]",
+            border_style="green",
+        )
+    )
+    filtro_dp = DP_KSA_Filter(
+        epsilon=args.epsilon,
+        delta=args.delta,
+        sigma=decisione.sigma,
+        epsilon_find_best_k=decisione.epsilon_find_best_k,
+        epsilon_top_k_ptr=decisione.epsilon_top_k_ptr,
+    )
     esito_dp = filtro_dp.filtra(bozze)
 
-    t_ptr = Table(show_header=True)
-    t_ptr.add_column("Termine", style="bold")
-    t_ptr.add_column("Freq. Reale", justify="right")
-    t_ptr.add_column("Rumore Laplace", justify="right")
-    t_ptr.add_column("Conteggio Rumoroso", justify="right")
-    t_ptr.add_column("Esito Soglia", justify="center")
-
-    tutti_termini = sorted(esito_dp.conteggi_reali.keys(), key=lambda x: esito_dp.conteggi_rumorosi[x], reverse=True)
-    for t in tutti_termini[:8]:
-        superato = t in esito_dp.parole_rilasciate
-        colore = "[bold green]RILASCIATO[/bold green]" if superato else "[red]SCARTATO[/red]"
-        t_ptr.add_row(
-            t,
-            str(esito_dp.conteggi_reali[t]),
-            f"{esito_dp.rumore_applicato[t]:+.2f}",
-            f"{esito_dp.conteggi_rumorosi[t]:.2f}",
-            colore
+    privacy_table = Table(show_header=True)
+    privacy_table.add_column("Token", style="bold")
+    privacy_table.add_column("Freq.", justify="right")
+    privacy_table.add_column("Gap d_k", justify="right")
+    privacy_table.add_column("Esito", justify="center")
+    for indice, token in enumerate(esito_dp.token_ordinati[:8], start=1):
+        gap = esito_dp.gap_per_k.get(indice, 0.0)
+        released = token in esito_dp.parole_rilasciate
+        result = "[bold green]RILASCIATO[/bold green]" if released else "[red]SCARTATO[/red]"
+        privacy_table.add_row(
+            token,
+            str(esito_dp.conteggi_reali[token]),
+            f"{gap:.1f}",
+            result,
         )
-    console.print(t_ptr)
-    console.print(f"[bold green]Parole chiave purificate autorizzate alla trasmissione:[/bold green] {esito_dp.parole_rilasciate}\n")
-    tracer.registra_fase_privacy(args.epsilon, args.tau, esito_dp.conteggi_reali, esito_dp.parole_rilasciate, esito_dp.parole_scartate)
-
-    # 5. Generazione Cloud
-    console.print(Panel("[bold]Fase 3: Trasmissione di Rete e Inferenza Cloud[/bold]", border_style="magenta"))
-    cloud = CloudGenerator(api_key=args.api_key)
-    testi_grezzi = [d.contesto for d in documenti_ensemble]
-    res_cloud = cloud.genera(domanda_target, esito_dp.parole_rilasciate, testi_grezzi)
-
-    t_metrics = Table(show_header=True)
-    t_metrics.add_column("Metrica di Sistema", style="bold")
-    t_metrics.add_column("Valore Misurato")
-    t_metrics.add_row("Traffico inviato in rete", f"{res_cloud.byte_trasmessi_dp} byte (vs {res_cloud.byte_grezzi_rag} byte RAG grezzo: [bold green]-{res_cloud.risparmio_percentuale:.1f}%[/bold green])")
-    t_metrics.add_row("Latenza calcolo locale (M1)", f"{durata_locale_totale * 1000:.1f} ms")
-    t_metrics.add_row("Latenza rete + Cloud", f"{res_cloud.latenza_rete_sec * 1000:.1f} ms")
-    t_metrics.add_row("Tempo totale percepito (End-to-End)", f"{(durata_locale_totale + res_cloud.latenza_rete_sec) * 1000:.1f} ms")
-    console.print(t_metrics)
-
-    console.print(Panel(
-        f"[bold cyan]Risposta Finale Ricevuta dal Cloud:[/bold cyan]\n{res_cloud.risposta_testuale}",
-        border_style="green"
-    ))
-
-    # Chiusura Traccia Langfuse
-    url_traccia = tracer.registra_fase_cloud(
-        res_cloud.risposta_testuale,
-        res_cloud.byte_trasmessi_dp,
-        res_cloud.risparmio_percentuale,
-        res_cloud.latenza_rete_sec
+    CONSOLE.print(privacy_table)
+    CONSOLE.print(
+        f"k_hat={esito_dp.k_hat}, gap PTR={esito_dp.gap_ptr}, "
+        f"gap rumoroso={esito_dp.gap_ptr_rumoroso}, "
+        f"passato={esito_dp.ptr_superato}"
     )
-    if url_traccia:
-        console.print(Panel(
-            f"[bold green]Traccia distribuita registrata su Langfuse:[/bold green]\n"
-            f"[link={url_traccia}]{url_traccia}[/link]",
-            border_style="cyan"
-        ))
+    CONSOLE.print(
+        "[bold green]Keyword rilasciate:[/bold green] "
+        f"{esito_dp.parole_rilasciate}\n"
+        f"Epsilon consumato={esito_dp.budget_consumato_epsilon:.6f}; "
+        f"epsilon rimasto={esito_dp.epsilon_rimasto:.6f}\n"
+    )
+    tracer.registra_fase_privacy(esito_dp)
+
+    CONSOLE.print(
+        Panel("[bold]Fase 3: generazione cloud[/bold]", border_style="magenta")
+    )
+    cloud = CloudGenerator(
+        api_key=args.api_key,
+        base_url=args.cloud_base_url,
+        model=args.cloud_model,
+    )
+    risultato_cloud = cloud.genera(
+        domanda_target,
+        esito_dp.parole_rilasciate,
+        [documento.contesto for documento in documenti_ensemble],
+    )
+    metrics_table = Table(show_header=True)
+    metrics_table.add_column("Metrica", style="bold")
+    metrics_table.add_column("Valore")
+    metrics_table.add_row(
+        "Traffico keyword",
+        f"{risultato_cloud.byte_trasmessi_dp} byte "
+        f"vs {risultato_cloud.byte_grezzi_rag} byte RAG grezzo "
+        f"(-{risultato_cloud.risparmio_percentuale:.1f}%)",
+    )
+    metrics_table.add_row("Latenza locale", f"{durata_locale_totale * 1000.0:.1f} ms")
+    metrics_table.add_row(
+        "Latenza cloud",
+        f"{risultato_cloud.latenza_rete_sec * 1000.0:.1f} ms",
+    )
+    metrics_table.add_row(
+        "End-to-end misurato",
+        f"{(durata_locale_totale + risultato_cloud.latenza_rete_sec) * 1000.0:.1f} ms",
+    )
+    CONSOLE.print(metrics_table)
+    CONSOLE.print(
+        Panel(
+            f"[bold cyan]Risposta cloud:[/bold cyan]\n"
+            f"{risultato_cloud.risposta_testuale}",
+            border_style="green",
+        )
+    )
+    trace_url = tracer.registra_fase_cloud(
+        risultato_cloud.risposta_testuale,
+        risultato_cloud.byte_trasmessi_dp,
+        risultato_cloud.risparmio_percentuale,
+        risultato_cloud.latenza_rete_sec,
+        model=cloud.model,
+    )
+    if trace_url:
+        CONSOLE.print(f"[green]Traccia Langfuse: {trace_url}[/green]")
+    return 0
+
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())

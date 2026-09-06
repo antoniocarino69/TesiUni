@@ -6,12 +6,24 @@ Scarica un campione reale di dati accademici dal benchmark SQuAD v2
 
 import json
 import os
+
 import requests
-from typing import List, Dict
+
+__all__ = ["fetch_squad_samples", "main"]
 
 DEST_FILE = os.path.join(os.path.dirname(__file__), "..", "data", "squad_real_benchmark.json")
+DEFAULT_SAMPLE_LIMIT = 25
 
-def fetch_squad_samples(limit: int = 25) -> List[Dict]:
+def fetch_squad_samples(limit: int = DEFAULT_SAMPLE_LIMIT) -> list[dict]:
+    """Fetch valid answerable SQuAD validation rows.
+
+    Args:
+        limit: Maximum number of rows requested from the datasets service.
+
+    Returns:
+        Normalized benchmark records sorted by estimated token count.
+    """
+
     url = f"https://datasets-server.huggingface.co/rows?dataset=rajpurkar%2Fsquad&config=plain_text&split=validation&offset=0&limit={limit}"
     print(f"Download di {limit} esempi reali da SQuAD v2 via Hugging Face...")
     
@@ -46,9 +58,11 @@ def fetch_squad_samples(limit: int = 25) -> List[Dict]:
     samples.sort(key=lambda x: x["token_stimati"])
     return samples
 
-def main():
+def main() -> None:
+    """Download the default benchmark sample into the local data directory."""
+
     os.makedirs(os.path.dirname(DEST_FILE), exist_ok=True)
-    samples = fetch_squad_samples(limit=25)
+    samples = fetch_squad_samples(limit=DEFAULT_SAMPLE_LIMIT)
     
     with open(DEST_FILE, "w", encoding="utf-8") as f:
         json.dump(samples, f, ensure_ascii=False, indent=2)
