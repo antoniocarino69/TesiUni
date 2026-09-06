@@ -1,49 +1,131 @@
-"""
-Modulo Dataset: Caricamento e gestione dei documenti reali dal benchmark accademico.
+"""Dataset loading and reproducible ensemble sampling.
+
+Responsibilities:
+    * Validate and load the local SQuAD-derived benchmark JSON.
+    * Expose topic filtering for coherent retrieval experiments.
+    * Sample ensemble documents randomly, with an optional deterministic seed.
+
+External dependencies:
+    Only the Python standard library is required.
 """
 
-import os
+from __future__ import annotations
+
 import json
+import random
 from dataclasses import dataclass
-from typing import List, Optional
+from pathlib import Path
+from typing import Any
 
-@dataclass
+__all__ = ["DatasetLoader", "DocumentoBenchmark"]
+
+DEFAULT_DATASET_PATH = (
+    Path(__file__).parent.parent / "data" / "squad_real_benchmark.json"
+)
+
+
+@dataclass(frozen=True, slots=True)
 class DocumentoBenchmark:
+    """One benchmark document and its question-answer metadata."""
+
     id: str
     argomento: str
     domanda: str
     contesto: str
-    risposte_attese: List[str]
+    risposte_attese: list[str]
     token_stimati: int
 
+
 class DatasetLoader:
-    def __init__(self, data_path: Optional[str] = None):
-        if not data_path:
-            data_path = os.path.join(os.path.dirname(__file__), "..", "data", "squad_real_benchmark.json")
-        self.data_path = data_path
-        self.documenti: List[DocumentoBenchmark] = []
-        self._carica()
+    """Load benchmark documents and produce ensemble samples.
 
-    def _carica(self):
-        if not os.path.exists(self.data_path):
-            raise FileNotFoundError(f"File dataset non trovato in {self.data_path}. Esegui prima lo script di download.")
-        
-        with open(self.data_path, "r", encoding="utf-8") as f:
-            raw_data = json.load(f)
+    Args:
+        data_path: Optional JSON path. The bundled SQuAD sample is used when
+            omitted.
 
+    Raises:
+        FileNotFoundError: If the dataset path does not exist.
+        ValueError: If the JSON structure is invalid.
+    """
+
+    def __init__(self, data_path: str | Path | None = None) -> None:
+        self.data_path = Path(data_path) if data_path is not None else DEFAULT_DATASET_PATH
+        self.documenti = self._carica()
+
+    def _carica(self) -> list[DocumentoBenchmark]:
+        """Read and validate the benchmark JSON file."""
+
+        if not self.data_path.is_file():
+            raise FileNotFoundError(
+                f"File dataset non trovato in {self.data_path}. "
+                "Esegui prima lo script di download."
+            )
+        try:
+            with self.data_path.open("r", encoding="utf-8") as file_handle:
+                raw_data: Any = json.load(file_handle)
+        except json.JSONDecodeError as exc:
+            raise ValueError(f"JSON dataset non valido: {self.data_path}") from exc
+        if not isinstance(raw_data, list):
+            raise ValueError("il dataset deve contenere una lista di record")
+
+        documenti: list[DocumentoBenchmark] = []
         for item in raw_data:
-            self.documenti.append(DocumentoBenchmark(
-                id=item["id"],
-                argomento=item["argomento"],
-                domanda=item["domanda"],
-                contesto=item["contesto"],
-                risposte_attese=item["risposte_corrette"],
-                token_stimati=item["token_stimati"]
-            ))
+            if not isinstance(item, dict):
+                raise ValueError("ogni record del dataset deve essere un oggetto JSON")
+            try:
+                documenti.append(
+                    DocumentoBenchmark(
+                        id=str(item["id"]),
+                        argomento=str(item["argomento"]),
+                        domanda=str(item["domanda"]),
+                        contesto=str(item["contesto"]),
+                        risposte_attese=[str(value) for value in item["risposte_corrette"]],
+                        token_stimati=int(item["token_stimati"]),
+                    )
+                )
+            except (KeyError, TypeError, ValueError) as exc:
+                raise ValueError("record dataset incompleto o non valido") from exc
+        if not documenti:
+            raise ValueError("il dataset non può essere vuoto")
+        return documenti
 
-    def ottieni_per_argomento(self, argomento: str) -> List[DocumentoBenchmark]:
-        return [d for d in self.documenti if d.argomento.lower() == argomento.lower()]
+    def ottieni_per_argomento(self, argomento: str) -> list[DocumentoBenchmark]:
+        """Return documents whose topic matches case-insensitively.
 
-    def ottieni_campione_ensemble(self, n: int = 5) -> List[DocumentoBenchmark]:
-        """Ritorna i primi N documenti reali per formare l'ensemble locale."""
-        return self.documenti[:n]
+        Args:
+            argomento: Topic to search.
+
+        Returns:
+            Matching benchmark documents in source order.
+        """
+
+        return [
+            documento
+            for documento in self.documenti
+            if documento.argomento.casefold() == argomento.casefold()
+        ]
+
+    def ottieni_campione_ensemble(
+        self,
+        n: int = 5,
+        seed: int | None = None,
+    ) -> list[DocumentoBenchmark]:
+        """Return a random ensemble sample without replacement.
+
+        Args:
+            n: Number of documents to sample.
+            seed: Optional seed for a reproducible benchmark sample. When
+                omitted, a fresh system-seeded generator is used.
+
+        Returns:
+            A newly allocated list containing ``n`` distinct documents.
+
+        Raises:
+            ValueError: If ``n`` is outside the available population.
+        """
+
+        if n < 1 or n > len(self.documenti):
+            raise ValueError(
+                f"n deve essere compreso tra 1 e {len(self.documenti)}, ricevuto {n}"
+            )
+        return random.Random(seed).sample(self.documenti, n)
