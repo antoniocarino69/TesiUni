@@ -5,9 +5,9 @@ Questo Proof of Concept implementa il flusso DP-KSA di Tang et al.,
 aggiuntivo per la tesi: la scelta adattiva del numero di ensemble in base a
 latency SLA, RTT, dimensione dei documenti e budget di privacy.
 
-Il percorso supportato e `run_pipeline.py`. Il file `poc_real_dp_ksa.py`
-rimane come wrapper di compatibilita; le implementazioni monolitiche storiche
-sono in `archive/`.
+Il percorso supportato e `poc/run_pipeline.py`. Il file
+`poc/poc_real_dp_ksa.py` rimane come wrapper di compatibilita; le
+implementazioni monolitiche storiche sono in `poc/archive/`.
 
 ## Architettura
 
@@ -29,10 +29,10 @@ flowchart LR
 ```
 
 La spiegazione dettagliata del flusso e delle invarianti si trova in
-[`ARCHITECTURE.md`](ARCHITECTURE.md). Le formule DP e il contratto di
-composizione sono in [`docs/PRIVACY_ACCOUNTING.md`](docs/PRIVACY_ACCOUNTING.md);
-le integrazioni esterne sono in
-[`docs/CONFIGURATION.md`](docs/CONFIGURATION.md).
+[`poc/ARCHITECTURE.md`](poc/ARCHITECTURE.md). Le formule DP e il contratto di
+composizione sono in
+[`poc/docs/PRIVACY_ACCOUNTING.md`](poc/docs/PRIVACY_ACCOUNTING.md); le
+integrazioni esterne sono in [`poc/docs/CONFIGURATION.md`](poc/docs/CONFIGURATION.md).
 
 ## Setup
 
@@ -51,7 +51,7 @@ download usa un file temporaneo, verifica `Content-Length` e sostituisce il
 file finale solo dopo il completamento dello stream. Un download interrotto
 puo quindi essere ritentato senza cancellazione manuale.
 
-Per usare Langfuse o un provider cloud OpenAI-compatible, copiare
+Per usare Langfuse o un provider cloud OpenAI-compatible, da `poc/` copiare
 `.env.example` in `.env` e valorizzare le variabili necessarie. Senza
 `CLOUD_API_KEY`/`OPENAI_API_KEY` e senza un endpoint custom viene usata una
 risposta cloud simulata. Il provider riceve solo query e parole rilasciate dal
@@ -175,17 +175,17 @@ cleanup del file parziale del modello.
 ## Struttura
 
 ```text
-core/
+poc/core/
   privacy.py    FindBestK, TopKWithPTR, RDP accounting
   scheduler.py  scelta adattiva di N e sigma
   dataset.py    caricamento e campionamento benchmark
   engine.py     download atomico e inferenza llama.cpp
   cloud.py      adapter OpenAI-compatible o simulazione offline
   telemetry.py  tracing Langfuse opzionale
-run_pipeline.py
-docs/
+poc/run_pipeline.py
+poc/docs/
   PRIVACY_ACCOUNTING.md  formule PTR, RDP e composizione cumulativa
   CONFIGURATION.md       modello, provider cloud e telemetria
-tests/
-archive/
+poc/tests/
+poc/archive/
 ```

@@ -94,6 +94,27 @@ class LangfuseTracer:
         except Exception:
             LOGGER.exception("Connessione Langfuse fallita; tracing disattivato")
 
+    def _avvia_span(
+        self,
+        name: str,
+        input_data: Mapping[str, Any],
+        metadata: Mapping[str, Any],
+    ) -> Any:
+        """Start a child span with either the v2 or v4 Langfuse API."""
+
+        if hasattr(self.current_trace, "span"):
+            return self.current_trace.span(
+                name=name,
+                input=dict(input_data),
+                metadata=dict(metadata),
+            )
+        return self.current_trace.start_observation(
+            name=name,
+            as_type="span",
+            input=dict(input_data),
+            metadata=dict(metadata),
+        )
+
     @property
     def is_active(self) -> bool:
         """Return whether a valid Langfuse client is active."""
@@ -115,11 +136,19 @@ class LangfuseTracer:
             else {"query_present": bool(domanda)}
         )
         try:
-            self.current_trace = self.client.trace(
-                name="dp-rag-distributed-request",
-                input=trace_input,
-                metadata=dict(metadata or {}),
-            )
+            if hasattr(self.client, "trace"):
+                self.current_trace = self.client.trace(
+                    name="dp-rag-distributed-request",
+                    input=trace_input,
+                    metadata=dict(metadata or {}),
+                )
+            else:
+                self.current_trace = self.client.start_observation(
+                    name="dp-rag-distributed-request",
+                    as_type="span",
+                    input=trace_input,
+                    metadata=dict(metadata or {}),
+                )
         except Exception:
             self.current_trace = None
             LOGGER.exception("Avvio traccia Langfuse fallito; tracing disattivato")
@@ -130,10 +159,10 @@ class LangfuseTracer:
         if not self.current_trace:
             return
         try:
-            span = self.current_trace.span(
-                name="adaptive-ensemble-scheduler",
-                input={"n_ensemble": decisione.n_ensemble},
-                metadata={
+            span = self._avvia_span(
+                "adaptive-ensemble-scheduler",
+                {"n_ensemble": decisione.n_ensemble},
+                {
                     "sigma": decisione.sigma,
                     "epsilon_find_best_k": decisione.epsilon_find_best_k,
                     "epsilon_top_k_ptr": decisione.epsilon_top_k_ptr,
@@ -158,10 +187,10 @@ class LangfuseTracer:
         if not self.current_trace:
             return
         try:
-            span = self.current_trace.span(
-                name="edge-neural-ensemble",
-                input={"documenti_elaborati": n_documenti},
-                metadata={"durata_ms": durata_ms, "velocita_tok_s": tok_per_sec},
+            span = self._avvia_span(
+                "edge-neural-ensemble",
+                {"documenti_elaborati": n_documenti},
+                {"durata_ms": durata_ms, "velocita_tok_s": tok_per_sec},
             )
             output: dict[str, Any] = {"bozze_count": len(bozze)}
             if self.capture_sensitive:
@@ -201,11 +230,7 @@ class LangfuseTracer:
             )
             output["termini_scartati"] = esito.parole_scartate
         try:
-            span = self.current_trace.span(
-                name="dp-ksa-filter",
-                input=span_input,
-                metadata=metadata,
-            )
+            span = self._avvia_span("dp-ksa-filter", span_input, metadata)
             span.end(output=output)
         except Exception:
             LOGGER.exception("Registrazione fase privacy Langfuse fallita")
@@ -233,20 +258,34 @@ class LangfuseTracer:
             else {"response_chars": len(risposta_finale)}
         )
         try:
-            generation = self.current_trace.generation(
-                name="cloud-llm-generation",
-                model=model,
-                output=generation_output,
-                metadata=generation_metadata,
-            )
+            if hasattr(self.current_trace, "generation"):
+                generation = self.current_trace.generation(
+                    name="cloud-llm-generation",
+                    model=model,
+                    output=generation_output,
+                    metadata=generation_metadata,
+                )
+            else:
+                generation = self.current_trace.start_observation(
+                    name="cloud-llm-generation",
+                    as_type="generation",
+                    model=model,
+                    output=generation_output,
+                    metadata=generation_metadata,
+                )
             generation.end()
             self.current_trace.update(
                 output=risposta_finale
                 if self.capture_sensitive
                 else {"response_chars": len(risposta_finale)}
             )
+            if hasattr(self.current_trace, "end"):
+                self.current_trace.end()
             self.client.flush()
-            return str(self.current_trace.get_trace_url())
+            if hasattr(self.current_trace, "get_trace_url"):
+                return str(self.current_trace.get_trace_url())
+            trace_id = getattr(self.current_trace, "trace_id", None)
+            return str(self.client.get_trace_url(trace_id=trace_id))
         except Exception:
             LOGGER.exception("Chiusura traccia Langfuse fallita")
             return None

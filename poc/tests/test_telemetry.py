@@ -54,6 +54,41 @@ class _FakeClient:
         return None
 
 
+class _FakeV4Observation:
+    def __init__(self) -> None:
+        self.trace_id = "trace-v4"
+        self.observations: list[_FakeSpan] = []
+        self.ended = False
+
+    def start_observation(self, **kwargs: object) -> _FakeSpan:
+        observation = _FakeSpan()
+        observation.input = kwargs.get("input")  # type: ignore[attr-defined]
+        observation.metadata = kwargs.get("metadata")  # type: ignore[attr-defined]
+        self.observations.append(observation)
+        return observation
+
+    def update(self, **kwargs: object) -> None:
+        self.updated_output = kwargs.get("output")  # type: ignore[attr-defined]
+
+    def end(self) -> None:
+        self.ended = True
+
+
+class _FakeV4Client:
+    def __init__(self) -> None:
+        self.trace_result = _FakeV4Observation()
+
+    def start_observation(self, **kwargs: object) -> _FakeV4Observation:
+        del kwargs
+        return self.trace_result
+
+    def get_trace_url(self, *, trace_id: str) -> str:
+        return f"http://langfuse.local/trace/{trace_id}"
+
+    def flush(self) -> None:
+        return None
+
+
 class _FailingTrace(_FakeTrace):
     def span(self, **kwargs: object) -> _FakeSpan:
         del kwargs
@@ -136,3 +171,28 @@ def test_telemetry_failures_never_escape_the_pipeline() -> None:
     tracer.registra_fase_edge(1, ["bozza"], 1.0, 1.0)
     tracer.registra_fase_privacy(_esito())
     assert tracer.registra_fase_cloud("risposta", 1, 1.0, 0.1) is None
+
+
+def test_telemetry_supports_langfuse_v4_observations() -> None:
+    client = _FakeV4Client()
+    tracer = LangfuseTracer.__new__(LangfuseTracer)
+    tracer.client = client
+    tracer.current_trace = None
+    tracer.capture_sensitive = False
+
+    tracer.avvia_richiesta("domanda")
+    tracer.registra_decisione_scheduler(
+        SimpleNamespace(
+            n_ensemble=5,
+            sigma=2.0,
+            epsilon_find_best_k=0.5,
+            epsilon_top_k_ptr=0.5,
+            tempo_stimato_ms=100.0,
+            ptr_pass_rate_attesa=0.5,
+            motivazione="test",
+        )
+    )
+    trace_url = tracer.registra_fase_cloud("risposta", 1, 1.0, 0.1)
+
+    assert trace_url == "http://langfuse.local/trace/trace-v4"
+    assert client.trace_result.ended
