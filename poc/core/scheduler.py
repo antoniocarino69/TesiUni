@@ -35,8 +35,6 @@ DEFAULT_MAX_TOKENS = 30
 DEFAULT_EPSILON_SPLIT = 0.5
 MIN_EPSILON_REQUIRED = 1e-6
 PTR_REPRESENTATIVE_GAP = 3.0
-PTR_ANALYTICAL_WEIGHT = 0.5
-PTR_EMPIRICAL_WEIGHT = 0.5
 
 
 @dataclass(frozen=True, slots=True)
@@ -60,6 +58,8 @@ class DecisioneScheduler:
     tempo_stimato_ms: float
     ptr_pass_rate_attesa: float
     motivazione: str
+    sla_fattibile: bool = True
+    modalita: str = "ensemble"
 
 
 class PrivacyBudgetExhaustedError(ValueError):
@@ -92,7 +92,7 @@ class AdaptiveScheduler:
     """Choose the ensemble size under latency and privacy constraints.
 
     Invariants:
-        * ``N_MIN <= n_ensemble <= min(N_MAX, available_documents)``.
+        * ``n_ensemble == 0`` or ``N_MIN <= n_ensemble <= N_MAX``.
         * The two epsilon allocations sum to at most the requested budget.
         * ``sigma`` is derived from the composed RDP budget and is positive.
 
@@ -154,27 +154,12 @@ class AdaptiveScheduler:
 
         The scheduler does not see the private histogram yet, so it cannot
         evaluate the actual ``d_k``. A gap of three is used as the smallest
-        stable gap above the release boundary. The analytical Gaussian
-        probability is computed from Algorithm 2, then blended with the
-        empirical monotonic epsilon trend reported in Figure 7 of Tang et al.
-        This value is for latency/planning telemetry only; it is not a privacy
-        guarantee and must not be used as an account substitute.
+        stable gap above the release boundary. This is the conditional
+        probability from Algorithm 2, not a corpus prediction or a function
+        of N. The legacy field name is retained for API compatibility.
         """
 
-        analytical_pass_rate = probabilita_passaggio_ptr(
-            PTR_REPRESENTATIVE_GAP,
-            sigma,
-            delta,
-        )
-        empirical_factor = 1.0 - math.exp(-epsilon_top_k_ptr / 2.0)
-        return max(
-            0.0,
-            min(
-                1.0,
-                analytical_pass_rate * PTR_ANALYTICAL_WEIGHT
-                + empirical_factor * PTR_EMPIRICAL_WEIGHT,
-            ),
-        )
+        return probabilita_passaggio_ptr(PTR_REPRESENTATIVE_GAP, sigma, delta)
 
     def schedule(
         self,
@@ -186,12 +171,13 @@ class AdaptiveScheduler:
         tempo_cloud_ms: float = DEFAULT_TEMPO_CLOUD_MS,
         tok_per_sec_prefill: float = DEFAULT_TOK_PER_SEC_PREFILL,
         tok_per_sec_generazione: float = DEFAULT_TOK_PER_SEC_GENERAZIONE,
+        fixed_n: int | None = None,
     ) -> DecisioneScheduler:
         """Compute an adaptive ensemble decision.
 
         Args:
-            token_per_documento: Estimated prompt tokens for each candidate
-                retrieved document, in the order they will be processed.
+            token_per_documento: PUBLIC configured prompt caps, not lengths measured
+                from private documents. Supply a fixed number of public slots.
             epsilon_budget: Total epsilon available for DP-KSA.
             delta: PTR failure probability.
             latenza_rete_ms: Estimated cloud round-trip latency.
@@ -207,8 +193,7 @@ class AdaptiveScheduler:
         Raises:
             PrivacyBudgetExhaustedError: If epsilon cannot support a valid
                 RDP allocation.
-            ValueError: If inputs are invalid or fewer than ``n_min``
-                candidate documents are available.
+            ValueError: If public inputs are invalid.
         """
 
         if not token_per_documento:
@@ -221,15 +206,13 @@ class AdaptiveScheduler:
         _validate_finite_non_negative(latenza_massima_ms, "latenza_massima_ms")
         _validate_finite_non_negative(tempo_cloud_ms, "tempo_cloud_ms")
         _validate_finite_non_negative(delta, "delta")
-        if not 0.0 < delta < 1.0:
-            raise ValueError("delta deve essere strettamente tra 0 e 1")
+        if not 0.0 < delta < 0.5:
+            raise ValueError("delta PTR deve essere tra 0 e 0.5 (delta totale = 2*delta)")
 
         numero_documenti = len(token_per_documento)
         n_massimo_disponibile = min(self.n_max, numero_documenti)
-        if n_massimo_disponibile < self.n_min:
-            raise ValueError(
-                f"servono almeno {self.n_min} documenti, disponibili {numero_documenti}"
-            )
+        if fixed_n is not None and not self.n_min <= fixed_n <= n_massimo_disponibile:
+            raise ValueError("fixed_n deve essere tra n_min e i candidati pubblici disponibili")
 
         tempi_locali = self._stima_tempi_locali(
             token_per_documento,
@@ -247,7 +230,13 @@ class AdaptiveScheduler:
                 tempo_locale_capacita += tempo_documento
                 capacita_temporale += 1
 
-        n_ensemble = max(self.n_min, min(n_massimo_disponibile, capacita_temporale))
+        n_ensemble = min(n_massimo_disponibile, capacita_temporale)
+        if n_ensemble < self.n_min:
+            n_ensemble = 0
+        # The fixed baseline intentionally runs even when its estimate exceeds
+        # SLA; this is explicit in sla_fattibile and used for experiments only.
+        if fixed_n is not None:
+            n_ensemble = fixed_n
         tempo_locale_scelto = sum(tempi_locali[:n_ensemble])
         tempo_stimato = latenza_rete_ms + tempo_cloud_ms + tempo_locale_scelto
 
@@ -266,21 +255,17 @@ class AdaptiveScheduler:
             ) from exc
 
         ptr_pass_rate = self._stima_ptr_pass_rate(epsilon_top, sigma, delta)
-        if tempo_residuo <= 0.0 or capacita_temporale < self.n_min:
+        if fixed_n is not None:
+            motivo_tempo = f"Baseline fissa N={n_ensemble}."
+        elif n_ensemble == 0:
             motivo_tempo = (
-                f"SLA non consente {self.n_min} inferenze complete; "
-                f"uso il minimo N={self.n_min} per preservare ridondanza."
-            )
-        elif n_ensemble == n_massimo_disponibile:
-            motivo_tempo = (
-                f"La latenza residua consente il massimo N={n_ensemble} "
-                "tra i documenti candidati."
+                f"SLA stimato incompatibile con {self.n_min} inferenze; "
+                "fallback zero-shot senza consultare i documenti."
             )
         else:
-            motivo_tempo = (
-                f"La latenza residua consente {capacita_temporale} inferenze; "
-                f"seleziono N={n_ensemble} dopo il clamp operativo."
-            )
+            motivo_tempo = f"La latenza residua stimata consente N={n_ensemble}."
+        if tempo_stimato > latenza_massima_ms:
+            motivo_tempo += " SLA non fattibile secondo le stime configurate."
         motivazione = (
             f"{motivo_tempo} RTT={latenza_rete_ms:.1f} ms, "
             f"cloud={tempo_cloud_ms:.1f} ms, "
@@ -288,7 +273,8 @@ class AdaptiveScheduler:
             f"Budget epsilon partizionato "
             f"{self.epsilon_split:.0%}/{1.0 - self.epsilon_split:.0%}: "
             f"FindBestK={epsilon_find:.4f}, TopKWithPTR={epsilon_top:.4f}; "
-            f"pass-rate PTR attesa={ptr_pass_rate:.1%}."
+            f"P(PTR | gap pubblico di riferimento=3)={ptr_pass_rate:.6%}; "
+            "non è una previsione del rilascio sul corpus."
         )
         return DecisioneScheduler(
             n_ensemble=n_ensemble,
@@ -298,6 +284,8 @@ class AdaptiveScheduler:
             tempo_stimato_ms=tempo_stimato,
             ptr_pass_rate_attesa=ptr_pass_rate,
             motivazione=motivazione,
+            sla_fattibile=tempo_stimato <= latenza_massima_ms,
+            modalita="ensemble" if n_ensemble else "zero_shot",
         )
 
     # Italian aliases keep the public API consistent with the rest of the PoC
