@@ -74,3 +74,15 @@ def test_cloud_provider_failure_is_structured_without_exposing_exception() -> No
     assert result.errore == "provider_error"
     assert result.risposta_testuale == "Errore API Cloud: impossibile completare la richiesta."
     assert "secret provider detail" not in result.risposta_testuale
+
+
+def test_explicit_offline_overrides_credentials_and_never_calls_client():
+    class ForbiddenClient:
+        @property
+        def chat(self):
+            raise AssertionError('provider must not be called')
+    result = CloudGenerator(api_key='synthetic', client=ForbiddenClient(), offline=True).genera(
+        'query', [], [],
+    )
+    assert result.simulato
+    assert result.latenza_rete_sec == 0.0
