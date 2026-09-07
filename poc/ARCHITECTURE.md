@@ -1,141 +1,85 @@
-# Architecture And Privacy Accounting
+# Architettura del PoC
 
-## Runtime flow
+Il percorso supportato è `run_pipeline.py`; l'orchestrazione testabile è in
+`core.pipeline.run_request`. I prototipi in `archive/` restano storici.
 
-```mermaid
-sequenceDiagram
-    participant U as User
-    participant L as Local dataset/retriever
-    participant S as AdaptiveScheduler
-    participant E as Edge llama.cpp
-    participant P as DP-KSA filter
-    participant C as Cloud LLM
-    participant O as Langfuse (optional)
+## Flusso della richiesta
 
-    U->>L: query x
-    L->>S: token estimates, RTT, SLA, epsilon, delta
-    S-->>L: N, epsilon split, sigma
-    loop i = 1..N
-        L->>E: D_i^x + x
-        E-->>P: local response y_i
-    end
-    P->>P: set-valued histogram H
-    P->>P: FindBestK with Gumbel(2/epsilon)
-    P->>P: TopKWithPTR with Gaussian test
-    alt PTR passes
-        P->>C: x + exact released keywords
-    else PTR fails
-        P->>C: x only (zero-shot)
-    end
-    C-->>U: final response y
-    S-->>O: scheduler decision
-    P-->>O: DP accounting and release outcome
-    E-->>O: timing and token metrics
-    C-->>O: cloud latency and byte metrics
-```
+1. L'utente indica una query pubblica e, per documenti propri, un percorso esplicito.
+   L'ingestione avviene localmente. Non viene scandito automaticamente il vault.
+2. Lo scheduler riceve un numero pubblico di slot e lo stesso limite pubblico
+   di token per ogni prompt. Non riceve le lunghezze dei documenti recuperati.
+3. Se le stime non consentono almeno cinque inferenze, la decisione è `zero_shot`,
+   con `n_ensemble=0`: niente retrieval, modello locale o consumo del filtro.
+   `sla_fattibile` indica se almeno la chiamata cloud entra nella stima.
+4. Altrimenti il retriever sceglie N documenti originali distinti. Ogni documento
+   contribuisce con un solo estratto e una sola risposta. Slot mancanti producono
+   risposte vuote pubbliche; non si duplicano documenti per raggiungere N.
+5. L'engine limita il prompt completo con il tokenizer reale, includendo query
+   e template, e genera le bozze in sequenza.
+6. FindBestK sceglie k sul dominio pubblico configurato; TopKWithPTR rilascia
+   keyword in ordine alfabetico o una lista vuota.
+7. Il cloud riceve soltanto query e keyword. Nel caso vuoto risponde usando la
+   conoscenza generale, senza un'istruzione che lo vincoli a concetti assenti.
 
-## Module responsibilities
+## Documenti e adiacenza
 
-### `core.dataset`
+`core.documents` supporta TXT e Markdown UTF-8 e PDF con testo estraibile.
+I PDF cifrati o senza testo producono un errore esplicito; l'OCR deve essere
+eseguito localmente a monte. I file nascosti e i symlink nelle directory non
+sono acquisiti. La normalizzazione degli spazi identifica copie esatte dello
+stesso contenuto. Copie quasi identiche, versioni e fonti correlate richiedono
+una definizione dell'unità protetta a monte: la deduplicazione non le risolve.
 
-`DatasetLoader` validates the local JSON and constructs immutable
-`DocumentoBenchmark` records. `ottieni_campione_ensemble()` uses sampling
-without replacement. A supplied seed is used only for reproducible benchmark
-runs; an omitted seed uses fresh system entropy on every invocation.
+Il punteggio è il numero di termini della query presenti nell'estratto migliore
+di ciascun documento. Gli estratti sono finestre di 400 parole; i pareggi sono
+risolti con identificatori deterministici. Non vengono usati IDF del corpus,
+embedding remoti o modelli addestrati sul corpus. Cambiare un documento non
+cambia il punteggio né l'estratto degli altri. Con query e N fissi, il top-N
+può sostituire al massimo un membro. L'ordine di esecuzione non entra
+nell'istogramma; si assume generazione indipendente per ciascun prompt.
 
-### `core.scheduler`
+L'unità protetta è un documento originale normalizzato. I chunk non sono unità
+indipendenti e più domande SQuAD sullo stesso contesto non sono più voti.
+`DatasetLoader` conserva anche l'API di campionamento, ma la pipeline usa il
+retrieval per query. Il benchmark incluso contiene 100 contesti distinti di
+SQuAD 1.1, distribuiti nel corpus pubblico, rigenerabili con lo script dedicato.
 
-`AdaptiveScheduler` is deliberately independent of the model implementation.
-It receives token estimates and measured throughput instead of guessing model
-latency from document count alone. Local inference is modeled as sequential,
-because the current PoC invokes `llama.cpp` serially. If the SLA cannot fit
-`N_MIN`, the scheduler still returns `N_MIN` and records the infeasible SLA in
-the motivation string rather than silently reducing statistical redundancy.
+## Scheduler e tempi
 
-The scheduler never spends more than the requested epsilon allocation. A
-`PrivacyBudgetExhaustedError` is raised if the RDP conversion grid cannot
-produce a positive PTR budget.
+La stima sequenziale usa il limite pubblico del prompt e il massimo output:
+`N * (prompt_cap / prefill_tps + max_tokens / generation_tps) + RTT + cloud`.
+È una stima conservativa del workload, non una garanzia di latenza reale:
+throughput, rete, caricamento del modello e costi accessori possono variare.
+Le lunghezze effettive restano diagnostica locale e non cambiano N.
+La modalità `fixed_n` è una baseline sperimentale: esegue N anche quando
+`sla_fattibile=False`, per misurare le violazioni e confrontarle con l'adattivo.
 
-### `core.privacy`
+Il campo storico `ptr_pass_rate_attesa` contiene soltanto `P(pass | gap=3)`.
+Non è una previsione sul corpus e non descrive l'effetto di N. La frequenza di
+rilascio effettiva si misura con esperimenti ripetuti.
 
-The histogram is set-valued: repeated occurrences of a word in one response
-do not increase its count. This is essential for the sensitivity argument.
+`request_ms` misura il tempo dall'ingresso nello scheduler al ritorno del
+cloud: comprende retrieval, filtro, inferenza e l'eventuale setup del modello.
+Esclude ingestione del corpus e flush finale Langfuse. `cli_total_ms` comprende
+anche questi ultimi, fino a prima della scrittura del report/stampa finale.
+Il benchmark di confronto precarica il modello e dichiara misure a modello
+caricato. `prefill_estimated_ms` resta un'euristica, non TTFT misurato.
+I byte riportati misurano il testo del prompt e degli estratti usati, non JSON,
+header, TLS, retry o traffico effettivo. Il cloud simulato ha durata provider
+zero ed è sempre identificato come simulazione.
 
-For adjacent private databases, the retrieved sets differ in at most one
-document and therefore one local response. The utility
-`d_k = H(k) - H(k+1)` has global sensitivity 2. `FindBestK` implements the
-exponential mechanism through centered Gumbel perturbations with scale
-`2 / epsilon_find_best_k`.
+## Confine di fiducia
 
-`TopKWithPTR` follows Algorithm 2. Its Gaussian sample has standard deviation
-`2 sigma`, and the quantile correction is computed with
-`NormalDist().inv_cdf(1-delta)`. Exact top-k tokens are released only after
-the test passes. For raw gap `g`, the analytical pass probability is
-`1 - Phi((tau + 2 - max(2, g)) / (2 sigma))`; for `g <= 2` it is exactly
-`delta`. The optional strict gap guard is disabled in the formal default,
-because it is an additional operational policy not present in Algorithm 2.
+La garanzia del filtro riguarda il contenuto rilasciato al cloud sotto le
+ipotesi documentate in `docs/PRIVACY_ACCOUNTING.md`. Non protegge automaticamente
+report, console, tempi o trace. Langfuse è uno strumento di osservazione degli
+esperimenti della tesi: l'istanza cloud è utilizzabile con i dati autorizzati
+per la dimostrazione. Non è richiesta ora un'istanza locale. In un deployment
+reale con dati riservati si userebbe Langfuse locale nel perimetro fidato.
 
-For each RDP order `alpha`, the account is:
-
-```text
-epsilon_total_RDP(alpha)
-  = epsilon_EM(alpha) + alpha / (2 sigma^2)
-```
-
-The implementation evaluates Theorem A.9 for `epsilon_EM(alpha)` and then
-minimizes:
-
-```text
-epsilon_DP = epsilon_total_RDP(alpha)
-              + log(1 / delta_conversion) / (alpha - 1)
-```
-
-The result object exposes both the selected order and the two component RDP
-losses, making the thesis experiments auditable. Repeated calls on one
-`DP_KSA_Filter` multiply both per-call RDP components by the invocation count
-and add the PTR failure probabilities with a union bound before conversion.
-An over-budget next call raises `DPBudgetExhaustedError`; independent requests
-must use independent filter instances.
-
-### `core.engine`
-
-Model provisioning writes to a unique `.part` file in the target directory,
-checks the HTTP byte count, flushes and fsyncs it, and atomically replaces the
-destination. The `finally` cleanup removes a partial artifact after network,
-filesystem, or integrity errors. This also supports a bare filename such as
-`model.gguf` in the current directory.
-
-The prefill metric is explicitly named `tempo_prefill_stimato_sec`. It is an
-estimate based on the measured total duration and the configured
-`PREFILL_GENERATION_RATIO`, not a direct llama.cpp phase measurement.
-
-### `core.cloud`
-
-Only the question and released keywords are sent to the configured
-OpenAI-compatible endpoint. Raw contexts are used locally only to calculate a
-comparison byte count. Without credentials or a custom endpoint, the adapter
-returns a deterministic simulated response for offline tests. Provider errors
-are logged with details but returned to callers as a generic structured error.
-
-### `core.telemetry`
-
-Langfuse is optional and can point to a self-hosted endpoint. Redacted tracing
-is the default: queries, drafts, raw counts, discarded tokens, and final
-responses are omitted. `LANGFUSE_CAPTURE_SENSITIVE=true` opts into those
-payloads for a trusted local deployment. Connection and URL errors are logged
-and tracing is disabled or closed without changing the privacy decision or
-cloud response.
-
-## Privacy boundary and assumptions
-
-The formal guarantee applies to the private retrieval database under the
-paper's assumptions: the retriever changes by at most one document between
-adjacent databases, retrieved documents are partitioned into disjoint local
-responses, and the final cloud generation is post-processing of the released
-keywords and the public query. The generator's pretraining data is outside
-this guarantee.
-
-The adaptive choice of `N` is made from public operational signals supplied
-to the scheduler. If an implementation derives scheduler inputs from private
-document content, that decision must itself be included in the privacy
-accounting.
+La modalità redatta omette contenuti e statistiche dirette come dimensione
+dell'istogramma e volume dei contesti. Conserva metriche operative e tempi:
+non è presentata come un meccanismo DP. La diagnostica completa è disponibile
+con `LANGFUSE_CAPTURE_SENSITIVE=true`. Errori di tracing non cambiano il
+meccanismo. Nessun test deve utilizzare credenziali reali o inviare documenti.
