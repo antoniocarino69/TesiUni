@@ -213,6 +213,31 @@ class LocalNeuralEngine:
             verbose=verbose,
         )
 
+    def limita_contesto(self, contesto: str, domanda: str, prompt_token_budget: int,
+                        max_tokens: int = LOCAL_MAX_TOKENS) -> str:
+        """Fit one excerpt into a PUBLIC total prompt cap using the real tokenizer.
+
+        Truncation is local to one document. Query/template overhead is included;
+        impossible public query budgets are rejected before generation.
+        """
+        if prompt_token_budget < 1 or prompt_token_budget + max_tokens > self.n_ctx:
+            raise ValueError("Budget prompt e generazione incompatibili con n_ctx")
+        def count(text: str) -> int:
+            return len(self.llm.tokenize(costruisci_prompt(text, domanda).encode('utf-8')))
+        if count('') > prompt_token_budget:
+            raise ValueError("Query e template superano il budget pubblico del prompt")
+        # Removing a word can increase BPE token count; check the final prompt
+        # after each truncation rather than assuming token-count monotonicity.
+        words = contesto.split()
+        while words:
+            candidate = ' '.join(words)
+            total = count(candidate)
+            if total <= prompt_token_budget:
+                return candidate
+            remove = max(1, int(len(words) * (total - prompt_token_budget) / total))
+            words = words[:-remove]
+        return ''
+
     def genera_bozza(
         self,
         contesto: str,

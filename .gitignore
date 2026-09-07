@@ -27,3 +27,8 @@ __pycache__/
 ._*
 .Spotlight-V100
 .Trashes
+
+# Documenti e risultati locali degli esperimenti
+poc/private_documents/
+poc/reports/
+.coverage*

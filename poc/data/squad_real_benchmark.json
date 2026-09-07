@@ -1,1302 +1,1237 @@
 [
   {
-    "id": "56be4eafacb8001400a50302",
-    "argomento": "Super Bowl 50",
-    "domanda": "Who was the Super Bowl 50 MVP?",
-    "risposte_corrette": [
-      "Von Miller",
-      "Von Miller",
-      "Miller"
-    ],
-    "contesto": "The Broncos took an early lead in Super Bowl 50 and never trailed. Newton was limited by Denver's defense, which sacked him seven times and forced him into three turnovers, including a fumble which they recovered for a touchdown. Denver linebacker Von Miller was named Super Bowl MVP, recording five solo tackles, 2½ sacks, and two forced fumbles.",
-    "conteggio_parole": 58,
-    "token_stimati": 75
-  },
-  {
-    "id": "56be4eafacb8001400a50303",
-    "argomento": "Super Bowl 50",
-    "domanda": "How many fumbles did Von Miller force in Super Bowl 50?",
-    "risposte_corrette": [
-      "2",
-      "two",
-      "two"
-    ],
-    "contesto": "The Broncos took an early lead in Super Bowl 50 and never trailed. Newton was limited by Denver's defense, which sacked him seven times and forced him into three turnovers, including a fumble which they recovered for a touchdown. Denver linebacker Von Miller was named Super Bowl MVP, recording five solo tackles, 2½ sacks, and two forced fumbles.",
-    "conteggio_parole": 58,
-    "token_stimati": 75
-  },
-  {
-    "id": "56be4eafacb8001400a50304",
-    "argomento": "Super Bowl 50",
-    "domanda": "Which team held the scoring lead throughout the entire game?",
-    "risposte_corrette": [
-      "Broncos",
-      "The Broncos",
-      "Broncos"
-    ],
-    "contesto": "The Broncos took an early lead in Super Bowl 50 and never trailed. Newton was limited by Denver's defense, which sacked him seven times and forced him into three turnovers, including a fumble which they recovered for a touchdown. Denver linebacker Von Miller was named Super Bowl MVP, recording five solo tackles, 2½ sacks, and two forced fumbles.",
-    "conteggio_parole": 58,
-    "token_stimati": 75
-  },
-  {
-    "id": "56beab833aeaaa14008c91d2",
-    "argomento": "Super Bowl 50",
-    "domanda": "Which Denver linebacker was named Super Bowl MVP?",
-    "risposte_corrette": [
-      "linebacker Von Miller",
-      "Von Miller",
-      "Miller"
-    ],
-    "contesto": "The Broncos took an early lead in Super Bowl 50 and never trailed. Newton was limited by Denver's defense, which sacked him seven times and forced him into three turnovers, including a fumble which they recovered for a touchdown. Denver linebacker Von Miller was named Super Bowl MVP, recording five solo tackles, 2½ sacks, and two forced fumbles.",
-    "conteggio_parole": 58,
-    "token_stimati": 75
-  },
-  {
-    "id": "56beab833aeaaa14008c91d3",
-    "argomento": "Super Bowl 50",
-    "domanda": "How many solo tackles did Von Miller make at Super Bowl 50?",
-    "risposte_corrette": [
-      "five solo tackles",
-      "five",
-      "five"
-    ],
-    "contesto": "The Broncos took an early lead in Super Bowl 50 and never trailed. Newton was limited by Denver's defense, which sacked him seven times and forced him into three turnovers, including a fumble which they recovered for a touchdown. Denver linebacker Von Miller was named Super Bowl MVP, recording five solo tackles, 2½ sacks, and two forced fumbles.",
-    "conteggio_parole": 58,
-    "token_stimati": 75
-  },
-  {
-    "id": "56beab833aeaaa14008c91d4",
-    "argomento": "Super Bowl 50",
-    "domanda": "Who was limited by Denver's defense?",
-    "risposte_corrette": [
-      "Newton was limited by Denver's defense",
-      "Newton",
-      "Newton"
-    ],
-    "contesto": "The Broncos took an early lead in Super Bowl 50 and never trailed. Newton was limited by Denver's defense, which sacked him seven times and forced him into three turnovers, including a fumble which they recovered for a touchdown. Denver linebacker Von Miller was named Super Bowl MVP, recording five solo tackles, 2½ sacks, and two forced fumbles.",
-    "conteggio_parole": 58,
-    "token_stimati": 75
-  },
-  {
-    "id": "56beae423aeaaa14008c91f4",
-    "argomento": "Super Bowl 50",
-    "domanda": "How many times was Cam Newton sacked?",
-    "risposte_corrette": [
-      "seven",
-      "seven",
-      "seven"
-    ],
-    "contesto": "The Broncos took an early lead in Super Bowl 50 and never trailed. Newton was limited by Denver's defense, which sacked him seven times and forced him into three turnovers, including a fumble which they recovered for a touchdown. Denver linebacker Von Miller was named Super Bowl MVP, recording five solo tackles, 2½ sacks, and two forced fumbles.",
-    "conteggio_parole": 58,
-    "token_stimati": 75
-  },
-  {
-    "id": "56beae423aeaaa14008c91f5",
-    "argomento": "Super Bowl 50",
-    "domanda": "Who won the Super Bowl MVP?",
-    "risposte_corrette": [
-      "Von Miller",
-      "The Broncos",
-      "Miller"
-    ],
-    "contesto": "The Broncos took an early lead in Super Bowl 50 and never trailed. Newton was limited by Denver's defense, which sacked him seven times and forced him into three turnovers, including a fumble which they recovered for a touchdown. Denver linebacker Von Miller was named Super Bowl MVP, recording five solo tackles, 2½ sacks, and two forced fumbles.",
-    "conteggio_parole": 58,
-    "token_stimati": 75
-  },
-  {
-    "id": "56beae423aeaaa14008c91f6",
-    "argomento": "Super Bowl 50",
-    "domanda": "How many turnovers did Cam Newton have?",
-    "risposte_corrette": [
-      "three",
-      "three",
-      "three"
-    ],
-    "contesto": "The Broncos took an early lead in Super Bowl 50 and never trailed. Newton was limited by Denver's defense, which sacked him seven times and forced him into three turnovers, including a fumble which they recovered for a touchdown. Denver linebacker Von Miller was named Super Bowl MVP, recording five solo tackles, 2½ sacks, and two forced fumbles.",
-    "conteggio_parole": 58,
-    "token_stimati": 75
-  },
-  {
-    "id": "56beae423aeaaa14008c91f7",
-    "argomento": "Super Bowl 50",
-    "domanda": "How many fumbles did Von Miller force?",
-    "risposte_corrette": [
-      "two",
-      "two",
-      "two"
-    ],
-    "contesto": "The Broncos took an early lead in Super Bowl 50 and never trailed. Newton was limited by Denver's defense, which sacked him seven times and forced him into three turnovers, including a fumble which they recovered for a touchdown. Denver linebacker Von Miller was named Super Bowl MVP, recording five solo tackles, 2½ sacks, and two forced fumbles.",
-    "conteggio_parole": 58,
-    "token_stimati": 75
-  },
-  {
-    "id": "56bf17653aeaaa14008c9511",
-    "argomento": "Super Bowl 50",
-    "domanda": "Who was given the esteemed status of MVP for Super Bowl 50?",
-    "risposte_corrette": [
-      "Von Miller",
-      "Von Miller",
-      "Miller"
-    ],
-    "contesto": "The Broncos took an early lead in Super Bowl 50 and never trailed. Newton was limited by Denver's defense, which sacked him seven times and forced him into three turnovers, including a fumble which they recovered for a touchdown. Denver linebacker Von Miller was named Super Bowl MVP, recording five solo tackles, 2½ sacks, and two forced fumbles.",
-    "conteggio_parole": 58,
-    "token_stimati": 75
-  },
-  {
-    "id": "56bf17653aeaaa14008c9513",
-    "argomento": "Super Bowl 50",
-    "domanda": "What position does Von Miller play for the Denver Broncos?",
-    "risposte_corrette": [
-      "linebacker",
-      "linebacker",
-      "linebacker"
-    ],
-    "contesto": "The Broncos took an early lead in Super Bowl 50 and never trailed. Newton was limited by Denver's defense, which sacked him seven times and forced him into three turnovers, including a fumble which they recovered for a touchdown. Denver linebacker Von Miller was named Super Bowl MVP, recording five solo tackles, 2½ sacks, and two forced fumbles.",
-    "conteggio_parole": 58,
-    "token_stimati": 75
-  },
-  {
-    "id": "56bf17653aeaaa14008c9514",
-    "argomento": "Super Bowl 50",
-    "domanda": "What was the number of solo tackles that Von Miller had in Super Bowl 50?",
-    "risposte_corrette": [
-      "5",
-      "five",
-      "five"
-    ],
-    "contesto": "The Broncos took an early lead in Super Bowl 50 and never trailed. Newton was limited by Denver's defense, which sacked him seven times and forced him into three turnovers, including a fumble which they recovered for a touchdown. Denver linebacker Von Miller was named Super Bowl MVP, recording five solo tackles, 2½ sacks, and two forced fumbles.",
-    "conteggio_parole": 58,
-    "token_stimati": 75
-  },
-  {
-    "id": "56bf17653aeaaa14008c9515",
-    "argomento": "Super Bowl 50",
-    "domanda": "How many forced fumbles did Von Miller have during the Super Bowl 50 game?",
-    "risposte_corrette": [
-      "2",
-      "two",
-      "two"
-    ],
-    "contesto": "The Broncos took an early lead in Super Bowl 50 and never trailed. Newton was limited by Denver's defense, which sacked him seven times and forced him into three turnovers, including a fumble which they recovered for a touchdown. Denver linebacker Von Miller was named Super Bowl MVP, recording five solo tackles, 2½ sacks, and two forced fumbles.",
-    "conteggio_parole": 58,
-    "token_stimati": 75
-  },
-  {
-    "id": "56d204ade7d4791d00902603",
-    "argomento": "Super Bowl 50",
-    "domanda": "Who won the MVP for the Super Bowl?",
-    "risposte_corrette": [
-      "Von Miller",
-      "Von Miller",
-      "Von Miller"
-    ],
-    "contesto": "The Broncos took an early lead in Super Bowl 50 and never trailed. Newton was limited by Denver's defense, which sacked him seven times and forced him into three turnovers, including a fumble which they recovered for a touchdown. Denver linebacker Von Miller was named Super Bowl MVP, recording five solo tackles, 2½ sacks, and two forced fumbles.",
-    "conteggio_parole": 58,
-    "token_stimati": 75
-  },
-  {
-    "id": "56d204ade7d4791d00902604",
-    "argomento": "Super Bowl 50",
-    "domanda": "How many tackles did Von Miller get during the game?",
-    "risposte_corrette": [
-      "5",
-      "five",
-      "five"
-    ],
-    "contesto": "The Broncos took an early lead in Super Bowl 50 and never trailed. Newton was limited by Denver's defense, which sacked him seven times and forced him into three turnovers, including a fumble which they recovered for a touchdown. Denver linebacker Von Miller was named Super Bowl MVP, recording five solo tackles, 2½ sacks, and two forced fumbles.",
-    "conteggio_parole": 58,
-    "token_stimati": 75
-  },
-  {
-    "id": "56d601e41c85041400946ece",
-    "argomento": "Super Bowl 50",
-    "domanda": "How many times was Cam Newton sacked in Super Bowl 50?",
-    "risposte_corrette": [
-      "seven",
-      "seven",
-      "seven"
-    ],
-    "contesto": "The Broncos took an early lead in Super Bowl 50 and never trailed. Newton was limited by Denver's defense, which sacked him seven times and forced him into three turnovers, including a fumble which they recovered for a touchdown. Denver linebacker Von Miller was named Super Bowl MVP, recording five solo tackles, 2½ sacks, and two forced fumbles.",
-    "conteggio_parole": 58,
-    "token_stimati": 75
-  },
-  {
-    "id": "56d601e41c85041400946ecf",
-    "argomento": "Super Bowl 50",
-    "domanda": "How many times did the Denver defense force Newton into turnovers?",
-    "risposte_corrette": [
-      "three",
-      "three",
-      "three"
-    ],
-    "contesto": "The Broncos took an early lead in Super Bowl 50 and never trailed. Newton was limited by Denver's defense, which sacked him seven times and forced him into three turnovers, including a fumble which they recovered for a touchdown. Denver linebacker Von Miller was named Super Bowl MVP, recording five solo tackles, 2½ sacks, and two forced fumbles.",
-    "conteggio_parole": 58,
-    "token_stimati": 75
-  },
-  {
-    "id": "56d601e41c85041400946ed0",
-    "argomento": "Super Bowl 50",
-    "domanda": "Which Newton turnover resulted in seven points for Denver?",
-    "risposte_corrette": [
-      "a fumble",
-      "a fumble",
-      "fumble"
-    ],
-    "contesto": "The Broncos took an early lead in Super Bowl 50 and never trailed. Newton was limited by Denver's defense, which sacked him seven times and forced him into three turnovers, including a fumble which they recovered for a touchdown. Denver linebacker Von Miller was named Super Bowl MVP, recording five solo tackles, 2½ sacks, and two forced fumbles.",
-    "conteggio_parole": 58,
-    "token_stimati": 75
-  },
-  {
-    "id": "56d601e41c85041400946ed1",
-    "argomento": "Super Bowl 50",
-    "domanda": "Who was the Most Valuable Player of Super Bowl 50?",
-    "risposte_corrette": [
-      "Von Miller",
-      "Von Miller",
-      "Von Miller"
-    ],
-    "contesto": "The Broncos took an early lead in Super Bowl 50 and never trailed. Newton was limited by Denver's defense, which sacked him seven times and forced him into three turnovers, including a fumble which they recovered for a touchdown. Denver linebacker Von Miller was named Super Bowl MVP, recording five solo tackles, 2½ sacks, and two forced fumbles.",
-    "conteggio_parole": 58,
-    "token_stimati": 75
-  },
-  {
-    "id": "56d601e41c85041400946ed2",
-    "argomento": "Super Bowl 50",
-    "domanda": "What position does Von Miller play?",
-    "risposte_corrette": [
-      "linebacker",
-      "linebacker",
-      "linebacker"
-    ],
-    "contesto": "The Broncos took an early lead in Super Bowl 50 and never trailed. Newton was limited by Denver's defense, which sacked him seven times and forced him into three turnovers, including a fumble which they recovered for a touchdown. Denver linebacker Von Miller was named Super Bowl MVP, recording five solo tackles, 2½ sacks, and two forced fumbles.",
-    "conteggio_parole": 58,
-    "token_stimati": 75
-  },
-  {
-    "id": "56d98b33dc89441400fdb53b",
-    "argomento": "Super Bowl 50",
-    "domanda": "How many times was the Panthers' quarterback sacked?",
-    "risposte_corrette": [
-      "seven",
-      "seven",
-      "seven"
-    ],
-    "contesto": "The Broncos took an early lead in Super Bowl 50 and never trailed. Newton was limited by Denver's defense, which sacked him seven times and forced him into three turnovers, including a fumble which they recovered for a touchdown. Denver linebacker Von Miller was named Super Bowl MVP, recording five solo tackles, 2½ sacks, and two forced fumbles.",
-    "conteggio_parole": 58,
-    "token_stimati": 75
-  },
-  {
-    "id": "56d98b33dc89441400fdb53c",
-    "argomento": "Super Bowl 50",
-    "domanda": "How many times did the Broncos cause turnovers in the game?",
-    "risposte_corrette": [
-      "three",
-      "three",
-      "three"
-    ],
-    "contesto": "The Broncos took an early lead in Super Bowl 50 and never trailed. Newton was limited by Denver's defense, which sacked him seven times and forced him into three turnovers, including a fumble which they recovered for a touchdown. Denver linebacker Von Miller was named Super Bowl MVP, recording five solo tackles, 2½ sacks, and two forced fumbles.",
-    "conteggio_parole": 58,
-    "token_stimati": 75
-  },
-  {
-    "id": "56d98b33dc89441400fdb53d",
-    "argomento": "Super Bowl 50",
-    "domanda": "What Denver player caused two fumbles for the Panthers?",
-    "risposte_corrette": [
-      "Von Miller",
-      "Von Miller",
-      "Von Miller"
-    ],
-    "contesto": "The Broncos took an early lead in Super Bowl 50 and never trailed. Newton was limited by Denver's defense, which sacked him seven times and forced him into three turnovers, including a fumble which they recovered for a touchdown. Denver linebacker Von Miller was named Super Bowl MVP, recording five solo tackles, 2½ sacks, and two forced fumbles.",
-    "conteggio_parole": 58,
-    "token_stimati": 75
-  },
-  {
-    "id": "56d98b33dc89441400fdb53e",
-    "argomento": "Super Bowl 50",
-    "domanda": "How many tackles did Von Miller accomlish by himself in the game?",
-    "risposte_corrette": [
-      "five",
-      "five",
-      "five"
-    ],
-    "contesto": "The Broncos took an early lead in Super Bowl 50 and never trailed. Newton was limited by Denver's defense, which sacked him seven times and forced him into three turnovers, including a fumble which they recovered for a touchdown. Denver linebacker Von Miller was named Super Bowl MVP, recording five solo tackles, 2½ sacks, and two forced fumbles.",
-    "conteggio_parole": 58,
-    "token_stimati": 75
-  },
-  {
-    "id": "56be5333acb8001400a5030a",
-    "argomento": "Super Bowl 50",
-    "domanda": "Which network broadcasted Super Bowl 50 in the U.S.?",
-    "risposte_corrette": [
-      "CBS",
-      "CBS",
-      "CBS"
-    ],
-    "contesto": "CBS broadcast Super Bowl 50 in the U.S., and charged an average of $5 million for a 30-second commercial during the game. The Super Bowl 50 halftime show was headlined by the British rock group Coldplay with special guest performers Beyoncé and Bruno Mars, who headlined the Super Bowl XLVII and Super Bowl XLVIII halftime shows, respectively. It was the third-most watched U.S. broadcast ever.",
-    "conteggio_parole": 65,
-    "token_stimati": 84
-  },
-  {
-    "id": "56be5333acb8001400a5030b",
-    "argomento": "Super Bowl 50",
-    "domanda": "What was the average cost for a 30 second commercial during Super Bowl 50?",
-    "risposte_corrette": [
-      "$5 million",
-      "$5 million",
-      "$5 million"
-    ],
-    "contesto": "CBS broadcast Super Bowl 50 in the U.S., and charged an average of $5 million for a 30-second commercial during the game. The Super Bowl 50 halftime show was headlined by the British rock group Coldplay with special guest performers Beyoncé and Bruno Mars, who headlined the Super Bowl XLVII and Super Bowl XLVIII halftime shows, respectively. It was the third-most watched U.S. broadcast ever.",
-    "conteggio_parole": 65,
-    "token_stimati": 84
-  },
-  {
-    "id": "56be5333acb8001400a5030c",
-    "argomento": "Super Bowl 50",
-    "domanda": "Which group headlined the Super Bowl 50 halftime show?",
-    "risposte_corrette": [
-      "Coldplay",
-      "Coldplay",
-      "Coldplay"
-    ],
-    "contesto": "CBS broadcast Super Bowl 50 in the U.S., and charged an average of $5 million for a 30-second commercial during the game. The Super Bowl 50 halftime show was headlined by the British rock group Coldplay with special guest performers Beyoncé and Bruno Mars, who headlined the Super Bowl XLVII and Super Bowl XLVIII halftime shows, respectively. It was the third-most watched U.S. broadcast ever.",
-    "conteggio_parole": 65,
-    "token_stimati": 84
-  },
-  {
-    "id": "56be5333acb8001400a5030d",
-    "argomento": "Super Bowl 50",
-    "domanda": "Which performers joined the headliner during the Super Bowl 50 halftime show?",
-    "risposte_corrette": [
-      "Beyoncé and Bruno Mars",
-      "Beyoncé and Bruno Mars",
-      "Beyoncé and Bruno Mars"
-    ],
-    "contesto": "CBS broadcast Super Bowl 50 in the U.S., and charged an average of $5 million for a 30-second commercial during the game. The Super Bowl 50 halftime show was headlined by the British rock group Coldplay with special guest performers Beyoncé and Bruno Mars, who headlined the Super Bowl XLVII and Super Bowl XLVIII halftime shows, respectively. It was the third-most watched U.S. broadcast ever.",
-    "conteggio_parole": 65,
-    "token_stimati": 84
-  },
-  {
-    "id": "56be5333acb8001400a5030e",
-    "argomento": "Super Bowl 50",
-    "domanda": "At which Super Bowl did Beyonce headline the halftime show?",
-    "risposte_corrette": [
-      "Super Bowl XLVII",
-      "Super Bowl XLVII",
-      "XLVII"
-    ],
-    "contesto": "CBS broadcast Super Bowl 50 in the U.S., and charged an average of $5 million for a 30-second commercial during the game. The Super Bowl 50 halftime show was headlined by the British rock group Coldplay with special guest performers Beyoncé and Bruno Mars, who headlined the Super Bowl XLVII and Super Bowl XLVIII halftime shows, respectively. It was the third-most watched U.S. broadcast ever.",
-    "conteggio_parole": 65,
-    "token_stimati": 84
-  },
-  {
-    "id": "56beaf5e3aeaaa14008c91fd",
-    "argomento": "Super Bowl 50",
-    "domanda": "Who was the broadcaster for Super Bowl 50 in the United States?",
-    "risposte_corrette": [
-      "CBS",
-      "CBS",
-      "CBS"
-    ],
-    "contesto": "CBS broadcast Super Bowl 50 in the U.S., and charged an average of $5 million for a 30-second commercial during the game. The Super Bowl 50 halftime show was headlined by the British rock group Coldplay with special guest performers Beyoncé and Bruno Mars, who headlined the Super Bowl XLVII and Super Bowl XLVIII halftime shows, respectively. It was the third-most watched U.S. broadcast ever.",
-    "conteggio_parole": 65,
-    "token_stimati": 84
-  },
-  {
-    "id": "56beaf5e3aeaaa14008c91fe",
-    "argomento": "Super Bowl 50",
-    "domanda": "What was the average cost of a 30-second commercial?",
-    "risposte_corrette": [
-      "$5 million",
-      "$5 million",
-      "$5 million"
-    ],
-    "contesto": "CBS broadcast Super Bowl 50 in the U.S., and charged an average of $5 million for a 30-second commercial during the game. The Super Bowl 50 halftime show was headlined by the British rock group Coldplay with special guest performers Beyoncé and Bruno Mars, who headlined the Super Bowl XLVII and Super Bowl XLVIII halftime shows, respectively. It was the third-most watched U.S. broadcast ever.",
-    "conteggio_parole": 65,
-    "token_stimati": 84
-  },
-  {
-    "id": "56beaf5e3aeaaa14008c91ff",
-    "argomento": "Super Bowl 50",
-    "domanda": "What halftime performer previously headlined Super Bowl XLVII?",
-    "risposte_corrette": [
-      "Beyoncé",
-      "Beyoncé",
-      "Beyoncé"
-    ],
-    "contesto": "CBS broadcast Super Bowl 50 in the U.S., and charged an average of $5 million for a 30-second commercial during the game. The Super Bowl 50 halftime show was headlined by the British rock group Coldplay with special guest performers Beyoncé and Bruno Mars, who headlined the Super Bowl XLVII and Super Bowl XLVIII halftime shows, respectively. It was the third-most watched U.S. broadcast ever.",
-    "conteggio_parole": 65,
-    "token_stimati": 84
-  },
-  {
-    "id": "56beaf5e3aeaaa14008c9200",
-    "argomento": "Super Bowl 50",
-    "domanda": "What halftime performer previously headlined Super Bowl XLVIII?",
-    "risposte_corrette": [
-      "Bruno Mars",
-      "Bruno Mars",
-      "Mars"
-    ],
-    "contesto": "CBS broadcast Super Bowl 50 in the U.S., and charged an average of $5 million for a 30-second commercial during the game. The Super Bowl 50 halftime show was headlined by the British rock group Coldplay with special guest performers Beyoncé and Bruno Mars, who headlined the Super Bowl XLVII and Super Bowl XLVIII halftime shows, respectively. It was the third-most watched U.S. broadcast ever.",
-    "conteggio_parole": 65,
-    "token_stimati": 84
-  },
-  {
-    "id": "56beaf5e3aeaaa14008c9201",
-    "argomento": "Super Bowl 50",
-    "domanda": "Who was the main performer at this year's halftime show?",
-    "risposte_corrette": [
-      "Coldplay",
-      "Coldplay",
-      "Coldplay"
-    ],
-    "contesto": "CBS broadcast Super Bowl 50 in the U.S., and charged an average of $5 million for a 30-second commercial during the game. The Super Bowl 50 halftime show was headlined by the British rock group Coldplay with special guest performers Beyoncé and Bruno Mars, who headlined the Super Bowl XLVII and Super Bowl XLVIII halftime shows, respectively. It was the third-most watched U.S. broadcast ever.",
-    "conteggio_parole": 65,
-    "token_stimati": 84
-  },
-  {
-    "id": "56bf1ae93aeaaa14008c951b",
-    "argomento": "Super Bowl 50",
-    "domanda": "Which network broadcasted the 50th Super Bowl game?",
-    "risposte_corrette": [
-      "CBS",
-      "CBS",
-      "CBS"
-    ],
-    "contesto": "CBS broadcast Super Bowl 50 in the U.S., and charged an average of $5 million for a 30-second commercial during the game. The Super Bowl 50 halftime show was headlined by the British rock group Coldplay with special guest performers Beyoncé and Bruno Mars, who headlined the Super Bowl XLVII and Super Bowl XLVIII halftime shows, respectively. It was the third-most watched U.S. broadcast ever.",
-    "conteggio_parole": 65,
-    "token_stimati": 84
-  },
-  {
-    "id": "56bf1ae93aeaaa14008c951c",
-    "argomento": "Super Bowl 50",
-    "domanda": "What was the average cost for a TV ad lasting 30 seconds during Super Bowl 50?",
-    "risposte_corrette": [
-      "$5 million",
-      "$5 million",
-      "$5 million"
-    ],
-    "contesto": "CBS broadcast Super Bowl 50 in the U.S., and charged an average of $5 million for a 30-second commercial during the game. The Super Bowl 50 halftime show was headlined by the British rock group Coldplay with special guest performers Beyoncé and Bruno Mars, who headlined the Super Bowl XLVII and Super Bowl XLVIII halftime shows, respectively. It was the third-most watched U.S. broadcast ever.",
-    "conteggio_parole": 65,
-    "token_stimati": 84
-  },
-  {
-    "id": "56bf1ae93aeaaa14008c951e",
-    "argomento": "Super Bowl 50",
-    "domanda": "Who was the male singer who performed as a special guest during Super Bowl 50?",
-    "risposte_corrette": [
-      "Bruno Mars",
-      "Bruno Mars",
-      "Bruno Mars,"
-    ],
-    "contesto": "CBS broadcast Super Bowl 50 in the U.S., and charged an average of $5 million for a 30-second commercial during the game. The Super Bowl 50 halftime show was headlined by the British rock group Coldplay with special guest performers Beyoncé and Bruno Mars, who headlined the Super Bowl XLVII and Super Bowl XLVIII halftime shows, respectively. It was the third-most watched U.S. broadcast ever.",
-    "conteggio_parole": 65,
-    "token_stimati": 84
-  },
-  {
-    "id": "56bf1ae93aeaaa14008c951f",
-    "argomento": "Super Bowl 50",
-    "domanda": "What ranking does the Super Bowl 50 halftime show have on the list of most watched TV broadcasts?",
-    "risposte_corrette": [
-      "third",
-      "third",
-      "third"
-    ],
-    "contesto": "CBS broadcast Super Bowl 50 in the U.S., and charged an average of $5 million for a 30-second commercial during the game. The Super Bowl 50 halftime show was headlined by the British rock group Coldplay with special guest performers Beyoncé and Bruno Mars, who headlined the Super Bowl XLVII and Super Bowl XLVIII halftime shows, respectively. It was the third-most watched U.S. broadcast ever.",
-    "conteggio_parole": 65,
-    "token_stimati": 84
-  },
-  {
-    "id": "56d2051ce7d4791d00902608",
-    "argomento": "Super Bowl 50",
-    "domanda": "What station aired the Super Bowl?",
-    "risposte_corrette": [
-      "CBS",
-      "CBS",
-      "CBS"
-    ],
-    "contesto": "CBS broadcast Super Bowl 50 in the U.S., and charged an average of $5 million for a 30-second commercial during the game. The Super Bowl 50 halftime show was headlined by the British rock group Coldplay with special guest performers Beyoncé and Bruno Mars, who headlined the Super Bowl XLVII and Super Bowl XLVIII halftime shows, respectively. It was the third-most watched U.S. broadcast ever.",
-    "conteggio_parole": 65,
-    "token_stimati": 84
-  },
-  {
-    "id": "56d2051ce7d4791d00902609",
-    "argomento": "Super Bowl 50",
-    "domanda": "How much money did a 1/2 minute commercial cost?",
-    "risposte_corrette": [
-      "$5 million",
-      "$5 million",
-      "$5 million"
-    ],
-    "contesto": "CBS broadcast Super Bowl 50 in the U.S., and charged an average of $5 million for a 30-second commercial during the game. The Super Bowl 50 halftime show was headlined by the British rock group Coldplay with special guest performers Beyoncé and Bruno Mars, who headlined the Super Bowl XLVII and Super Bowl XLVIII halftime shows, respectively. It was the third-most watched U.S. broadcast ever.",
-    "conteggio_parole": 65,
-    "token_stimati": 84
-  },
-  {
-    "id": "56d2051ce7d4791d0090260a",
-    "argomento": "Super Bowl 50",
-    "domanda": "What band headlined half-time during Super Bowl 50?",
-    "risposte_corrette": [
-      "Coldplay",
-      "Coldplay",
-      "Coldplay"
-    ],
-    "contesto": "CBS broadcast Super Bowl 50 in the U.S., and charged an average of $5 million for a 30-second commercial during the game. The Super Bowl 50 halftime show was headlined by the British rock group Coldplay with special guest performers Beyoncé and Bruno Mars, who headlined the Super Bowl XLVII and Super Bowl XLVIII halftime shows, respectively. It was the third-most watched U.S. broadcast ever.",
-    "conteggio_parole": 65,
-    "token_stimati": 84
-  },
-  {
-    "id": "56d2051ce7d4791d0090260b",
-    "argomento": "Super Bowl 50",
-    "domanda": "What two artists came out with Coldplay during the half-time show?",
-    "risposte_corrette": [
-      "Beyoncé and Bruno Mars",
-      "Beyoncé and Bruno Mars",
-      "Beyoncé and Bruno Mars"
-    ],
-    "contesto": "CBS broadcast Super Bowl 50 in the U.S., and charged an average of $5 million for a 30-second commercial during the game. The Super Bowl 50 halftime show was headlined by the British rock group Coldplay with special guest performers Beyoncé and Bruno Mars, who headlined the Super Bowl XLVII and Super Bowl XLVIII halftime shows, respectively. It was the third-most watched U.S. broadcast ever.",
-    "conteggio_parole": 65,
-    "token_stimati": 84
-  },
-  {
-    "id": "56d602631c85041400946ed8",
-    "argomento": "Super Bowl 50",
-    "domanda": "Who broadcast the Super Bowl on TV?",
-    "risposte_corrette": [
-      "CBS",
-      "CBS",
-      "CBS"
-    ],
-    "contesto": "CBS broadcast Super Bowl 50 in the U.S., and charged an average of $5 million for a 30-second commercial during the game. The Super Bowl 50 halftime show was headlined by the British rock group Coldplay with special guest performers Beyoncé and Bruno Mars, who headlined the Super Bowl XLVII and Super Bowl XLVIII halftime shows, respectively. It was the third-most watched U.S. broadcast ever.",
-    "conteggio_parole": 65,
-    "token_stimati": 84
-  },
-  {
-    "id": "56d602631c85041400946eda",
-    "argomento": "Super Bowl 50",
-    "domanda": "Who headlined the halftime show for Super Bowl 50?",
-    "risposte_corrette": [
-      "Coldplay",
-      "Coldplay",
-      "Coldplay"
-    ],
-    "contesto": "CBS broadcast Super Bowl 50 in the U.S., and charged an average of $5 million for a 30-second commercial during the game. The Super Bowl 50 halftime show was headlined by the British rock group Coldplay with special guest performers Beyoncé and Bruno Mars, who headlined the Super Bowl XLVII and Super Bowl XLVIII halftime shows, respectively. It was the third-most watched U.S. broadcast ever.",
-    "conteggio_parole": 65,
-    "token_stimati": 84
-  },
-  {
-    "id": "56be4e1facb8001400a502f6",
-    "argomento": "Super Bowl 50",
-    "domanda": "Which Carolina Panthers player was named Most Valuable Player?",
-    "risposte_corrette": [
-      "Cam Newton",
-      "Cam Newton",
-      "Cam Newton"
-    ],
-    "contesto": "The Panthers finished the regular season with a 15–1 record, and quarterback Cam Newton was named the NFL Most Valuable Player (MVP). They defeated the Arizona Cardinals 49–15 in the NFC Championship Game and advanced to their second Super Bowl appearance since the franchise was founded in 1995. The Broncos finished the regular season with a 12–4 record, and denied the New England Patriots a chance to defend their title from Super Bowl XLIX by defeating them 20–18 in the AFC Championship Game. They joined the Patriots, Dallas Cowboys, and Pittsburgh Steelers as one of four teams that have made eight appearances in the Super Bowl.",
-    "conteggio_parole": 106,
-    "token_stimati": 137
-  },
-  {
-    "id": "56be4e1facb8001400a502f9",
-    "argomento": "Super Bowl 50",
-    "domanda": "How many appearances have the Denver Broncos made in the Super Bowl?",
-    "risposte_corrette": [
-      "8",
-      "eight",
-      "eight"
-    ],
-    "contesto": "The Panthers finished the regular season with a 15–1 record, and quarterback Cam Newton was named the NFL Most Valuable Player (MVP). They defeated the Arizona Cardinals 49–15 in the NFC Championship Game and advanced to their second Super Bowl appearance since the franchise was founded in 1995. The Broncos finished the regular season with a 12–4 record, and denied the New England Patriots a chance to defend their title from Super Bowl XLIX by defeating them 20–18 in the AFC Championship Game. They joined the Patriots, Dallas Cowboys, and Pittsburgh Steelers as one of four teams that have made eight appearances in the Super Bowl.",
-    "conteggio_parole": 106,
-    "token_stimati": 137
-  },
-  {
-    "id": "56be4e1facb8001400a502fa",
-    "argomento": "Super Bowl 50",
-    "domanda": "What year was the Carolina Panthers franchise founded?",
-    "risposte_corrette": [
-      "1995",
-      "1995",
-      "1995"
-    ],
-    "contesto": "The Panthers finished the regular season with a 15–1 record, and quarterback Cam Newton was named the NFL Most Valuable Player (MVP). They defeated the Arizona Cardinals 49–15 in the NFC Championship Game and advanced to their second Super Bowl appearance since the franchise was founded in 1995. The Broncos finished the regular season with a 12–4 record, and denied the New England Patriots a chance to defend their title from Super Bowl XLIX by defeating them 20–18 in the AFC Championship Game. They joined the Patriots, Dallas Cowboys, and Pittsburgh Steelers as one of four teams that have made eight appearances in the Super Bowl.",
-    "conteggio_parole": 106,
-    "token_stimati": 137
-  },
-  {
-    "id": "56beaa4a3aeaaa14008c91c2",
-    "argomento": "Super Bowl 50",
-    "domanda": "What team did the Panthers defeat?",
-    "risposte_corrette": [
-      "Arizona Cardinals",
-      "the Arizona Cardinals",
-      "Arizona Cardinals"
-    ],
-    "contesto": "The Panthers finished the regular season with a 15–1 record, and quarterback Cam Newton was named the NFL Most Valuable Player (MVP). They defeated the Arizona Cardinals 49–15 in the NFC Championship Game and advanced to their second Super Bowl appearance since the franchise was founded in 1995. The Broncos finished the regular season with a 12–4 record, and denied the New England Patriots a chance to defend their title from Super Bowl XLIX by defeating them 20–18 in the AFC Championship Game. They joined the Patriots, Dallas Cowboys, and Pittsburgh Steelers as one of four teams that have made eight appearances in the Super Bowl.",
-    "conteggio_parole": 106,
-    "token_stimati": 137
-  },
-  {
-    "id": "56beaa4a3aeaaa14008c91c3",
-    "argomento": "Super Bowl 50",
-    "domanda": "Who did the Broncos prevent from going to the Super Bowl?",
-    "risposte_corrette": [
-      "New England Patriots",
-      "the New England Patriots",
-      "New England Patriots"
-    ],
-    "contesto": "The Panthers finished the regular season with a 15–1 record, and quarterback Cam Newton was named the NFL Most Valuable Player (MVP). They defeated the Arizona Cardinals 49–15 in the NFC Championship Game and advanced to their second Super Bowl appearance since the franchise was founded in 1995. The Broncos finished the regular season with a 12–4 record, and denied the New England Patriots a chance to defend their title from Super Bowl XLIX by defeating them 20–18 in the AFC Championship Game. They joined the Patriots, Dallas Cowboys, and Pittsburgh Steelers as one of four teams that have made eight appearances in the Super Bowl.",
-    "conteggio_parole": 106,
-    "token_stimati": 137
-  },
-  {
-    "id": "56bead5a3aeaaa14008c91e9",
-    "argomento": "Super Bowl 50",
-    "domanda": "Who did the Panthers beat in the NFC Championship Game?",
-    "risposte_corrette": [
-      "Arizona Cardinals",
-      "the Arizona Cardinals",
-      "Arizona Cardinals"
-    ],
-    "contesto": "The Panthers finished the regular season with a 15–1 record, and quarterback Cam Newton was named the NFL Most Valuable Player (MVP). They defeated the Arizona Cardinals 49–15 in the NFC Championship Game and advanced to their second Super Bowl appearance since the franchise was founded in 1995. The Broncos finished the regular season with a 12–4 record, and denied the New England Patriots a chance to defend their title from Super Bowl XLIX by defeating them 20–18 in the AFC Championship Game. They joined the Patriots, Dallas Cowboys, and Pittsburgh Steelers as one of four teams that have made eight appearances in the Super Bowl.",
-    "conteggio_parole": 106,
-    "token_stimati": 137
-  },
-  {
-    "id": "56bead5a3aeaaa14008c91ea",
-    "argomento": "Super Bowl 50",
-    "domanda": "Who lost to the Broncos in the AFC Championship?",
-    "risposte_corrette": [
-      "New England Patriots",
-      "the New England Patriots",
-      "New England Patriots"
-    ],
-    "contesto": "The Panthers finished the regular season with a 15–1 record, and quarterback Cam Newton was named the NFL Most Valuable Player (MVP). They defeated the Arizona Cardinals 49–15 in the NFC Championship Game and advanced to their second Super Bowl appearance since the franchise was founded in 1995. The Broncos finished the regular season with a 12–4 record, and denied the New England Patriots a chance to defend their title from Super Bowl XLIX by defeating them 20–18 in the AFC Championship Game. They joined the Patriots, Dallas Cowboys, and Pittsburgh Steelers as one of four teams that have made eight appearances in the Super Bowl.",
-    "conteggio_parole": 106,
-    "token_stimati": 137
-  },
-  {
-    "id": "56bead5a3aeaaa14008c91eb",
-    "argomento": "Super Bowl 50",
-    "domanda": "Who were the defending Super Bowl champions?",
-    "risposte_corrette": [
-      "New England Patriots",
-      "the New England Patriots",
-      "New England Patriots"
-    ],
-    "contesto": "The Panthers finished the regular season with a 15–1 record, and quarterback Cam Newton was named the NFL Most Valuable Player (MVP). They defeated the Arizona Cardinals 49–15 in the NFC Championship Game and advanced to their second Super Bowl appearance since the franchise was founded in 1995. The Broncos finished the regular season with a 12–4 record, and denied the New England Patriots a chance to defend their title from Super Bowl XLIX by defeating them 20–18 in the AFC Championship Game. They joined the Patriots, Dallas Cowboys, and Pittsburgh Steelers as one of four teams that have made eight appearances in the Super Bowl.",
-    "conteggio_parole": 106,
-    "token_stimati": 137
-  },
-  {
-    "id": "56bead5a3aeaaa14008c91ec",
-    "argomento": "Super Bowl 50",
-    "domanda": "How many teams have been in the Super Bowl eight times?",
-    "risposte_corrette": [
-      "four",
-      "four",
-      "four"
-    ],
-    "contesto": "The Panthers finished the regular season with a 15–1 record, and quarterback Cam Newton was named the NFL Most Valuable Player (MVP). They defeated the Arizona Cardinals 49–15 in the NFC Championship Game and advanced to their second Super Bowl appearance since the franchise was founded in 1995. The Broncos finished the regular season with a 12–4 record, and denied the New England Patriots a chance to defend their title from Super Bowl XLIX by defeating them 20–18 in the AFC Championship Game. They joined the Patriots, Dallas Cowboys, and Pittsburgh Steelers as one of four teams that have made eight appearances in the Super Bowl.",
-    "conteggio_parole": 106,
-    "token_stimati": 137
-  },
-  {
-    "id": "56bead5a3aeaaa14008c91ed",
-    "argomento": "Super Bowl 50",
-    "domanda": "Who was this season's NFL MVP?",
-    "risposte_corrette": [
-      "Cam Newton",
-      "Cam Newton",
-      "Cam Newton"
-    ],
-    "contesto": "The Panthers finished the regular season with a 15–1 record, and quarterback Cam Newton was named the NFL Most Valuable Player (MVP). They defeated the Arizona Cardinals 49–15 in the NFC Championship Game and advanced to their second Super Bowl appearance since the franchise was founded in 1995. The Broncos finished the regular season with a 12–4 record, and denied the New England Patriots a chance to defend their title from Super Bowl XLIX by defeating them 20–18 in the AFC Championship Game. They joined the Patriots, Dallas Cowboys, and Pittsburgh Steelers as one of four teams that have made eight appearances in the Super Bowl.",
-    "conteggio_parole": 106,
-    "token_stimati": 137
-  },
-  {
-    "id": "56bf159b3aeaaa14008c9507",
-    "argomento": "Super Bowl 50",
-    "domanda": "What was the win/loss ratio in 2015 for the Carolina Panthers during their regular season?",
-    "risposte_corrette": [
-      "15–1",
-      "15–1",
-      "15–1"
-    ],
-    "contesto": "The Panthers finished the regular season with a 15–1 record, and quarterback Cam Newton was named the NFL Most Valuable Player (MVP). They defeated the Arizona Cardinals 49–15 in the NFC Championship Game and advanced to their second Super Bowl appearance since the franchise was founded in 1995. The Broncos finished the regular season with a 12–4 record, and denied the New England Patriots a chance to defend their title from Super Bowl XLIX by defeating them 20–18 in the AFC Championship Game. They joined the Patriots, Dallas Cowboys, and Pittsburgh Steelers as one of four teams that have made eight appearances in the Super Bowl.",
-    "conteggio_parole": 106,
-    "token_stimati": 137
-  },
-  {
-    "id": "56bf159b3aeaaa14008c9508",
-    "argomento": "Super Bowl 50",
-    "domanda": "Which Carolina Panthers team member was picked as the team's MVP in 2015?",
-    "risposte_corrette": [
-      "Cam Newton",
-      "Cam Newton",
-      "Cam Newton"
-    ],
-    "contesto": "The Panthers finished the regular season with a 15–1 record, and quarterback Cam Newton was named the NFL Most Valuable Player (MVP). They defeated the Arizona Cardinals 49–15 in the NFC Championship Game and advanced to their second Super Bowl appearance since the franchise was founded in 1995. The Broncos finished the regular season with a 12–4 record, and denied the New England Patriots a chance to defend their title from Super Bowl XLIX by defeating them 20–18 in the AFC Championship Game. They joined the Patriots, Dallas Cowboys, and Pittsburgh Steelers as one of four teams that have made eight appearances in the Super Bowl.",
-    "conteggio_parole": 106,
-    "token_stimati": 137
-  },
-  {
-    "id": "56bf159b3aeaaa14008c9509",
-    "argomento": "Super Bowl 50",
-    "domanda": "What were the win/loss game stats for the Denver Bronco's regular season in 2015?",
-    "risposte_corrette": [
-      "12–4",
-      "12–4",
-      "12–4"
-    ],
-    "contesto": "The Panthers finished the regular season with a 15–1 record, and quarterback Cam Newton was named the NFL Most Valuable Player (MVP). They defeated the Arizona Cardinals 49–15 in the NFC Championship Game and advanced to their second Super Bowl appearance since the franchise was founded in 1995. The Broncos finished the regular season with a 12–4 record, and denied the New England Patriots a chance to defend their title from Super Bowl XLIX by defeating them 20–18 in the AFC Championship Game. They joined the Patriots, Dallas Cowboys, and Pittsburgh Steelers as one of four teams that have made eight appearances in the Super Bowl.",
-    "conteggio_parole": 106,
-    "token_stimati": 137
-  },
-  {
-    "id": "56bf159b3aeaaa14008c950a",
-    "argomento": "Super Bowl 50",
-    "domanda": "How many teams have played in the Super Bowl eight times?",
-    "risposte_corrette": [
-      "4",
-      "four",
-      "four"
-    ],
-    "contesto": "The Panthers finished the regular season with a 15–1 record, and quarterback Cam Newton was named the NFL Most Valuable Player (MVP). They defeated the Arizona Cardinals 49–15 in the NFC Championship Game and advanced to their second Super Bowl appearance since the franchise was founded in 1995. The Broncos finished the regular season with a 12–4 record, and denied the New England Patriots a chance to defend their title from Super Bowl XLIX by defeating them 20–18 in the AFC Championship Game. They joined the Patriots, Dallas Cowboys, and Pittsburgh Steelers as one of four teams that have made eight appearances in the Super Bowl.",
-    "conteggio_parole": 106,
-    "token_stimati": 137
-  },
-  {
-    "id": "56bf159b3aeaaa14008c950b",
-    "argomento": "Super Bowl 50",
-    "domanda": "Which team did not get a chance to defend their Super Bowl XLIX win in Super Bowl 50?",
-    "risposte_corrette": [
-      "New England Patriots",
-      "the New England Patriots",
-      "New England Patriots"
-    ],
-    "contesto": "The Panthers finished the regular season with a 15–1 record, and quarterback Cam Newton was named the NFL Most Valuable Player (MVP). They defeated the Arizona Cardinals 49–15 in the NFC Championship Game and advanced to their second Super Bowl appearance since the franchise was founded in 1995. The Broncos finished the regular season with a 12–4 record, and denied the New England Patriots a chance to defend their title from Super Bowl XLIX by defeating them 20–18 in the AFC Championship Game. They joined the Patriots, Dallas Cowboys, and Pittsburgh Steelers as one of four teams that have made eight appearances in the Super Bowl.",
-    "conteggio_parole": 106,
-    "token_stimati": 137
-  },
-  {
-    "id": "56d2045de7d4791d009025f3",
-    "argomento": "Super Bowl 50",
-    "domanda": "Who is the quarterback for the Panthers?",
-    "risposte_corrette": [
-      "Cam Newton",
-      "Cam Newton",
-      "Cam Newton"
-    ],
-    "contesto": "The Panthers finished the regular season with a 15–1 record, and quarterback Cam Newton was named the NFL Most Valuable Player (MVP). They defeated the Arizona Cardinals 49–15 in the NFC Championship Game and advanced to their second Super Bowl appearance since the franchise was founded in 1995. The Broncos finished the regular season with a 12–4 record, and denied the New England Patriots a chance to defend their title from Super Bowl XLIX by defeating them 20–18 in the AFC Championship Game. They joined the Patriots, Dallas Cowboys, and Pittsburgh Steelers as one of four teams that have made eight appearances in the Super Bowl.",
-    "conteggio_parole": 106,
-    "token_stimati": 137
-  },
-  {
-    "id": "56d2045de7d4791d009025f4",
-    "argomento": "Super Bowl 50",
-    "domanda": "Who did Carolina beat in the NFC championship game?",
-    "risposte_corrette": [
-      "Arizona Cardinals",
-      "the Arizona Cardinals",
-      "Arizona Cardinals"
-    ],
-    "contesto": "The Panthers finished the regular season with a 15–1 record, and quarterback Cam Newton was named the NFL Most Valuable Player (MVP). They defeated the Arizona Cardinals 49–15 in the NFC Championship Game and advanced to their second Super Bowl appearance since the franchise was founded in 1995. The Broncos finished the regular season with a 12–4 record, and denied the New England Patriots a chance to defend their title from Super Bowl XLIX by defeating them 20–18 in the AFC Championship Game. They joined the Patriots, Dallas Cowboys, and Pittsburgh Steelers as one of four teams that have made eight appearances in the Super Bowl.",
-    "conteggio_parole": 106,
-    "token_stimati": 137
-  },
-  {
-    "id": "56d2045de7d4791d009025f5",
-    "argomento": "Super Bowl 50",
-    "domanda": "How many times have the Panthers been in the Super Bowl?",
-    "risposte_corrette": [
-      "2",
-      "second",
-      "second"
-    ],
-    "contesto": "The Panthers finished the regular season with a 15–1 record, and quarterback Cam Newton was named the NFL Most Valuable Player (MVP). They defeated the Arizona Cardinals 49–15 in the NFC Championship Game and advanced to their second Super Bowl appearance since the franchise was founded in 1995. The Broncos finished the regular season with a 12–4 record, and denied the New England Patriots a chance to defend their title from Super Bowl XLIX by defeating them 20–18 in the AFC Championship Game. They joined the Patriots, Dallas Cowboys, and Pittsburgh Steelers as one of four teams that have made eight appearances in the Super Bowl.",
-    "conteggio_parole": 106,
-    "token_stimati": 137
-  },
-  {
-    "id": "56d2045de7d4791d009025f6",
-    "argomento": "Super Bowl 50",
-    "domanda": "Who did Denver beat in the AFC championship?",
-    "risposte_corrette": [
-      "New England Patriots",
-      "the New England Patriots",
-      "New England Patriots"
-    ],
-    "contesto": "The Panthers finished the regular season with a 15–1 record, and quarterback Cam Newton was named the NFL Most Valuable Player (MVP). They defeated the Arizona Cardinals 49–15 in the NFC Championship Game and advanced to their second Super Bowl appearance since the franchise was founded in 1995. The Broncos finished the regular season with a 12–4 record, and denied the New England Patriots a chance to defend their title from Super Bowl XLIX by defeating them 20–18 in the AFC Championship Game. They joined the Patriots, Dallas Cowboys, and Pittsburgh Steelers as one of four teams that have made eight appearances in the Super Bowl.",
-    "conteggio_parole": 106,
-    "token_stimati": 137
-  },
-  {
-    "id": "56d6017d1c85041400946ebe",
-    "argomento": "Super Bowl 50",
-    "domanda": "Who was the Most Valuable Player for the 2015 NFL season?",
-    "risposte_corrette": [
-      "Cam Newton",
-      "Cam Newton",
-      "Cam Newton"
-    ],
-    "contesto": "The Panthers finished the regular season with a 15–1 record, and quarterback Cam Newton was named the NFL Most Valuable Player (MVP). They defeated the Arizona Cardinals 49–15 in the NFC Championship Game and advanced to their second Super Bowl appearance since the franchise was founded in 1995. The Broncos finished the regular season with a 12–4 record, and denied the New England Patriots a chance to defend their title from Super Bowl XLIX by defeating them 20–18 in the AFC Championship Game. They joined the Patriots, Dallas Cowboys, and Pittsburgh Steelers as one of four teams that have made eight appearances in the Super Bowl.",
-    "conteggio_parole": 106,
-    "token_stimati": 137
-  },
-  {
-    "id": "56d6017d1c85041400946ec1",
-    "argomento": "Super Bowl 50",
-    "domanda": "Who did Denver beat in the 2015 AFC Championship game?",
-    "risposte_corrette": [
-      "New England Patriots",
-      "the New England Patriots",
-      "New England Patriots"
-    ],
-    "contesto": "The Panthers finished the regular season with a 15–1 record, and quarterback Cam Newton was named the NFL Most Valuable Player (MVP). They defeated the Arizona Cardinals 49–15 in the NFC Championship Game and advanced to their second Super Bowl appearance since the franchise was founded in 1995. The Broncos finished the regular season with a 12–4 record, and denied the New England Patriots a chance to defend their title from Super Bowl XLIX by defeating them 20–18 in the AFC Championship Game. They joined the Patriots, Dallas Cowboys, and Pittsburgh Steelers as one of four teams that have made eight appearances in the Super Bowl.",
-    "conteggio_parole": 106,
-    "token_stimati": 137
-  },
-  {
-    "id": "56d6017d1c85041400946ec2",
-    "argomento": "Super Bowl 50",
-    "domanda": "Who did the Carolina Panthers beat in the 2015 NFC Championship game?",
-    "risposte_corrette": [
-      "Arizona Cardinals",
-      "the Arizona Cardinals",
-      "Arizona Cardinals"
-    ],
-    "contesto": "The Panthers finished the regular season with a 15–1 record, and quarterback Cam Newton was named the NFL Most Valuable Player (MVP). They defeated the Arizona Cardinals 49–15 in the NFC Championship Game and advanced to their second Super Bowl appearance since the franchise was founded in 1995. The Broncos finished the regular season with a 12–4 record, and denied the New England Patriots a chance to defend their title from Super Bowl XLIX by defeating them 20–18 in the AFC Championship Game. They joined the Patriots, Dallas Cowboys, and Pittsburgh Steelers as one of four teams that have made eight appearances in the Super Bowl.",
-    "conteggio_parole": 106,
-    "token_stimati": 137
-  },
-  {
-    "id": "56d98a59dc89441400fdb52a",
-    "argomento": "Super Bowl 50",
-    "domanda": "Who was the 2015 NFL MVP?",
-    "risposte_corrette": [
-      "Cam Newton",
-      "Cam Newton",
-      "Cam Newton"
-    ],
-    "contesto": "The Panthers finished the regular season with a 15–1 record, and quarterback Cam Newton was named the NFL Most Valuable Player (MVP). They defeated the Arizona Cardinals 49–15 in the NFC Championship Game and advanced to their second Super Bowl appearance since the franchise was founded in 1995. The Broncos finished the regular season with a 12–4 record, and denied the New England Patriots a chance to defend their title from Super Bowl XLIX by defeating them 20–18 in the AFC Championship Game. They joined the Patriots, Dallas Cowboys, and Pittsburgh Steelers as one of four teams that have made eight appearances in the Super Bowl.",
-    "conteggio_parole": 106,
-    "token_stimati": 137
-  },
-  {
-    "id": "56d98a59dc89441400fdb52b",
-    "argomento": "Super Bowl 50",
-    "domanda": "Who did the Panthers beat to become the NFC champs?",
-    "risposte_corrette": [
-      "Arizona Cardinals",
-      "the Arizona Cardinals",
-      "Arizona Cardinals"
-    ],
-    "contesto": "The Panthers finished the regular season with a 15–1 record, and quarterback Cam Newton was named the NFL Most Valuable Player (MVP). They defeated the Arizona Cardinals 49–15 in the NFC Championship Game and advanced to their second Super Bowl appearance since the franchise was founded in 1995. The Broncos finished the regular season with a 12–4 record, and denied the New England Patriots a chance to defend their title from Super Bowl XLIX by defeating them 20–18 in the AFC Championship Game. They joined the Patriots, Dallas Cowboys, and Pittsburgh Steelers as one of four teams that have made eight appearances in the Super Bowl.",
-    "conteggio_parole": 106,
-    "token_stimati": 137
-  },
-  {
-    "id": "56d98a59dc89441400fdb52e",
-    "argomento": "Super Bowl 50",
-    "domanda": "What year did the Carolina Panthers form?",
-    "risposte_corrette": [
-      "1995.",
-      "1995",
-      "1995"
-    ],
-    "contesto": "The Panthers finished the regular season with a 15–1 record, and quarterback Cam Newton was named the NFL Most Valuable Player (MVP). They defeated the Arizona Cardinals 49–15 in the NFC Championship Game and advanced to their second Super Bowl appearance since the franchise was founded in 1995. The Broncos finished the regular season with a 12–4 record, and denied the New England Patriots a chance to defend their title from Super Bowl XLIX by defeating them 20–18 in the AFC Championship Game. They joined the Patriots, Dallas Cowboys, and Pittsburgh Steelers as one of four teams that have made eight appearances in the Super Bowl.",
-    "conteggio_parole": 106,
-    "token_stimati": 137
-  },
-  {
     "id": "56be4db0acb8001400a502ec",
     "argomento": "Super Bowl 50",
     "domanda": "Which NFL team represented the AFC at Super Bowl 50?",
+    "contesto": "Super Bowl 50 was an American football game to determine the champion of the National Football League (NFL) for the 2015 season. The American Football Conference (AFC) champion Denver Broncos defeated the National Football Conference (NFC) champion Carolina Panthers 24–10 to earn their third Super Bowl title. The game was played on February 7, 2016, at Levi's Stadium in the San Francisco Bay Area at Santa Clara, California. As this was the 50th Super Bowl, the league emphasized the \"golden anniversary\" with various gold-themed initiatives, as well as temporarily suspending the tradition of naming each Super Bowl game with Roman numerals (under which the game would have been known as \"Super Bowl L\"), so that the logo could prominently feature the Arabic numerals 50.",
     "risposte_corrette": [
       "Denver Broncos",
       "Denver Broncos",
       "Denver Broncos"
     ],
-    "contesto": "Super Bowl 50 was an American football game to determine the champion of the National Football League (NFL) for the 2015 season. The American Football Conference (AFC) champion Denver Broncos defeated the National Football Conference (NFC) champion Carolina Panthers 24–10 to earn their third Super Bowl title. The game was played on February 7, 2016, at Levi's Stadium in the San Francisco Bay Area at Santa Clara, California. As this was the 50th Super Bowl, the league emphasized the \"golden anniversary\" with various gold-themed initiatives, as well as temporarily suspending the tradition of naming each Super Bowl game with Roman numerals (under which the game would have been known as \"Super Bowl L\"), so that the logo could prominently feature the Arabic numerals 50.",
-    "conteggio_parole": 124,
     "token_stimati": 161
   },
   {
-    "id": "56be4db0acb8001400a502ed",
+    "id": "56beb97c3aeaaa14008c92db",
     "argomento": "Super Bowl 50",
-    "domanda": "Which NFL team represented the NFC at Super Bowl 50?",
+    "domanda": "In what Super Bowl did Rivera play?",
+    "contesto": "With Rivera having been a linebacker with the Chicago Bears in Super Bowl XX, and Kubiak replacing Elway at the end of the Broncos' defeats in Super Bowls XXI and XXIV, this will be the first Super Bowl in which both head coaches played in the game themselves.",
     "risposte_corrette": [
-      "Carolina Panthers",
-      "Carolina Panthers",
-      "Carolina Panthers"
+      "Super Bowl XX",
+      "Super Bowl XX",
+      "XX"
     ],
-    "contesto": "Super Bowl 50 was an American football game to determine the champion of the National Football League (NFL) for the 2015 season. The American Football Conference (AFC) champion Denver Broncos defeated the National Football Conference (NFC) champion Carolina Panthers 24–10 to earn their third Super Bowl title. The game was played on February 7, 2016, at Levi's Stadium in the San Francisco Bay Area at Santa Clara, California. As this was the 50th Super Bowl, the league emphasized the \"golden anniversary\" with various gold-themed initiatives, as well as temporarily suspending the tradition of naming each Super Bowl game with Roman numerals (under which the game would have been known as \"Super Bowl L\"), so that the logo could prominently feature the Arabic numerals 50.",
-    "conteggio_parole": 124,
-    "token_stimati": 161
+    "token_stimati": 62
   },
   {
-    "id": "56be4db0acb8001400a502ee",
+    "id": "56bec5ff3aeaaa14008c93e3",
     "argomento": "Super Bowl 50",
-    "domanda": "Where did Super Bowl 50 take place?",
+    "domanda": "What BBC radio station will carry the game in the United Kingdom?",
+    "contesto": "In the United Kingdom, BBC Radio 5 Live and 5 Live Sports Extra will carry the contest. The BBC will carry its own British English broadcast, with Greg Brady, Darren Fletcher and Rocky Boiman on commentary.",
     "risposte_corrette": [
-      "Santa Clara, California",
-      "Levi's Stadium",
-      "Levi's Stadium in the San Francisco Bay Area at Santa Clara, California."
+      "BBC Radio 5",
+      "Radio 5 Live",
+      "BBC Radio 5 Live"
     ],
-    "contesto": "Super Bowl 50 was an American football game to determine the champion of the National Football League (NFL) for the 2015 season. The American Football Conference (AFC) champion Denver Broncos defeated the National Football Conference (NFC) champion Carolina Panthers 24–10 to earn their third Super Bowl title. The game was played on February 7, 2016, at Levi's Stadium in the San Francisco Bay Area at Santa Clara, California. As this was the 50th Super Bowl, the league emphasized the \"golden anniversary\" with various gold-themed initiatives, as well as temporarily suspending the tradition of naming each Super Bowl game with Roman numerals (under which the game would have been known as \"Super Bowl L\"), so that the logo could prominently feature the Arabic numerals 50.",
-    "conteggio_parole": 124,
-    "token_stimati": 161
+    "token_stimati": 46
   },
   {
-    "id": "56be4db0acb8001400a502ef",
-    "argomento": "Super Bowl 50",
-    "domanda": "Which NFL team won Super Bowl 50?",
+    "id": "57339ad74776f41900660e86",
+    "argomento": "Warsaw",
+    "domanda": "What type of venue is the Teatr Wielki?",
+    "contesto": "Thanks to numerous musical venues, including the Teatr Wielki, the Polish National Opera, the Chamber Opera, the National Philharmonic Hall and the National Theatre, as well as the Roma and Buffo music theatres and the Congress Hall in the Palace of Culture and Science, Warsaw hosts many events and festivals. Among the events worth particular attention are: the International Frédéric Chopin Piano Competition, the International Contemporary Music Festival Warsaw Autumn, the Jazz Jamboree, Warsaw Summer Jazz Days, the International Stanisław Moniuszko Vocal Competition, the Mozart Festival, and the Festival of Old Music.",
     "risposte_corrette": [
-      "Denver Broncos",
-      "Denver Broncos",
-      "Denver Broncos"
+      "musical",
+      "musical",
+      "musical"
     ],
-    "contesto": "Super Bowl 50 was an American football game to determine the champion of the National Football League (NFL) for the 2015 season. The American Football Conference (AFC) champion Denver Broncos defeated the National Football Conference (NFC) champion Carolina Panthers 24–10 to earn their third Super Bowl title. The game was played on February 7, 2016, at Levi's Stadium in the San Francisco Bay Area at Santa Clara, California. As this was the 50th Super Bowl, the league emphasized the \"golden anniversary\" with various gold-themed initiatives, as well as temporarily suspending the tradition of naming each Super Bowl game with Roman numerals (under which the game would have been known as \"Super Bowl L\"), so that the logo could prominently feature the Arabic numerals 50.",
-    "conteggio_parole": 124,
-    "token_stimati": 161
+    "token_stimati": 119
   },
   {
-    "id": "56be4db0acb8001400a502f0",
-    "argomento": "Super Bowl 50",
-    "domanda": "What color was used to emphasize the 50th anniversary of the Super Bowl?",
+    "id": "57332f81d058e614000b5776",
+    "argomento": "Warsaw",
+    "domanda": "What campaign did the Communist regime initiate after WWII?",
+    "contesto": "After World War II, under a Communist regime set up by the conquering Soviets, the \"Bricks for Warsaw\" campaign was initiated, and large prefabricated housing projects were erected in Warsaw to address the housing shortage, along with other typical buildings of an Eastern Bloc city, such as the Palace of Culture and Science, a gift from the Soviet Union. The city resumed its role as the capital of Poland and the country's centre of political and economic life. Many of the historic streets, buildings, and churches were restored to their original form. In 1980, Warsaw's historic Old Town was inscribed onto UNESCO's World Heritage list.",
     "risposte_corrette": [
-      "gold",
-      "gold",
-      "gold"
+      "\"Bricks for Warsaw\"",
+      "Bricks for Warsaw",
+      "Bricks for Warsaw"
     ],
-    "contesto": "Super Bowl 50 was an American football game to determine the champion of the National Football League (NFL) for the 2015 season. The American Football Conference (AFC) champion Denver Broncos defeated the National Football Conference (NFC) champion Carolina Panthers 24–10 to earn their third Super Bowl title. The game was played on February 7, 2016, at Levi's Stadium in the San Francisco Bay Area at Santa Clara, California. As this was the 50th Super Bowl, the league emphasized the \"golden anniversary\" with various gold-themed initiatives, as well as temporarily suspending the tradition of naming each Super Bowl game with Roman numerals (under which the game would have been known as \"Super Bowl L\"), so that the logo could prominently feature the Arabic numerals 50.",
-    "conteggio_parole": 124,
-    "token_stimati": 161
+    "token_stimati": 136
   },
   {
-    "id": "56be8e613aeaaa14008c90d1",
-    "argomento": "Super Bowl 50",
-    "domanda": "What was the theme of Super Bowl 50?",
+    "id": "56ddde6b9a695914005b9628",
+    "argomento": "Normans",
+    "domanda": "In what country is Normandy located?",
+    "contesto": "The Normans (Norman: Nourmands; French: Normands; Latin: Normanni) were the people who in the 10th and 11th centuries gave their name to Normandy, a region in France. They were descended from Norse (\"Norman\" comes from \"Norseman\") raiders and pirates from Denmark, Iceland and Norway who, under their leader Rollo, agreed to swear fealty to King Charles III of West Francia. Through generations of assimilation and mixing with the native Frankish and Roman-Gaulish populations, their descendants would gradually merge with the Carolingian-based cultures of West Francia. The distinct cultural and ethnic identity of the Normans emerged initially in the first half of the 10th century, and it continued to evolve over the succeeding centuries.",
     "risposte_corrette": [
-      "\"golden anniversary\"",
-      "gold-themed",
-      "\"golden anniversary"
+      "France",
+      "France",
+      "France",
+      "France"
     ],
-    "contesto": "Super Bowl 50 was an American football game to determine the champion of the National Football League (NFL) for the 2015 season. The American Football Conference (AFC) champion Denver Broncos defeated the National Football Conference (NFC) champion Carolina Panthers 24–10 to earn their third Super Bowl title. The game was played on February 7, 2016, at Levi's Stadium in the San Francisco Bay Area at Santa Clara, California. As this was the 50th Super Bowl, the league emphasized the \"golden anniversary\" with various gold-themed initiatives, as well as temporarily suspending the tradition of naming each Super Bowl game with Roman numerals (under which the game would have been known as \"Super Bowl L\"), so that the logo could prominently feature the Arabic numerals 50.",
-    "conteggio_parole": 124,
-    "token_stimati": 161
+    "token_stimati": 146
   },
   {
-    "id": "56be8e613aeaaa14008c90d2",
-    "argomento": "Super Bowl 50",
-    "domanda": "What day was the game played on?",
+    "id": "56de1728cffd8e1900b4b5d7",
+    "argomento": "Normans",
+    "domanda": "What was the Anglo-Norman language's final form?",
+    "contesto": "Eventually, the Normans merged with the natives, combining languages and traditions. In the course of the Hundred Years' War, the Norman aristocracy often identified themselves as English. The Anglo-Norman language became distinct from the Latin language, something that was the subject of some humour by Geoffrey Chaucer. The Anglo-Norman language was eventually absorbed into the Anglo-Saxon language of their subjects (see Old English) and influenced it, helping (along with the Norse language of the earlier Anglo-Norse settlers and the Latin used by the church) in the development of Middle English. It in turn evolved into Modern English.",
     "risposte_corrette": [
-      "February 7, 2016",
-      "February 7",
-      "February 7, 2016"
+      "Modern English",
+      "Modern English",
+      "Modern English"
     ],
-    "contesto": "Super Bowl 50 was an American football game to determine the champion of the National Football League (NFL) for the 2015 season. The American Football Conference (AFC) champion Denver Broncos defeated the National Football Conference (NFC) champion Carolina Panthers 24–10 to earn their third Super Bowl title. The game was played on February 7, 2016, at Levi's Stadium in the San Francisco Bay Area at Santa Clara, California. As this was the 50th Super Bowl, the league emphasized the \"golden anniversary\" with various gold-themed initiatives, as well as temporarily suspending the tradition of naming each Super Bowl game with Roman numerals (under which the game would have been known as \"Super Bowl L\"), so that the logo could prominently feature the Arabic numerals 50.",
-    "conteggio_parole": 124,
-    "token_stimati": 161
+    "token_stimati": 126
   },
   {
-    "id": "56be8e613aeaaa14008c90d3",
-    "argomento": "Super Bowl 50",
-    "domanda": "What is the AFC short for?",
+    "id": "56de4c324396321400ee27ab",
+    "argomento": "Normans",
+    "domanda": "What kind of needlework was used in the creation of the Bayeux Tapestry?",
+    "contesto": "By far the most famous work of Norman art is the Bayeux Tapestry, which is not a tapestry but a work of embroidery. It was commissioned by Odo, the Bishop of Bayeux and first Earl of Kent, employing natives from Kent who were learned in the Nordic traditions imported in the previous half century by the Danish Vikings.",
     "risposte_corrette": [
-      "American Football Conference",
-      "American Football Conference",
-      "American Football Conference"
+      "embroidery",
+      "embroidery",
+      "embroidery"
     ],
-    "contesto": "Super Bowl 50 was an American football game to determine the champion of the National Football League (NFL) for the 2015 season. The American Football Conference (AFC) champion Denver Broncos defeated the National Football Conference (NFC) champion Carolina Panthers 24–10 to earn their third Super Bowl title. The game was played on February 7, 2016, at Levi's Stadium in the San Francisco Bay Area at Santa Clara, California. As this was the 50th Super Bowl, the league emphasized the \"golden anniversary\" with various gold-themed initiatives, as well as temporarily suspending the tradition of naming each Super Bowl game with Roman numerals (under which the game would have been known as \"Super Bowl L\"), so that the logo could prominently feature the Arabic numerals 50.",
-    "conteggio_parole": 124,
-    "token_stimati": 161
+    "token_stimati": 75
   },
   {
-    "id": "56bea9923aeaaa14008c91b9",
-    "argomento": "Super Bowl 50",
-    "domanda": "What was the theme of Super Bowl 50?",
+    "id": "56dfb5f5231d4119001abcb5",
+    "argomento": "Nikola Tesla",
+    "domanda": "What did Tesla's investors do to him?",
+    "contesto": "The investors showed little interest in Tesla's ideas for new types of motors and electrical transmission equipment and also seemed to think it was better to develop an electrical utility than invent new systems. They eventually forced Tesla out leaving him penniless. He even lost control of the patents he had generated since he had assigned them to the company in lieu of stock. He had to work at various electrical repair jobs and even as a ditch digger for $2 per day. Tesla considered the winter of 1886/1887 as a time of \"terrible headaches and bitter tears.\" During this time, he questioned the value of his education.",
     "risposte_corrette": [
-      "\"golden anniversary\"",
-      "gold-themed",
-      "gold"
+      "forced Tesla out",
+      "forced Tesla out",
+      "forced Tesla out leaving him penniless"
     ],
-    "contesto": "Super Bowl 50 was an American football game to determine the champion of the National Football League (NFL) for the 2015 season. The American Football Conference (AFC) champion Denver Broncos defeated the National Football Conference (NFC) champion Carolina Panthers 24–10 to earn their third Super Bowl title. The game was played on February 7, 2016, at Levi's Stadium in the San Francisco Bay Area at Santa Clara, California. As this was the 50th Super Bowl, the league emphasized the \"golden anniversary\" with various gold-themed initiatives, as well as temporarily suspending the tradition of naming each Super Bowl game with Roman numerals (under which the game would have been known as \"Super Bowl L\"), so that the logo could prominently feature the Arabic numerals 50.",
-    "conteggio_parole": 124,
-    "token_stimati": 161
+    "token_stimati": 140
   },
   {
-    "id": "56bea9923aeaaa14008c91ba",
-    "argomento": "Super Bowl 50",
-    "domanda": "What does AFC stand for?",
+    "id": "56e0fd167aa994140058e881",
+    "argomento": "Nikola Tesla",
+    "domanda": "In what year did Tesla go to Colorado Springs?",
+    "contesto": "On 17 May 1899, Tesla moved to Colorado Springs, where he would have room for his high-voltage, high-frequency experiments; his lab was located near Foote Ave. and Kiowa St. He chose this location because the polyphase alternating current power distribution system had been introduced there and he had associates who were willing to give him all the power he needed without charging for it. Upon his arrival, he told reporters that he was conducting wireless telegraphy experiments, transmitting signals from Pikes Peak to Paris.[citation needed] The 1978 book Colorado Springs Notes, 1899–1900 contains descriptions of Tesla's experiments. On 15 June 1899, Tesla performed his first experiments at his Colorado Springs lab; he recorded his initial spark length at five inches long, but very thick and noisy.",
     "risposte_corrette": [
-      "American Football Conference",
-      "American Football Conference",
-      "American Football Conference"
+      "1899",
+      "1899",
+      "1899"
     ],
-    "contesto": "Super Bowl 50 was an American football game to determine the champion of the National Football League (NFL) for the 2015 season. The American Football Conference (AFC) champion Denver Broncos defeated the National Football Conference (NFC) champion Carolina Panthers 24–10 to earn their third Super Bowl title. The game was played on February 7, 2016, at Levi's Stadium in the San Francisco Bay Area at Santa Clara, California. As this was the 50th Super Bowl, the league emphasized the \"golden anniversary\" with various gold-themed initiatives, as well as temporarily suspending the tradition of naming each Super Bowl game with Roman numerals (under which the game would have been known as \"Super Bowl L\"), so that the logo could prominently feature the Arabic numerals 50.",
-    "conteggio_parole": 124,
-    "token_stimati": 161
+    "token_stimati": 163
   },
   {
-    "id": "56bea9923aeaaa14008c91bb",
-    "argomento": "Super Bowl 50",
-    "domanda": "What day was the Super Bowl played on?",
+    "id": "56e10d2dcd28a01900c674d7",
+    "argomento": "Nikola Tesla",
+    "domanda": "What did Tesla claim to be able to transmit?",
+    "contesto": "In 1935, in an annual birthday celebration interview, Tesla announced a method of transmitting mechanical energy with minimal loss over any terrestrial distance, a related new means of communication, and a method of accurately determining the location of underground mineral deposits.",
     "risposte_corrette": [
-      "February 7, 2016",
-      "February 7",
-      "February 7, 2016"
+      "mechanical energy",
+      "mechanical energy",
+      "mechanical energy"
     ],
-    "contesto": "Super Bowl 50 was an American football game to determine the champion of the National Football League (NFL) for the 2015 season. The American Football Conference (AFC) champion Denver Broncos defeated the National Football Conference (NFC) champion Carolina Panthers 24–10 to earn their third Super Bowl title. The game was played on February 7, 2016, at Levi's Stadium in the San Francisco Bay Area at Santa Clara, California. As this was the 50th Super Bowl, the league emphasized the \"golden anniversary\" with various gold-themed initiatives, as well as temporarily suspending the tradition of naming each Super Bowl game with Roman numerals (under which the game would have been known as \"Super Bowl L\"), so that the logo could prominently feature the Arabic numerals 50.",
-    "conteggio_parole": 124,
-    "token_stimati": 161
+    "token_stimati": 53
   },
   {
-    "id": "56beace93aeaaa14008c91df",
-    "argomento": "Super Bowl 50",
-    "domanda": "Who won Super Bowl 50?",
+    "id": "56e12005cd28a01900c67617",
+    "argomento": "Nikola Tesla",
+    "domanda": "Who was Tesla prejudiced against?",
+    "contesto": "Tesla could be harsh at times and openly expressed disgust for overweight people, such as when he fired a secretary because of her weight.:110 He was quick to criticize clothing; on several occasions, Tesla directed a subordinate to go home and change her dress.:33",
     "risposte_corrette": [
-      "Denver Broncos",
-      "Denver Broncos",
-      "Denver Broncos"
+      "overweight people",
+      "overweight people",
+      "overweight people"
     ],
-    "contesto": "Super Bowl 50 was an American football game to determine the champion of the National Football League (NFL) for the 2015 season. The American Football Conference (AFC) champion Denver Broncos defeated the National Football Conference (NFC) champion Carolina Panthers 24–10 to earn their third Super Bowl title. The game was played on February 7, 2016, at Levi's Stadium in the San Francisco Bay Area at Santa Clara, California. As this was the 50th Super Bowl, the league emphasized the \"golden anniversary\" with various gold-themed initiatives, as well as temporarily suspending the tradition of naming each Super Bowl game with Roman numerals (under which the game would have been known as \"Super Bowl L\"), so that the logo could prominently feature the Arabic numerals 50.",
-    "conteggio_parole": 124,
-    "token_stimati": 161
+    "token_stimati": 57
   },
   {
-    "id": "56beace93aeaaa14008c91e0",
-    "argomento": "Super Bowl 50",
-    "domanda": "What venue did Super Bowl 50 take place in?",
+    "id": "56e19724cd28a01900c679f6",
+    "argomento": "Computational complexity theory",
+    "domanda": "A function problem is an example of what?",
+    "contesto": "A function problem is a computational problem where a single output (of a total function) is expected for every input, but the output is more complex than that of a decision problem, that is, it isn't just yes or no. Notable examples include the traveling salesman problem and the integer factorization problem.",
     "risposte_corrette": [
-      "Levi's Stadium",
-      "Levi's Stadium",
-      "Levi's Stadium in the San Francisco Bay Area at Santa Clara"
+      "a computational problem",
+      "a computational problem",
+      "a computational problem"
     ],
-    "contesto": "Super Bowl 50 was an American football game to determine the champion of the National Football League (NFL) for the 2015 season. The American Football Conference (AFC) champion Denver Broncos defeated the National Football Conference (NFC) champion Carolina Panthers 24–10 to earn their third Super Bowl title. The game was played on February 7, 2016, at Levi's Stadium in the San Francisco Bay Area at Santa Clara, California. As this was the 50th Super Bowl, the league emphasized the \"golden anniversary\" with various gold-themed initiatives, as well as temporarily suspending the tradition of naming each Super Bowl game with Roman numerals (under which the game would have been known as \"Super Bowl L\"), so that the logo could prominently feature the Arabic numerals 50.",
-    "conteggio_parole": 124,
-    "token_stimati": 161
+    "token_stimati": 67
   },
   {
-    "id": "56beace93aeaaa14008c91e1",
-    "argomento": "Super Bowl 50",
-    "domanda": "What city did Super Bowl 50 take place in?",
+    "id": "56e1c7e2cd28a01900c67b74",
+    "argomento": "Computational complexity theory",
+    "domanda": "What is the foundation for separation results within complexity classes?",
+    "contesto": "The time and space hierarchy theorems form the basis for most separation results of complexity classes. For instance, the time hierarchy theorem tells us that P is strictly contained in EXPTIME, and the space hierarchy theorem tells us that L is strictly contained in PSPACE.",
     "risposte_corrette": [
-      "Santa Clara",
-      "Santa Clara",
-      "Santa Clara"
+      "time and space hierarchy theorems",
+      "The time and space hierarchy theorems",
+      "time and space hierarchy theorems"
     ],
-    "contesto": "Super Bowl 50 was an American football game to determine the champion of the National Football League (NFL) for the 2015 season. The American Football Conference (AFC) champion Denver Broncos defeated the National Football Conference (NFC) champion Carolina Panthers 24–10 to earn their third Super Bowl title. The game was played on February 7, 2016, at Levi's Stadium in the San Francisco Bay Area at Santa Clara, California. As this was the 50th Super Bowl, the league emphasized the \"golden anniversary\" with various gold-themed initiatives, as well as temporarily suspending the tradition of naming each Super Bowl game with Roman numerals (under which the game would have been known as \"Super Bowl L\"), so that the logo could prominently feature the Arabic numerals 50.",
-    "conteggio_parole": 124,
-    "token_stimati": 161
+    "token_stimati": 58
   },
   {
-    "id": "56beace93aeaaa14008c91e2",
-    "argomento": "Super Bowl 50",
-    "domanda": "If Roman numerals were used, what would Super Bowl 50 have been called?",
+    "id": "56e748a200c9c71400d76f37",
+    "argomento": "Teacher",
+    "domanda": "What factor may make a teacher's role vary?",
+    "contesto": "A teacher's role may vary among cultures. Teachers may provide instruction in literacy and numeracy, craftsmanship or vocational training, the arts, religion, civics, community roles, or life skills.",
     "risposte_corrette": [
-      "Super Bowl L",
-      "L",
-      "Super Bowl L"
+      "cultures",
+      "cultures",
+      "cultures"
     ],
-    "contesto": "Super Bowl 50 was an American football game to determine the champion of the National Football League (NFL) for the 2015 season. The American Football Conference (AFC) champion Denver Broncos defeated the National Football Conference (NFC) champion Carolina Panthers 24–10 to earn their third Super Bowl title. The game was played on February 7, 2016, at Levi's Stadium in the San Francisco Bay Area at Santa Clara, California. As this was the 50th Super Bowl, the league emphasized the \"golden anniversary\" with various gold-themed initiatives, as well as temporarily suspending the tradition of naming each Super Bowl game with Roman numerals (under which the game would have been known as \"Super Bowl L\"), so that the logo could prominently feature the Arabic numerals 50.",
-    "conteggio_parole": 124,
-    "token_stimati": 161
+    "token_stimati": 36
   },
   {
-    "id": "56beace93aeaaa14008c91e3",
-    "argomento": "Super Bowl 50",
-    "domanda": "Super Bowl 50 decided the NFL champion for what season?",
+    "id": "56e75e4500c9c71400d7702c",
+    "argomento": "Teacher",
+    "domanda": "What country has higher scores on standardized tests than the U.S.?",
+    "contesto": "It's not clear, however that this stereotypical view reflects the reality of East Asian classrooms or that the educational goals in these countries are commensurable with those in Western countries. In Japan, for example, although average attainment on standardized tests may exceed those in Western countries, classroom discipline and behavior is highly problematic. Although, officially, schools have extremely rigid codes of behavior, in practice many teachers find the students unmanageable and do not enforce discipline at all.",
     "risposte_corrette": [
-      "2015",
-      "the 2015 season",
-      "2015"
+      "Japan",
+      "Japan",
+      "Japan"
     ],
-    "contesto": "Super Bowl 50 was an American football game to determine the champion of the National Football League (NFL) for the 2015 season. The American Football Conference (AFC) champion Denver Broncos defeated the National Football Conference (NFC) champion Carolina Panthers 24–10 to earn their third Super Bowl title. The game was played on February 7, 2016, at Levi's Stadium in the San Francisco Bay Area at Santa Clara, California. As this was the 50th Super Bowl, the league emphasized the \"golden anniversary\" with various gold-themed initiatives, as well as temporarily suspending the tradition of naming each Super Bowl game with Roman numerals (under which the game would have been known as \"Super Bowl L\"), so that the logo could prominently feature the Arabic numerals 50.",
-    "conteggio_parole": 124,
-    "token_stimati": 161
+    "token_stimati": 100
   },
   {
-    "id": "56bf10f43aeaaa14008c94fd",
-    "argomento": "Super Bowl 50",
-    "domanda": "What year did the Denver Broncos secure a Super Bowl title for the third time?",
+    "id": "56e7714a00c9c71400d77137",
+    "argomento": "Teacher",
+    "domanda": "What does teaching on an island result in?",
+    "contesto": "Salaries for primary teachers in Ireland depend mainly on seniority (i.e. holding the position of principal, deputy principal or assistant principal), experience and qualifications. Extra pay is also given for teaching through the Irish language, in a Gaeltacht area or on an island. The basic pay for a starting teacher is €27,814 p.a., rising incrementally to €53,423 for a teacher with 25 years service. A principal of a large school with many years experience and several qualifications (M.A., H.Dip., etc.) could earn over €90,000.",
     "risposte_corrette": [
-      "2015",
-      "2016",
-      "2015"
+      "Extra pay",
+      "Extra pay",
+      "Extra pay"
     ],
-    "contesto": "Super Bowl 50 was an American football game to determine the champion of the National Football League (NFL) for the 2015 season. The American Football Conference (AFC) champion Denver Broncos defeated the National Football Conference (NFC) champion Carolina Panthers 24–10 to earn their third Super Bowl title. The game was played on February 7, 2016, at Levi's Stadium in the San Francisco Bay Area at Santa Clara, California. As this was the 50th Super Bowl, the league emphasized the \"golden anniversary\" with various gold-themed initiatives, as well as temporarily suspending the tradition of naming each Super Bowl game with Roman numerals (under which the game would have been known as \"Super Bowl L\"), so that the logo could prominently feature the Arabic numerals 50.",
-    "conteggio_parole": 124,
-    "token_stimati": 161
+    "token_stimati": 109
   },
   {
-    "id": "56bf10f43aeaaa14008c94fe",
-    "argomento": "Super Bowl 50",
-    "domanda": "What city did Super Bowl 50 take place in?",
+    "id": "56f7eba8a6d7ea1400e172cd",
+    "argomento": "Martin Luther",
+    "domanda": "What educational study did Luther start to pursue and immediately  drop?",
+    "contesto": "In accordance with his father's wishes, Luther enrolled in law school at the same university that year but dropped out almost immediately, believing that law represented uncertainty. Luther sought assurances about life and was drawn to theology and philosophy, expressing particular interest in Aristotle, William of Ockham, and Gabriel Biel. He was deeply influenced by two tutors, Bartholomaeus Arnoldi von Usingen and Jodocus Trutfetter, who taught him to be suspicious of even the greatest thinkers and to test everything himself by experience. Philosophy proved to be unsatisfying, offering assurance about the use of reason but none about loving God, which to Luther was more important. Reason could not lead men to God, he felt, and he thereafter developed a love-hate relationship with Aristotle over the latter's emphasis on reason. For Luther, reason could be used to question men and institutions, but not God. Human beings could learn about God only through divine revelation, he believed, and Scripture therefore became increasingly important to him.",
     "risposte_corrette": [
-      "Santa Clara",
-      "Santa Clara",
-      "Santa Clara"
+      "law",
+      "law",
+      "law"
     ],
-    "contesto": "Super Bowl 50 was an American football game to determine the champion of the National Football League (NFL) for the 2015 season. The American Football Conference (AFC) champion Denver Broncos defeated the National Football Conference (NFC) champion Carolina Panthers 24–10 to earn their third Super Bowl title. The game was played on February 7, 2016, at Levi's Stadium in the San Francisco Bay Area at Santa Clara, California. As this was the 50th Super Bowl, the league emphasized the \"golden anniversary\" with various gold-themed initiatives, as well as temporarily suspending the tradition of naming each Super Bowl game with Roman numerals (under which the game would have been known as \"Super Bowl L\"), so that the logo could prominently feature the Arabic numerals 50.",
-    "conteggio_parole": 124,
-    "token_stimati": 161
+    "token_stimati": 211
   },
   {
-    "id": "56bf10f43aeaaa14008c94ff",
-    "argomento": "Super Bowl 50",
-    "domanda": "What stadium did Super Bowl 50 take place in?",
+    "id": "56f82454a6d7ea1400e173fb",
+    "argomento": "Martin Luther",
+    "domanda": "Who spoke to Luther about his books on behalf of the Empire?",
+    "contesto": "Johann Eck, speaking on behalf of the Empire as assistant of the Archbishop of Trier, presented Luther with copies of his writings laid out on a table and asked him if the books were his, and whether he stood by their contents. Luther confirmed he was their author, but requested time to think about the answer to the second question. He prayed, consulted friends, and gave his response the next day:",
     "risposte_corrette": [
-      "Levi's Stadium",
-      "Levi's Stadium",
-      "Levi's Stadium"
+      "Johann Eck",
+      "Johann Eck",
+      "Eck"
     ],
-    "contesto": "Super Bowl 50 was an American football game to determine the champion of the National Football League (NFL) for the 2015 season. The American Football Conference (AFC) champion Denver Broncos defeated the National Football Conference (NFC) champion Carolina Panthers 24–10 to earn their third Super Bowl title. The game was played on February 7, 2016, at Levi's Stadium in the San Francisco Bay Area at Santa Clara, California. As this was the 50th Super Bowl, the league emphasized the \"golden anniversary\" with various gold-themed initiatives, as well as temporarily suspending the tradition of naming each Super Bowl game with Roman numerals (under which the game would have been known as \"Super Bowl L\"), so that the logo could prominently feature the Arabic numerals 50.",
-    "conteggio_parole": 124,
-    "token_stimati": 161
+    "token_stimati": 92
   },
   {
-    "id": "56bf10f43aeaaa14008c9500",
-    "argomento": "Super Bowl 50",
-    "domanda": "What was the final score of Super Bowl 50?",
+    "id": "56f8599aa6d7ea1400e175af",
+    "argomento": "Martin Luther",
+    "domanda": "In organizing a new church, what did Luther find to be unworkable for congregations?",
+    "contesto": "By 1526, Luther found himself increasingly occupied in organising a new church. His Biblical ideal of congregations' choosing their own ministers had proved unworkable. According to Bainton: \"Luther's dilemma was that he wanted both a confessional church based on personal faith and experience and a territorial church including all in a given locality. If he were forced to choose, he would take his stand with the masses, and this was the direction in which he moved.\" From 1525 to 1529, he established a supervisory church body, laid down a new form of worship service, and wrote a clear summary of the new faith in the form of two catechisms. Luther's thought is revolutionary to the extent that it is a theology of the cross, the negation of every affirmation: as long as the cross is at the center, the system building tendency of reason is held in check, and system building does not degenerate into System.",
     "risposte_corrette": [
-      "24–10",
-      "24–10",
-      "24–10"
+      "choosing their own ministers",
+      "choosing their own ministers",
+      "confessional church based on personal faith and experience and a territorial church including all in a given locality"
     ],
-    "contesto": "Super Bowl 50 was an American football game to determine the champion of the National Football League (NFL) for the 2015 season. The American Football Conference (AFC) champion Denver Broncos defeated the National Football Conference (NFC) champion Carolina Panthers 24–10 to earn their third Super Bowl title. The game was played on February 7, 2016, at Levi's Stadium in the San Francisco Bay Area at Santa Clara, California. As this was the 50th Super Bowl, the league emphasized the \"golden anniversary\" with various gold-themed initiatives, as well as temporarily suspending the tradition of naming each Super Bowl game with Roman numerals (under which the game would have been known as \"Super Bowl L\"), so that the logo could prominently feature the Arabic numerals 50.",
-    "conteggio_parole": 124,
-    "token_stimati": 161
+    "token_stimati": 202
   },
   {
-    "id": "56bf10f43aeaaa14008c9501",
-    "argomento": "Super Bowl 50",
-    "domanda": "What month, day and year did Super Bowl 50 take place?",
+    "id": "56f88690a6d7ea1400e17723",
+    "argomento": "Martin Luther",
+    "domanda": "Where did Luther say that the soul doesn't sleep, but rather has visions?",
+    "contesto": "Luther's Commentary on Genesis contains a passage which concludes that \"the soul does not sleep (anima non sic dormit), but wakes (sed vigilat) and experiences visions\". Francis Blackburne in 1765 argued that John Jortin misread this and other passages from Luther, while Gottfried Fritschel pointed out in 1867 that it actually refers to the soul of a man \"in this life\" (homo enim in hac vita) tired from his daily labour (defatigus diurno labore) who at night enters his bedchamber (sub noctem intrat in cubiculum suum) and whose sleep is interrupted by dreams.",
     "risposte_corrette": [
-      "February 7, 2016",
-      "February 7, 2016",
-      "February 7, 2016"
+      "Commentary on Genesis",
+      "Commentary on Genesis",
+      "Commentary on Genesis"
     ],
-    "contesto": "Super Bowl 50 was an American football game to determine the champion of the National Football League (NFL) for the 2015 season. The American Football Conference (AFC) champion Denver Broncos defeated the National Football Conference (NFC) champion Carolina Panthers 24–10 to earn their third Super Bowl title. The game was played on February 7, 2016, at Levi's Stadium in the San Francisco Bay Area at Santa Clara, California. As this was the 50th Super Bowl, the league emphasized the \"golden anniversary\" with various gold-themed initiatives, as well as temporarily suspending the tradition of naming each Super Bowl game with Roman numerals (under which the game would have been known as \"Super Bowl L\"), so that the logo could prominently feature the Arabic numerals 50.",
-    "conteggio_parole": 124,
-    "token_stimati": 161
+    "token_stimati": 120
   },
   {
-    "id": "56d20362e7d4791d009025e8",
-    "argomento": "Super Bowl 50",
-    "domanda": "What year was Super Bowl 50?",
+    "id": "56f8c0cd9b226e1400dd0f35",
+    "argomento": "Martin Luther",
+    "domanda": "When have Lutheran Churches repudiated Luther's statements about the Jews?",
+    "contesto": "Since the 1980s, Lutheran Church denominations have repudiated Martin Luther's statements against the Jews and have rejected the use of them to incite hatred against Lutherans. Strommen et al.'s 1970 survey of 4,745 North American Lutherans aged 15–65 found that, compared to the other minority groups under consideration, Lutherans were the least prejudiced toward Jews. Nevertheless, Professor Richard (Dick) Geary, former Professor of Modern History at the University of Nottingham, England, and the author of Hitler and Nazism (Routledge 1993), wrote in the journal History Today an article on who voted for the Nazis in elections held from 1928-1933, where he claimed that from his research he found that the Nazis gained disproportionately more votes from Protestant than Catholic areas of Germany.",
     "risposte_corrette": [
-      "2015",
-      "2016",
-      "2016"
+      "Since the 1980s",
+      "1980s",
+      "Since the 1980s"
     ],
-    "contesto": "Super Bowl 50 was an American football game to determine the champion of the National Football League (NFL) for the 2015 season. The American Football Conference (AFC) champion Denver Broncos defeated the National Football Conference (NFC) champion Carolina Panthers 24–10 to earn their third Super Bowl title. The game was played on February 7, 2016, at Levi's Stadium in the San Francisco Bay Area at Santa Clara, California. As this was the 50th Super Bowl, the league emphasized the \"golden anniversary\" with various gold-themed initiatives, as well as temporarily suspending the tradition of naming each Super Bowl game with Roman numerals (under which the game would have been known as \"Super Bowl L\"), so that the logo could prominently feature the Arabic numerals 50.",
-    "conteggio_parole": 124,
-    "token_stimati": 161
+    "token_stimati": 158
   },
   {
-    "id": "56d20362e7d4791d009025e9",
-    "argomento": "Super Bowl 50",
-    "domanda": "What team was the AFC champion?",
+    "id": "5705eee952bb8914006896de",
+    "argomento": "Southern California",
+    "domanda": "Which country used to rule California?",
+    "contesto": "Though there is no official definition for the northern boundary of southern California, such a division has existed from the time when Mexico ruled California, and political disputes raged between the Californios of Monterey in the upper part and Los Angeles in the lower part of Alta California. Following the acquisition of California by the United States, the division continued as part of the attempt by several pro-slavery politicians to arrange the division of Alta California at 36 degrees, 30 minutes, the line of the Missouri Compromise. Instead, the passing of the Compromise of 1850 enabled California to be admitted to the Union as a free state, preventing southern California from becoming its own separate slave state.",
     "risposte_corrette": [
-      "Denver Broncos",
-      "Denver Broncos",
-      "Denver Broncos"
+      "Mexico",
+      "Mexico",
+      "Mexico"
     ],
-    "contesto": "Super Bowl 50 was an American football game to determine the champion of the National Football League (NFL) for the 2015 season. The American Football Conference (AFC) champion Denver Broncos defeated the National Football Conference (NFC) champion Carolina Panthers 24–10 to earn their third Super Bowl title. The game was played on February 7, 2016, at Levi's Stadium in the San Francisco Bay Area at Santa Clara, California. As this was the 50th Super Bowl, the league emphasized the \"golden anniversary\" with various gold-themed initiatives, as well as temporarily suspending the tradition of naming each Super Bowl game with Roman numerals (under which the game would have been known as \"Super Bowl L\"), so that the logo could prominently feature the Arabic numerals 50.",
-    "conteggio_parole": 124,
-    "token_stimati": 161
+    "token_stimati": 152
   },
   {
-    "id": "56d20362e7d4791d009025ea",
-    "argomento": "Super Bowl 50",
-    "domanda": "What team was the NFC champion?",
+    "id": "570610b275f01819005e792a",
+    "argomento": "Southern California",
+    "domanda": "What is the second busiest airport in the United States?",
+    "contesto": "Southern California is home to Los Angeles International Airport, the second-busiest airport in the United States by passenger volume (see World's busiest airports by passenger traffic) and the third by international passenger volume (see Busiest airports in the United States by international passenger traffic); San Diego International Airport the busiest single runway airport in the world; Van Nuys Airport, the world's busiest general aviation airport; major commercial airports at Orange County, Bakersfield, Ontario, Burbank and Long Beach; and numerous smaller commercial and general aviation airports.",
     "risposte_corrette": [
-      "Carolina Panthers",
-      "Carolina Panthers",
-      "Carolina Panthers"
+      "Los Angeles International Airport",
+      "Los Angeles International Airport",
+      "Los Angeles International Airport"
     ],
-    "contesto": "Super Bowl 50 was an American football game to determine the champion of the National Football League (NFL) for the 2015 season. The American Football Conference (AFC) champion Denver Broncos defeated the National Football Conference (NFC) champion Carolina Panthers 24–10 to earn their third Super Bowl title. The game was played on February 7, 2016, at Levi's Stadium in the San Francisco Bay Area at Santa Clara, California. As this was the 50th Super Bowl, the league emphasized the \"golden anniversary\" with various gold-themed initiatives, as well as temporarily suspending the tradition of naming each Super Bowl game with Roman numerals (under which the game would have been known as \"Super Bowl L\"), so that the logo could prominently feature the Arabic numerals 50.",
-    "conteggio_parole": 124,
-    "token_stimati": 161
+    "token_stimati": 110
   },
   {
-    "id": "56d20362e7d4791d009025eb",
-    "argomento": "Super Bowl 50",
-    "domanda": "Who won Super Bowl 50?",
+    "id": "57096b66200fba1400367fa7",
+    "argomento": "Sky (United Kingdom)",
+    "domanda": "When did BSkyB announce it's intention to replace it's free-to-air digital channels?",
+    "contesto": "On 8 February 2007, BSkyB announced its intention to replace its three free-to-air digital terrestrial channels with four subscription channels. It was proposed that these channels would offer a range of content from the BSkyB portfolio including sport (including English Premier League Football), films, entertainment and news. The announcement came a day after Setanta Sports confirmed that it would launch in March as a subscription service on the digital terrestrial platform, and on the same day that NTL's services re-branded as Virgin Media. However, industry sources believe BSkyB will be forced to shelve plans to withdraw its channels from Freeview and replace them with subscription channels, due to possible lost advertising revenue.",
     "risposte_corrette": [
-      "Denver Broncos",
-      "Denver Broncos",
-      "Denver Broncos"
+      "8 February 2007",
+      "On 8 February 2007",
+      "8 February 2007"
     ],
-    "contesto": "Super Bowl 50 was an American football game to determine the champion of the National Football League (NFL) for the 2015 season. The American Football Conference (AFC) champion Denver Broncos defeated the National Football Conference (NFC) champion Carolina Panthers 24–10 to earn their third Super Bowl title. The game was played on February 7, 2016, at Levi's Stadium in the San Francisco Bay Area at Santa Clara, California. As this was the 50th Super Bowl, the league emphasized the \"golden anniversary\" with various gold-themed initiatives, as well as temporarily suspending the tradition of naming each Super Bowl game with Roman numerals (under which the game would have been known as \"Super Bowl L\"), so that the logo could prominently feature the Arabic numerals 50.",
-    "conteggio_parole": 124,
-    "token_stimati": 161
+    "token_stimati": 145
   },
   {
-    "id": "56d600e31c85041400946eae",
-    "argomento": "Super Bowl 50",
-    "domanda": "Super Bowl 50 determined the NFL champion for what season?",
+    "id": "570d3468b3d812140066d543",
+    "argomento": "Victoria (Australia)",
+    "domanda": "What type of manufacturing plant is Victoria soon losing?",
+    "contesto": "Historically, Victoria has been the base for the manufacturing plants of the major car brands Ford, Toyota and Holden; however, closure announcements by all three companies in the 21st century will mean that Australia will no longer be a base for the global car industry, with Toyota's statement in February 2014 outlining a closure year of 2017. Holden's announcement occurred in May 2013, followed by Ford's decision in December of the same year (Ford's Victorian plants—in Broadmeadows and Geelong—will close in October 2016).",
     "risposte_corrette": [
-      "2015",
-      "the 2015 season",
-      "2015"
+      "major car brands",
+      "major car brands",
+      "car"
     ],
-    "contesto": "Super Bowl 50 was an American football game to determine the champion of the National Football League (NFL) for the 2015 season. The American Football Conference (AFC) champion Denver Broncos defeated the National Football Conference (NFC) champion Carolina Panthers 24–10 to earn their third Super Bowl title. The game was played on February 7, 2016, at Levi's Stadium in the San Francisco Bay Area at Santa Clara, California. As this was the 50th Super Bowl, the league emphasized the \"golden anniversary\" with various gold-themed initiatives, as well as temporarily suspending the tradition of naming each Super Bowl game with Roman numerals (under which the game would have been known as \"Super Bowl L\"), so that the logo could prominently feature the Arabic numerals 50.",
-    "conteggio_parole": 124,
-    "token_stimati": 161
+    "token_stimati": 107
   },
   {
-    "id": "56d600e31c85041400946eb0",
-    "argomento": "Super Bowl 50",
-    "domanda": "Which team won Super Bowl 50.",
+    "id": "57107c24a58dae1900cd69e8",
+    "argomento": "Huguenot",
+    "domanda": "Who was Louis XIV's main rival?",
+    "contesto": "Stadtholder William III of Orange, who later became King of England, emerged as the strongest opponent of king Louis XIV after the French attacked the Dutch Republic in 1672. William formed the League of Augsburg as a coalition to oppose Louis and the French state. Consequently, many Huguenots considered the wealthy and Calvinist Dutch Republic, which led the opposition to Louis XIV, as the most attractive country for exile after the revocation of the Edict of Nantes. They also found many French-speaking Calvinist churches there.",
     "risposte_corrette": [
-      "Denver Broncos",
-      "Denver Broncos",
-      "Denver Broncos"
+      "William III of Orange",
+      "Stadtholder William III of Orange",
+      "Stadtholder William III of Orange"
     ],
-    "contesto": "Super Bowl 50 was an American football game to determine the champion of the National Football League (NFL) for the 2015 season. The American Football Conference (AFC) champion Denver Broncos defeated the National Football Conference (NFC) champion Carolina Panthers 24–10 to earn their third Super Bowl title. The game was played on February 7, 2016, at Levi's Stadium in the San Francisco Bay Area at Santa Clara, California. As this was the 50th Super Bowl, the league emphasized the \"golden anniversary\" with various gold-themed initiatives, as well as temporarily suspending the tradition of naming each Super Bowl game with Roman numerals (under which the game would have been known as \"Super Bowl L\"), so that the logo could prominently feature the Arabic numerals 50.",
-    "conteggio_parole": 124,
-    "token_stimati": 161
+    "token_stimati": 110
   },
   {
-    "id": "56d600e31c85041400946eb1",
-    "argomento": "Super Bowl 50",
-    "domanda": "Where was Super Bowl 50 held?",
+    "id": "5710eca0a58dae1900cd6b3a",
+    "argomento": "Huguenot",
+    "domanda": "In what English colony were Huguenot settlers promised land?",
+    "contesto": "In 1700 several hundred French Huguenots migrated from England to the colony of Virginia, where the English Crown had promised them land grants in Lower Norfolk County. When they arrived, colonial authorities offered them instead land 20 miles above the falls of the James River, at the abandoned Monacan village known as Manakin Town, now in Powhatan County. Some settlers landed in present-day Chesterfield County. On 12 May 1705, the Virginia General Assembly passed an act to naturalise the 148 Huguenots still resident at Manakintown. Of the original 390 settlers in the isolated settlement, many had died; others lived outside town on farms in the English style; and others moved to different areas. Gradually they intermarried with their English neighbors. Through the 18th and 19th centuries, descendants of the French migrated west into the Piedmont, and across the Appalachian Mountains into the West of what became Kentucky, Tennessee, Missouri, and other states. In the Manakintown area, the Huguenot Memorial Bridge across the James River and Huguenot Road were named in their honor, as were many local features, including several schools, including Huguenot High School.",
     "risposte_corrette": [
-      "Santa Clara, California.",
-      "Levi's Stadium",
-      "Levi's Stadium"
+      "Virginia",
+      "Virginia",
+      "Virginia"
     ],
-    "contesto": "Super Bowl 50 was an American football game to determine the champion of the National Football League (NFL) for the 2015 season. The American Football Conference (AFC) champion Denver Broncos defeated the National Football Conference (NFC) champion Carolina Panthers 24–10 to earn their third Super Bowl title. The game was played on February 7, 2016, at Levi's Stadium in the San Francisco Bay Area at Santa Clara, California. As this was the 50th Super Bowl, the league emphasized the \"golden anniversary\" with various gold-themed initiatives, as well as temporarily suspending the tradition of naming each Super Bowl game with Roman numerals (under which the game would have been known as \"Super Bowl L\"), so that the logo could prominently feature the Arabic numerals 50.",
-    "conteggio_parole": 124,
-    "token_stimati": 161
+    "token_stimati": 239
   },
   {
-    "id": "56d9895ddc89441400fdb50e",
-    "argomento": "Super Bowl 50",
-    "domanda": "The name of the NFL championship game is?",
+    "id": "57113639a58dae1900cd6d18",
+    "argomento": "Steam engine",
+    "domanda": "How many expansion stages are used by the triple expansion engine?",
+    "contesto": "It is a logical extension of the compound engine (described above) to split the expansion into yet more stages to increase efficiency. The result is the multiple expansion engine. Such engines use either three or four expansion stages and are known as triple and quadruple expansion engines respectively. These engines use a series of cylinders of progressively increasing diameter. These cylinders are designed to divide the work into equal shares for each expansion stage. As with the double expansion engine, if space is at a premium, then two smaller cylinders may be used for the low-pressure stage. Multiple expansion engines typically had the cylinders arranged inline, but various other formations were used. In the late 19th century, the Yarrow-Schlick-Tweedy balancing 'system' was used on some marine triple expansion engines. Y-S-T engines divided the low-pressure expansion stages between two cylinders, one at each end of the engine. This allowed the crankshaft to be better balanced, resulting in a smoother, faster-responding engine which ran with less vibration. This made the 4-cylinder triple-expansion engine popular with large passenger liners (such as the Olympic class), but this was ultimately replaced by the virtually vibration-free turbine engine.[citation needed]",
     "risposte_corrette": [
-      "Super Bowl",
-      "Super Bowl",
-      "Super Bowl"
+      "three",
+      "three or four",
+      "three"
     ],
-    "contesto": "Super Bowl 50 was an American football game to determine the champion of the National Football League (NFL) for the 2015 season. The American Football Conference (AFC) champion Denver Broncos defeated the National Football Conference (NFC) champion Carolina Panthers 24–10 to earn their third Super Bowl title. The game was played on February 7, 2016, at Levi's Stadium in the San Francisco Bay Area at Santa Clara, California. As this was the 50th Super Bowl, the league emphasized the \"golden anniversary\" with various gold-themed initiatives, as well as temporarily suspending the tradition of naming each Super Bowl game with Roman numerals (under which the game would have been known as \"Super Bowl L\"), so that the logo could prominently feature the Arabic numerals 50.",
-    "conteggio_parole": 124,
-    "token_stimati": 161
+    "token_stimati": 250
   },
   {
-    "id": "56d9895ddc89441400fdb510",
-    "argomento": "Super Bowl 50",
-    "domanda": "What 2015 NFL team one the AFC playoff?",
+    "id": "57115ac550c2381900b54a77",
+    "argomento": "Steam engine",
+    "domanda": "What type of engines became popular for power generation after piston steam engines?",
+    "contesto": "Reciprocating piston type steam engines remained the dominant source of power until the early 20th century, when advances in the design of electric motors and internal combustion engines gradually resulted in the replacement of reciprocating (piston) steam engines in commercial usage, and the ascendancy of steam turbines in power generation. Considering that the great majority of worldwide electric generation is produced by turbine type steam engines, the \"steam age\" is continuing with energy levels far beyond those of the turn of the 19th century.",
     "risposte_corrette": [
-      "Denver Broncos",
-      "Denver Broncos",
-      "Denver Broncos"
+      "steam turbines",
+      "internal combustion engines",
+      "Reciprocating piston",
+      "steam turbines"
     ],
-    "contesto": "Super Bowl 50 was an American football game to determine the champion of the National Football League (NFL) for the 2015 season. The American Football Conference (AFC) champion Denver Broncos defeated the National Football Conference (NFC) champion Carolina Panthers 24–10 to earn their third Super Bowl title. The game was played on February 7, 2016, at Levi's Stadium in the San Francisco Bay Area at Santa Clara, California. As this was the 50th Super Bowl, the league emphasized the \"golden anniversary\" with various gold-themed initiatives, as well as temporarily suspending the tradition of naming each Super Bowl game with Roman numerals (under which the game would have been known as \"Super Bowl L\"), so that the logo could prominently feature the Arabic numerals 50.",
-    "conteggio_parole": 124,
-    "token_stimati": 161
+    "token_stimati": 109
+  },
+  {
+    "id": "571a484210f8ca1400304fbd",
+    "argomento": "Oxygen",
+    "domanda": "The atomic number of the periodic table for oxygen?",
+    "contesto": "Oxygen is a chemical element with symbol O and atomic number 8. It is a member of the chalcogen group on the periodic table and is a highly reactive nonmetal and oxidizing agent that readily forms compounds (notably oxides) with most elements. By mass, oxygen is the third-most abundant element in the universe, after hydrogen and helium. At standard temperature and pressure, two atoms of the element bind to form dioxygen, a colorless and odorless diatomic gas with the formula O\n2. Diatomic oxygen gas constitutes 20.8% of the Earth's atmosphere. However, monitoring of atmospheric oxygen levels show a global downward trend, because of fossil-fuel burning. Oxygen is the most abundant element by mass in the Earth's crust as part of oxide compounds such as silicon dioxide, making up almost half of the crust's mass.",
+    "risposte_corrette": [
+      "8",
+      "8",
+      "8",
+      "8",
+      "8"
+    ],
+    "token_stimati": 175
+  },
+  {
+    "id": "571cac5d5efbb31900334dd0",
+    "argomento": "Oxygen",
+    "domanda": "What celestial object eluded efforts to measure oxygen?",
+    "contesto": "Planetary geologists have measured different abundances of oxygen isotopes in samples from the Earth, the Moon, Mars, and meteorites, but were long unable to obtain reference values for the isotope ratios in the Sun, believed to be the same as those of the primordial solar nebula. Analysis of a silicon wafer exposed to the solar wind in space and returned by the crashed Genesis spacecraft has shown that the Sun has a higher proportion of oxygen-16 than does the Earth. The measurement implies that an unknown process depleted oxygen-16 from the Sun's disk of protoplanetary material prior to the coalescence of dust grains that formed the Earth.",
+    "risposte_corrette": [
+      "Sun",
+      "the Sun",
+      "the Sun",
+      "Sun",
+      "the Sun"
+    ],
+    "token_stimati": 139
+  },
+  {
+    "id": "571ce5055efbb31900334e2a",
+    "argomento": "Oxygen",
+    "domanda": "Why is breathing oxygen in space craft not dangerous to health?",
+    "contesto": "Breathing pure O\n2 in space applications, such as in some modern space suits, or in early spacecraft such as Apollo, causes no damage due to the low total pressures used. In the case of spacesuits, the O\n2 partial pressure in the breathing gas is, in general, about 30 kPa (1.4 times normal), and the resulting O\n2 partial pressure in the astronaut's arterial blood is only marginally more than normal sea-level O\n2 partial pressure (for more information on this, see space suit and arterial blood gas).",
+    "risposte_corrette": [
+      "low total pressures",
+      "low total pressures used",
+      "low total pressures",
+      "low total pressures",
+      "the low total pressures used"
+    ],
+    "token_stimati": 115
+  },
+  {
+    "id": "572659535951b619008f703f",
+    "argomento": "1973 oil crisis",
+    "domanda": "When did Honda, Toyota and Nissan open US assembly plants?",
+    "contesto": "Some buyers lamented the small size of the first Japanese compacts, and both Toyota and Nissan (then known as Datsun) introduced larger cars such as the Toyota Corona Mark II, the Toyota Cressida, the Mazda 616 and Datsun 810, which added passenger space and amenities such as air conditioning, power steering, AM-FM radios, and even power windows and central locking without increasing the price of the vehicle. A decade after the 1973 oil crisis, Honda, Toyota and Nissan, affected by the 1981 voluntary export restraints, opened US assembly plants and established their luxury divisions (Acura, Lexus and Infiniti, respectively) to distinguish themselves from their mass-market brands.",
+    "risposte_corrette": [
+      "A decade after the 1973",
+      "1981",
+      "1981",
+      "A decade after the 1973 oil crisis",
+      "1981"
+    ],
+    "token_stimati": 137
+  },
+  {
+    "id": "5725c604271a42140099d185",
+    "argomento": "Apollo program",
+    "domanda": "Who led the committee established by Seaman?",
+    "contesto": "Seamans' establishment of an ad-hoc committee headed by his special technical assistant Nicholas E. Golovin in July 1961, to recommend a launch vehicle to be used in the Apollo program, represented a turning point in NASA's mission mode decision. This committee recognized that the chosen mode was an important part of the launch vehicle choice, and recommended in favor of a hybrid EOR-LOR mode. Its consideration of LOR —as well as Houbolt's ceaseless work— played an important role in publicizing the workability of the approach. In late 1961 and early 1962, members of the Manned Spacecraft Center began to come around to support LOR, including the newly hired deputy director of the Office of Manned Space Flight, Joseph Shea, who became a champion of LOR. The engineers at Marshall Space Flight Center (MSFC) took longer to become convinced of its merits, but their conversion was announced by Wernher von Braun at a briefing in June 1962.",
+    "risposte_corrette": [
+      "Nicholas E. Golovin",
+      "Nicholas E. Golovin",
+      "Nicholas E. Golovin",
+      "Nicholas E. Golovin",
+      "Nicholas E. Golovin",
+      "Nicholas E. Golovin"
+    ],
+    "token_stimati": 202
+  },
+  {
+    "id": "5725dc1638643c19005ace01",
+    "argomento": "Apollo program",
+    "domanda": "What was the first problem astronauts encountered during the plugs-out test?",
+    "contesto": "The plugs-out test began on the morning of January 27, 1967, and immediately was plagued with problems. First the crew noticed a strange odor in their spacesuits, which delayed the sealing of the hatch. Then, communications problems frustrated the astronauts and forced a hold in the simulated countdown. During this hold, an electrical fire began in the cabin, and spread quickly in the high pressure, 100% oxygen atmosphere. Pressure rose high enough from the fire that the cabin burst and the fire erupted onto the pad area, frustrating attempts to rescue the crew. The astronauts were asphyxiated before the hatch could be opened.",
+    "risposte_corrette": [
+      "strange odor in their spacesuits",
+      "odor",
+      "strange odor in their spacesuits",
+      "strange odor",
+      "strange odor in their spacesuits"
+    ],
+    "token_stimati": 133
+  },
+  {
+    "id": "5725b7f389a1e219009abd5c",
+    "argomento": "European Union law",
+    "domanda": "What are the three sources of European Union law?",
+    "contesto": "European Union law is a body of treaties and legislation, such as Regulations and Directives, which have direct effect or indirect effect on the laws of European Union member states. The three sources of European Union law are primary law, secondary law and supplementary law. The main sources of primary law are the Treaties establishing the European Union. Secondary sources include regulations and directives which are based on the Treaties. The legislature of the European Union is principally composed of the European Parliament and the Council of the European Union, which under the Treaties may establish secondary law to pursue the objective set out in the Treaties.",
+    "risposte_corrette": [
+      "primary law, secondary law and supplementary law.",
+      "primary law, secondary law and supplementary law",
+      "primary law, secondary law and supplementary law",
+      "primary law, secondary law and supplementary law"
+    ],
+    "token_stimati": 139
+  },
+  {
+    "id": "5726a09f708984140094cc39",
+    "argomento": "European Union law",
+    "domanda": "How long has Proportionality been recognized as one of the general principles of EU law?",
+    "contesto": "Proportionality is recognised one of the general principles of European Union law by the European Court of Justice since the 1950s. According to the general principle of proportionality the lawfulness of an action depends on whether it was appropriate and necessary to achieve the objectives legitimately pursued. When there is a choice between several appropriate measures the least onerous must be adopted, and any disadvantage caused must not be disproportionate to the aims pursued. The principle of proportionality is also recognised in Article 5 of the EC Treaty, stating that \"any action by the Community shall not go beyond what is necessary to achieve the objectives of this Treaty\".",
+    "risposte_corrette": [
+      "since the 1950s",
+      "since the 1950s",
+      "since the 1950s"
+    ],
+    "token_stimati": 141
+  },
+  {
+    "id": "5725b81b271a42140099d097",
+    "argomento": "Amazon rainforest",
+    "domanda": "Which name is also used to describe the Amazon rainforest in English?",
+    "contesto": "The Amazon rainforest (Portuguese: Floresta Amazônica or Amazônia; Spanish: Selva Amazónica, Amazonía or usually Amazonia; French: Forêt amazonienne; Dutch: Amazoneregenwoud), also known in English as Amazonia or the Amazon Jungle, is a moist broadleaf forest that covers most of the Amazon basin of South America. This basin encompasses 7,000,000 square kilometres (2,700,000 sq mi), of which 5,500,000 square kilometres (2,100,000 sq mi) are covered by the rainforest. This region includes territory belonging to nine nations. The majority of the forest is contained within Brazil, with 60% of the rainforest, followed by Peru with 13%, Colombia with 10%, and with minor amounts in Venezuela, Ecuador, Bolivia, Guyana, Suriname and French Guiana. States or departments in four nations contain \"Amazonas\" in their names. The Amazon represents over half of the planet's remaining rainforests, and comprises the largest and most biodiverse tract of tropical rainforest in the world, with an estimated 390 billion individual trees divided into 16,000 species.",
+    "risposte_corrette": [
+      "also known in English as Amazonia or the Amazon Jungle,",
+      "Amazonia or the Amazon Jungle",
+      "Amazonia"
+    ],
+    "token_stimati": 202
+  },
+  {
+    "id": "5725b9db38643c19005acbe1",
+    "argomento": "Ctenophora",
+    "domanda": "What are Ctenophora commonly known as?",
+    "contesto": "Ctenophora (/tᵻˈnɒfərə/; singular ctenophore, /ˈtɛnəfɔːr/ or /ˈtiːnəfɔːr/; from the Greek κτείς kteis 'comb' and φέρω pherō 'carry'; commonly known as comb jellies) is a phylum of animals that live in marine waters worldwide. Their most distinctive feature is the ‘combs’ – groups of cilia which they use for swimming – they are the largest animals that swim by means of cilia. Adults of various species range from a few millimeters to 1.5 m (4 ft 11 in) in size. Like cnidarians, their bodies consist of a mass of jelly, with one layer of cells on the outside and another lining the internal cavity. In ctenophores, these layers are two cells deep, while those in cnidarians are only one cell deep. Some authors combined ctenophores and cnidarians in one phylum, Coelenterata, as both groups rely on water flow through the body cavity for both digestion and respiration. Increasing awareness of the differences persuaded more recent authors to classify them as separate phyla.",
+    "risposte_corrette": [
+      "comb jellies",
+      "comb jellies",
+      "comb jellies"
+    ],
+    "token_stimati": 209
+  },
+  {
+    "id": "572681c1dd62a815002e8796",
+    "argomento": "Ctenophora",
+    "domanda": "What do most platyctenida have on their aboral surface?",
+    "contesto": "Most Platyctenida have oval bodies that are flattened in the oral-aboral direction, with a pair of tentilla-bearing tentacles on the aboral surface. They cling to and creep on surfaces by everting the pharynx and using it as a muscular \"foot\". All but one of the known platyctenid species lack comb-rows. Platyctenids are usually cryptically colored, live on rocks, algae, or the body surfaces of other invertebrates, and are often revealed by their long tentacles with many sidebranches, seen streaming off the back of the ctenophore into the current.",
+    "risposte_corrette": [
+      "a pair of tentilla-bearing tentacles",
+      "tentilla-bearing tentacles",
+      "a pair of tentilla-bearing tentacles"
+    ],
+    "token_stimati": 114
+  },
+  {
+    "id": "5725e1c4271a42140099d2d7",
+    "argomento": "Fresno, California",
+    "domanda": "During what period did the Tower Theatre re-open?",
+    "contesto": "This vibrant and culturally diverse area of retail businesses and residences experienced a renewal after a significant decline in the late 1960s and 1970s.[citation needed] After decades of neglect and suburban flight, the neighborhood revival followed the re-opening of the Tower Theatre in the late 1970s, which at that time showed second and third run movies, along with classic films. Roger Rocka's Dinner Theater & Good Company Players also opened nearby in 1978,[citation needed] at Olive and Wishon Avenues. Fresno native Audra McDonald performed in the leading roles of Evita and The Wiz at the theater while she was a high school student. McDonald subsequently became a leading performer on Broadway in New York City and a Tony award winning actress. Also in the Tower District is Good Company Players' 2nd Space Theatre.",
+    "risposte_corrette": [
+      "late 1970s",
+      "late 1970s",
+      "late 1970s"
+    ],
+    "token_stimati": 172
+  },
+  {
+    "id": "5726249538643c19005ad07f",
+    "argomento": "Packet switching",
+    "domanda": "What did Baran develop during research at RAND ",
+    "contesto": "Baran developed the concept of distributed adaptive message block switching during his research at the RAND Corporation for the US Air Force into survivable communications networks, first presented to the Air Force in the summer of 1961 as briefing B-265, later published as RAND report P-2626 in 1962, and finally in report RM 3420 in 1964. Report P-2626 described a general architecture for a large-scale, distributed, survivable communications network. The work focuses on three key ideas: use of a decentralized network with multiple paths between any two points, dividing user messages into message blocks, later called packets, and delivery of these messages by store and forward switching.",
+    "risposte_corrette": [
+      "the concept of distributed adaptive message block switching",
+      "the concept of distributed adaptive message block switching",
+      "concept of distributed adaptive message block switching"
+    ],
+    "token_stimati": 139
+  },
+  {
+    "id": "57264684708984140094c123",
+    "argomento": "Black Death",
+    "domanda": "Where did the black death originate?",
+    "contesto": "The Black Death is thought to have originated in the arid plains of Central Asia, where it then travelled along the Silk Road, reaching Crimea by 1343. From there, it was most likely carried by Oriental rat fleas living on the black rats that were regular passengers on merchant ships. Spreading throughout the Mediterranean and Europe, the Black Death is estimated to have killed 30–60% of Europe's total population. In total, the plague reduced the world population from an estimated 450 million down to 350–375 million in the 14th century. The world population as a whole did not recover to pre-plague levels until the 17th century. The plague recurred occasionally in Europe until the 19th century.",
+    "risposte_corrette": [
+      "the arid plains of Central Asia",
+      "Central Asia",
+      "Central Asia"
+    ],
+    "token_stimati": 150
+  },
+  {
+    "id": "57265700dd62a815002e820e",
+    "argomento": "Black Death",
+    "domanda": "How many were killed by plague in Italy in the 17th century?",
+    "contesto": "In the first half of the 17th century, a plague claimed some 1.7 million victims in Italy, or about 14% of the population. In 1656, the plague killed about half of Naples' 300,000 inhabitants. More than 1.25 million deaths resulted from the extreme incidence of plague in 17th-century Spain. The plague of 1649 probably reduced the population of Seville by half. In 1709–13, a plague epidemic that followed the Great Northern War (1700–21, Sweden v. Russia and allies) killed about 100,000 in Sweden, and 300,000 in Prussia. The plague killed two-thirds of the inhabitants of Helsinki, and claimed a third of Stockholm's population. Europe's last major epidemic occurred in 1720 in Marseille.",
+    "risposte_corrette": [
+      "some 1.7 million victims",
+      "1.7 million",
+      "1.7 million"
+    ],
+    "token_stimati": 145
+  },
+  {
+    "id": "57268066708984140094c821",
+    "argomento": "Geology",
+    "domanda": "The analysis of stratigraphic sections such as drill cores is done by who?",
+    "contesto": "In the laboratory, stratigraphers analyze samples of stratigraphic sections that can be returned from the field, such as those from drill cores. Stratigraphers also analyze data from geophysical surveys that show the locations of stratigraphic units in the subsurface. Geophysical data and well logs can be combined to produce a better view of the subsurface, and stratigraphers often use computer programs to do this in three dimensions. Stratigraphers can then use these data to reconstruct ancient processes occurring on the surface of the Earth, interpret past environments, and locate areas for water, coal, and hydrocarbon extraction.",
+    "risposte_corrette": [
+      "stratigraphers",
+      "stratigraphers",
+      "stratigraphers"
+    ],
+    "token_stimati": 124
+  },
+  {
+    "id": "57267383dd62a815002e8552",
+    "argomento": "Newcastle upon Tyne",
+    "domanda": "What's the climate like in Newcastle?",
+    "contesto": "The climate in Newcastle is oceanic (Köppen Cfb) and significantly milder than some other locations in the world at a similar latitude, due to the warming influence of the Gulf Stream (via the North Atlantic Drift). Being in the rain shadow of the North Pennines, it is among the driest cities in the UK. Temperature extremes recorded at Newcastle Weather Centre include 32.5 °C (90.5 °F) during August 1990 down to −12.6 °C (9.3 °F) during January 1982. In contrast to other areas influenced by the Gulf Stream, such as inland Scandinavia, Newcastle has milder winters and cooler summers, similar to the remainder of the British Isles.",
+    "risposte_corrette": [
+      "oceanic",
+      "oceanic",
+      "significantly milder than some other locations"
+    ],
+    "token_stimati": 139
+  },
+  {
+    "id": "572687e1dd62a815002e8852",
+    "argomento": "Newcastle upon Tyne",
+    "domanda": "Where is Newcastle's horse racing course located?",
+    "contesto": "Newcastle has a horse racing course at Gosforth Park. The city is also home to the Newcastle Eagles basketball team who play their home games at the new Sport Central complex at Northumbria University. The Eagles are the most successful team in the history of the British Basketball League (BBL). The city's speedway team Newcastle Diamonds are based at Brough Park in Byker, a venue that is also home to greyhound racing. Newcastle also hosts the start of the annual Great North Run, the world's largest half-marathon in which participants race over the Tyne Bridge into Gateshead and then towards the finish line 13.1 miles (21.1 km) away on the coast at South Shields. Another famous athletic event is the 5.9-mile (9.5 km) Blaydon Race (a road race from Newcastle to Blaydon), which has taken place on 9 June annually since 1981, to commemorate the celebrated Blaydon Races horse racing.",
+    "risposte_corrette": [
+      "Gosforth Park",
+      "Gosforth Park",
+      "Gosforth Park"
+    ],
+    "token_stimati": 195
+  },
+  {
+    "id": "57268d02f1498d1400e8e378",
+    "argomento": "Victoria and Albert Museum",
+    "domanda": "Who officially opened the V&A?",
+    "contesto": "The official opening by Queen Victoria was on 22 June 1857. In the following year, late night openings were introduced, made possible by the use of gas lighting. This was to enable in the words of Cole \"to ascertain practically what hours are most convenient to the working classes\"—this was linked to the use of the collections of both applied art and science as educational resources to help boost productive industry. In these early years the practical use of the collection was very much emphasised as opposed to that of \"High Art\" at the National Gallery and scholarship at the British Museum. George Wallis (1811–1891), the first Keeper of Fine Art Collection, passionately promoted the idea of wide art education through the museum collections. This led to the transfer to the museum of the School of Design that had been founded in 1837 at Somerset House; after the transfer it was referred to as the Art School or Art Training School, later to become the Royal College of Art which finally achieved full independence in 1949. From the 1860s to the 1880s the scientific collections had been moved from the main museum site to various improvised galleries to the west of Exhibition Road. In 1893 the \"Science Museum\" had effectively come into existence when a separate director was appointed.",
+    "risposte_corrette": [
+      "Queen Victoria",
+      "Queen Victoria",
+      "Queen Victoria"
+    ],
+    "token_stimati": 284
+  },
+  {
+    "id": "5726c4b5dd62a815002e8fd8",
+    "argomento": "Victoria and Albert Museum",
+    "domanda": "Which company is the gallery of Japanese art named after?",
+    "contesto": "The Toshiba gallery of Japanese art opened in December 1986. The majority of exhibits date from 1550 to 1900, but one of the oldest pieces displayed is the 13th-century sculpture of Amida Nyorai. Examples of classic Japanese armour from the mid-19th century, steel sword blades (Katana), Inrō, lacquerware including the Mazarin Chest dated c1640 is one of the finest surviving pieces from Kyoto, porcelain including Imari, Netsuke, woodblock prints including the work of Ando Hiroshige, graphic works include printed books, as well as a few paintings, scrolls and screens, textiles and dress including kimonos are some of the objects on display. One of the finest objects displayed is Suzuki Chokichi's bronze incense burner (koro) dated 1875, standing at over 2.25 metres high and 1.25 metres in diameter it is also one of the largest examples made. The museum also holds some cloisonné pieces from the Japanese art production company, Ando Cloisonné.",
+    "risposte_corrette": [
+      "Toshiba",
+      "Toshiba",
+      "Toshiba"
+    ],
+    "token_stimati": 196
+  },
+  {
+    "id": "5726f1ec708984140094d6aa",
+    "argomento": "Victoria and Albert Museum",
+    "domanda": "Approximately how many names were signed on an online petition on the Parliamentary website in response to the closing of the Musical Instruments gallery?",
+    "contesto": "The Musical Instruments gallery closed 25 February 2010, a decision which was highly controversial. An online petition of over 5,100 names on the Parliamentary website led to Chris Smith asking Parliament about the future of the collection. The answer, from Bryan Davies was that the museum intended to preserve and care for the collection and keep it available to the public, with items being redistributed to the British Galleries, the Medieval & Renaissance Galleries, and the planned new galleries for Furniture and Europe 1600–1800, and that the Horniman Museum and other institutions were possible candidates for loans of material to ensure that the instruments remained publicly viewable. The Horniman went on to host a joint exhibition with the V&A of musical instruments, and has the loan of 35 instruments from the museum.",
+    "risposte_corrette": [
+      "over 5,100",
+      "over 5,100",
+      "over 5,100"
+    ],
+    "token_stimati": 171
+  },
+  {
+    "id": "572685d1f1498d1400e8e29e",
+    "argomento": "American Broadcasting Company",
+    "domanda": "What candy company did Edward John Noble own?",
+    "contesto": "Edward John Noble, the owner of Life Savers candy, drugstore chain Rexall and New York City radio station WMCA, purchased the network for $8 million. Due to FCC ownership rules, the transaction, which was to include the purchase of three RCA stations by Noble, would require him to resell his station with the FCC's approval. The Commission authorized the transaction on October 12, 1943. Soon afterward, the Blue Network was purchased by the new company Noble founded, the American Broadcasting System. Noble subsequently acquired the rights to the \"American Broadcasting Company\" name from George B. Storer in 1944; its parent company adopted the corporate name American Broadcasting Companies, Inc. Woods retained his position as president and CEO of ABC until December 1949, and was subsequently promoted to vice-chairman of the board before leaving ABC altogether on June 30, 1951.",
+    "risposte_corrette": [
+      "Life Savers candy",
+      "Life Savers",
+      "Life Savers"
+    ],
+    "token_stimati": 180
+  },
+  {
+    "id": "572736fc5951b619008f86d9",
+    "argomento": "American Broadcasting Company",
+    "domanda": "In what year did the first ABC identification card have a 3D appearance?",
+    "contesto": "The 1970s and 1980s saw the emergence of many graphical imaging packages for the network in which based the logo's setting mainly on special lighting effects then under development including white, blue, pink, rainbow neon and glittering dotted lines. Among the \"ABC Circle\" logo's many variants was a 1977 ID sequence that featured a bubble on a black background representing the circle with glossy gold letters, and as such, was the first ABC identification card to have a three-dimensional appearance.",
+    "risposte_corrette": [
+      "1977",
+      "1977",
+      "1977"
+    ],
+    "token_stimati": 104
+  },
+  {
+    "id": "572747dd5951b619008f87a9",
+    "argomento": "American Broadcasting Company",
+    "domanda": "When did Michael Eisner first join ABC?",
+    "contesto": "In the early 1970s, Michael Eisner, who joined ABC in 1966, became the network's program development manager. He helped bring about ideas for many series including Happy Days (which originated as a segment on the anthology series Love, American Style), as well as several soap operas; however, Eisner's main credit at ABC was for developing youth-oriented programming. He was responsible for reacquiring the rights to the Looney Tunes-Merrie Melodies library, bringing the shorts back to ABC after spending several years on CBS, as well as developing The Jackson 5ive animated series and a series about the Osmonds, and greenlighting Super Friends, based on DC Comics' Justice League of America series. Eisner left ABC in 1976 to become president of Paramount Pictures (and would later become the President of ABC's eventual parent company, Disney).",
+    "risposte_corrette": [
+      "1966",
+      "1966",
+      "1966"
+    ],
+    "token_stimati": 172
+  },
+  {
+    "id": "57275cb3f1498d1400e8f6da",
+    "argomento": "American Broadcasting Company",
+    "domanda": "When were the Financial Interest and Syndication Rules repealed?",
+    "contesto": "In 1993, the FCC repealed the Financial Interest and Syndication Rules, once again allowing networks to hold interests in television production studios. That same year, Capital Cities/ABC purchased the French animation studio DIC Entertainment; it also signed an agreement with Time Warner Cable to carry its owned-and-operated television stations on the provider's systems in ABC O&O markets. By that year, ABC had a total viewership share of 23.63% of American households, just below the limit of 25% imposed by the FCC.",
+    "risposte_corrette": [
+      "1993",
+      "1993",
+      "1993"
+    ],
+    "token_stimati": 105
+  },
+  {
+    "id": "572774cf5951b619008f8a51",
+    "argomento": "American Broadcasting Company",
+    "domanda": "When did the merger between ABC and Capital Cities gain federal approval?",
+    "contesto": "The merger between ABC and Capital Cities received federal approval on September 5, 1985. After the ABC/Capital Cities merger was finalized on January 3, 1986, the combined company – which became known as Capital Cities/ABC, Inc. – added four television stations (WPVI-TV/Philadelphia, KTRK-TV/Houston, KFSN-TV/Fresno and WTVD/Raleigh) and several radio stations to ABC's broadcasting portfolio, and also included Fairchild Publications and four newspapers (including The Kansas City Star and Fort Worth Star-Telegram). It also initiated several changes in its management: Frederick S. Pierce was named president of ABC's broadcasting division; Michael P. Millardi became vice president of ABC Broadcasting, and president of ABC Owned Stations and ABC Video Enterprises; John B. Sias was appointed president of the ABC Television Network; Brandon Stoddard became president of ABC Entertainment (a position to which he had been appointed in November 1985); and Roone Arledge became president of ABC News and ABC Sports. In February 1986, Thomas S. Murphy, who had been serving as CEO of Capital Cities since 1964, was appointed chairman and CEO emeritus of ABC. Jim Duffy stepped down as ABC Television president for a management position at ABC Communications, a subsidiary that specialized in community service programming, including shows related to literary education.",
+    "risposte_corrette": [
+      "September 5, 1985",
+      "September 5, 1985",
+      "September 5, 1985"
+    ],
+    "token_stimati": 262
+  },
+  {
+    "id": "5726ae32708984140094cdab",
+    "argomento": "Genghis Khan",
+    "domanda": "What was the name of Temüjin's laws?",
+    "contesto": "As an incentive for absolute obedience and following his rule of law, the Yassa code, Temüjin promised civilians and soldiers wealth from future possible war spoils. As he defeated rival tribes, he did not drive away enemy soldiers and abandon the rest. Instead, he took the conquered tribe under his protection and integrated its members into his own tribe. He would even have his mother adopt orphans from the conquered tribe, bringing them into his family. These political innovations inspired great loyalty among the conquered people, making Temüjin stronger with each victory.",
+    "risposte_corrette": [
+      "the Yassa code",
+      "Yassa code",
+      "Yassa code"
+    ],
+    "token_stimati": 119
+  },
+  {
+    "id": "5727311d5951b619008f86ab",
+    "argomento": "Genghis Khan",
+    "domanda": "Jochi's death occurred in what year?",
+    "contesto": "Jochi died in 1226, during his father's lifetime. Some scholars, notably Ratchnevsky, have commented on the possibility that Jochi was secretly poisoned by an order from Genghis Khan. Rashid al-Din reports that the great Khan sent for his sons in the spring of 1223, and while his brothers heeded the order, Jochi remained in Khorasan. Juzjani suggests that the disagreement arose from a quarrel between Jochi and his brothers in the siege of Urgench. Jochi had attempted to protect Urgench from destruction, as it belonged to territory allocated to him as a fief. He concludes his story with the clearly apocryphal statement by Jochi: \"Genghis Khan is mad to have massacred so many people and laid waste so many lands. I would be doing a service if I killed my father when he is hunting, made an alliance with Sultan Muhammad, brought this land to life and gave assistance and support to the Muslims.\" Juzjani claims that it was in response to hearing of these plans that Genghis Khan ordered his son secretly poisoned; however, as Sultan Muhammad was already dead in 1223, the accuracy of this story is questionable.",
+    "risposte_corrette": [
+      "1226",
+      "1226",
+      "1226"
+    ],
+    "token_stimati": 247
+  },
+  {
+    "id": "5727580bf1498d1400e8f69a",
+    "argomento": "Genghis Khan",
+    "domanda": "Which Mongolian word meaning wide-spreading may have contributed to the appellation Genghis?",
+    "contesto": "One theory suggests the name stems from a palatalised version of the Mongolian and Turkic word tenggis, meaning \"ocean\", \"oceanic\" or \"wide-spreading\". (Lake Baikal and ocean were called tenggis by the Mongols. However, it seems that if they had meant to call Genghis tenggis they could have said, and written, \"Tenggis Khan\", which they did not.) Zhèng (Chinese: 正) meaning \"right\", \"just\", or \"true\", would have received the Mongolian adjectival modifier -s, creating \"Jenggis\", which in medieval romanization would be written \"Genghis\". It is likely that the 13th century Mongolian pronunciation would have closely matched \"Chinggis\".",
+    "risposte_corrette": [
+      "tenggis",
+      "tenggis",
+      "tenggis"
+    ],
+    "token_stimati": 124
+  },
+  {
+    "id": "5726f36cdd62a815002e95fe",
+    "argomento": "Pharmacy",
+    "domanda": "What is the fastest growing area in the pharmaceutical industry?",
+    "contesto": "Specialty pharmacies supply high cost injectable, oral, infused, or inhaled medications that are used for chronic and complex disease states such as cancer, hepatitis, and rheumatoid arthritis. Unlike a traditional community pharmacy where prescriptions for any common medication can be brought in and filled, specialty pharmacies carry novel medications that need to be properly stored, administered, carefully monitored, and clinically managed. In addition to supplying these drugs, specialty pharmacies also provide lab monitoring, adherence counseling, and assist patients with cost-containment strategies needed to obtain their expensive specialty drugs. It is currently the fastest growing sector of the pharmaceutical industry with 19 of 28 newly FDA approved medications in 2013 being specialty drugs.",
+    "risposte_corrette": [
+      "specialty pharmacies",
+      "specialty pharmacies",
+      "specialty pharmacies"
+    ],
+    "token_stimati": 145
+  },
+  {
+    "id": "5729efab3f37b319004785cf",
+    "argomento": "Immune system",
+    "domanda": "What are the phagocytes that are located in tissues in contact with the external environment called?",
+    "contesto": "Dendritic cells (DC) are phagocytes in tissues that are in contact with the external environment; therefore, they are located mainly in the skin, nose, lungs, stomach, and intestines. They are named for their resemblance to neuronal dendrites, as both have many spine-like projections, but dendritic cells are in no way connected to the nervous system. Dendritic cells serve as a link between the bodily tissues and the innate and adaptive immune systems, as they present antigens to T cells, one of the key cell types of the adaptive immune system.",
+    "risposte_corrette": [
+      "Dendritic cells",
+      "Dendritic cells",
+      "Dendritic cells"
+    ],
+    "token_stimati": 117
+  },
+  {
+    "id": "572a03086aef0514001551a2",
+    "argomento": "Immune system",
+    "domanda": "What are the most powerful class of anti-inflammatory drugs?",
+    "contesto": "Anti-inflammatory drugs are often used to control the effects of inflammation. Glucocorticoids are the most powerful of these drugs; however, these drugs can have many undesirable side effects, such as central obesity, hyperglycemia, osteoporosis, and their use must be tightly controlled. Lower doses of anti-inflammatory drugs are often used in conjunction with cytotoxic or immunosuppressive drugs such as methotrexate or azathioprine. Cytotoxic drugs inhibit the immune response by killing dividing cells such as activated T cells. However, the killing is indiscriminate and other constantly dividing cells and their organs are affected, which causes toxic side effects. Immunosuppressive drugs such as cyclosporin prevent T cells from responding to signals correctly by inhibiting signal transduction pathways.",
+    "risposte_corrette": [
+      "Glucocorticoids",
+      "Glucocorticoids",
+      "Glucocorticoids"
+    ],
+    "token_stimati": 148
+  },
+  {
+    "id": "572812e74b864d19001643ce",
+    "argomento": "Civil disobedience",
+    "domanda": "What author argues pitching the conscience versus the collective?",
+    "contesto": "However, this definition is disputed by Thoreau's political philosophy pitching the conscience vs. the collective. The individual is the final judge of right and wrong. More than this, since only individuals act, only individuals can act unjustly. When the government knocks on the door, it is an individual in the form of a postman or tax collector whose hand hits the wood. Before Thoreau’s imprisonment, when a confused taxman had wondered aloud about how to handle his refusal to pay, Thoreau had advised, “Resign.” If a man chose to be an agent of injustice, then Thoreau insisted on confronting him with the fact that he was making a choice. But if government is “the voice of the people,” as it is often called, shouldn’t that voice be heeded? Thoreau admits that government may express the will of the majority but it may also express nothing more than the will of elite politicians. Even a good form of government is “liable to be abused and perverted before the people can act through it.” Moreover, even if a government did express the voice of the people, this fact would not compel the obedience of individuals who disagree with what is being said. The majority may be powerful but it is not necessarily right. What, then, is the proper relationship between the individual and the government?",
+    "risposte_corrette": [
+      "Thoreau",
+      "Thoreau",
+      "Thoreau",
+      "Thoreau",
+      "Thoreau's"
+    ],
+    "token_stimati": 289
+  },
+  {
+    "id": "57273cca708984140094db33",
+    "argomento": "Construction",
+    "domanda": "Who normally manages a construction job?",
+    "contesto": "Large-scale construction requires collaboration across multiple disciplines. An architect normally manages the job, and a construction manager, design engineer, construction engineer or project manager supervises it. For the successful execution of a project, effective planning is essential. Those involved with the design and execution of the infrastructure in question must consider zoning requirements, the environmental impact of the job, the successful scheduling, budgeting, construction-site safety, availability and transportation of building materials, logistics, inconvenience to the public caused by construction delays and bidding, etc. The largest construction projects are referred to as megaprojects.",
+    "risposte_corrette": [
+      "An architect",
+      "architect",
+      "architect"
+    ],
+    "token_stimati": 119
+  },
+  {
+    "id": "572756fe708984140094dc71",
+    "argomento": "Construction",
+    "domanda": "What is one of the most dangerous occupations in the world?",
+    "contesto": "Construction is one of the most dangerous occupations in the world, incurring more occupational fatalities than any other sector in both the United States and in the European Union. In 2009, the fatal occupational injury rate among construction workers in the United States was nearly three times that for all workers. Falls are one of the most common causes of fatal and non-fatal injuries among construction workers. Proper safety equipment such as harnesses and guardrails and procedures such as securing ladders and inspecting scaffolding can curtail the risk of occupational injuries in the construction industry. Other major causes of fatalities in the construction industry include electrocution, transportation accidents, and trench cave-ins.",
+    "risposte_corrette": [
+      "Construction",
+      "Construction",
+      "Construction"
+    ],
+    "token_stimati": 144
+  },
+  {
+    "id": "572754dd708984140094dc3b",
+    "argomento": "Private school",
+    "domanda": "As of 2008, about what percentage of Swedish students attended private schools?",
+    "contesto": "In Sweden, pupils are free to choose a private school and the private school gets paid the same amount as municipal schools. Over 10% of Swedish pupils were enrolled in private schools in 2008. Sweden is internationally known for this innovative school voucher model that provides Swedish pupils with the opportunity to choose the school they prefer. For instance, the biggest school chain, Kunskapsskolan (“The Knowledge School”), offers 30 schools and a web-based environment, has 700 employees and teaches nearly 10,000 pupils. The Swedish system has been recommended to Barack Obama.",
+    "risposte_corrette": [
+      "10",
+      "10%",
+      "10"
+    ],
+    "token_stimati": 118
+  },
+  {
+    "id": "5727d0f73acd2414000ded13",
+    "argomento": "Harvard University",
+    "domanda": "When was the divestment from South Africa movement? ",
+    "contesto": "During the divestment from South Africa movement in the late 1980s, student activists erected a symbolic \"shantytown\" on Harvard Yard and blockaded a speech given by South African Vice Consul Duke Kent-Brown. The Harvard Management Company repeatedly refused to divest, stating that \"operating expenses must not be subject to financially unrealistic strictures or carping by the unsophisticated or by special interest groups.\" However, the university did eventually reduce its South African holdings by $230 million (out of $400 million) in response to the pressure.",
+    "risposte_corrette": [
+      "late 1980s",
+      "late 1980s",
+      "1980s"
+    ],
+    "token_stimati": 109
+  },
+  {
+    "id": "572810ec2ca10214002d9d06",
+    "argomento": "Jacksonville, Florida",
+    "domanda": "After what event did the Spanish concede Florida to Britain?",
+    "contesto": "Spain ceded Florida to the British in 1763 after the French and Indian War, and the British soon constructed the King's Road connecting St. Augustine to Georgia. The road crossed the St. Johns River at a narrow point, which the Seminole called Wacca Pilatka and the British called the Cow Ford or Cowford; these names ostensibly reflect the fact that cattle were brought across the river there. The British introduced the cultivation of sugar cane, indigo and fruits as well the export of lumber. As a result, the northeastern Florida area prospered economically more than it had under the Spanish. Britain ceded control of the territory back to Spain in 1783, after its defeat in the American Revolutionary War, and the settlement at the Cow Ford continued to grow. After Spain ceded the Florida Territory to the United States in 1821, American settlers on the north side of the Cow Ford decided to plan a town, laying out the streets and plats. They soon named the town Jacksonville, after Andrew Jackson. Led by Isaiah D. Hart, residents wrote a charter for a town government, which was approved by the Florida Legislative Council on February 9, 1832.",
+    "risposte_corrette": [
+      "French and Indian War",
+      "French and Indian War",
+      "French and Indian War"
+    ],
+    "token_stimati": 254
+  },
+  {
+    "id": "5727ed2e3acd2414000df001",
+    "argomento": "Economic inequality",
+    "domanda": "What has the tendency to increase wages in a field or job position?",
+    "contesto": "A job where there are many workers willing to work a large amount of time (high supply) competing for a job that few require (low demand) will result in a low wage for that job. This is because competition between workers drives down the wage. An example of this would be jobs such as dish-washing or customer service. Competition amongst workers tends to drive down wages due to the expendable nature of the worker in relation to his or her particular job. A job where there are few able or willing workers (low supply), but a large need for the positions (high demand), will result in high wages for that job. This is because competition between employers for employees will drive up the wage. Examples of this would include jobs that require highly developed skills, rare abilities, or a high level of risk. Competition amongst employers tends to drive up wages due to the nature of the job, since there is a relative shortage of workers for the particular position. Professional and labor organizations may limit the supply of workers which results in higher demand and greater incomes for members. Members may also receive higher wages through collective bargaining, political influence, or corruption.",
+    "risposte_corrette": [
+      "Competition amongst workers",
+      "high demand",
+      "competition between employers for employees"
+    ],
+    "token_stimati": 263
+  },
+  {
+    "id": "572a0c541d046914007796f3",
+    "argomento": "Economic inequality",
+    "domanda": "What do conservative researchers fell should be a measure of inequality?",
+    "contesto": "Conservative researchers have argued that income inequality is not significant because consumption, rather than income should be the measure of inequality, and inequality of consumption is less extreme than inequality of income in the US. Will Wilkinson of the libertarian Cato Institute states that \"the weight of the evidence shows that the run-up in consumption inequality has been considerably less dramatic than the rise in income inequality,\" and consumption is more important than income. According to Johnson, Smeeding, and Tory, consumption inequality was actually lower in 2001 than it was in 1986. The debate is summarized in \"The Hidden Prosperity of the Poor\" by journalist Thomas B. Edsall. Other studies have not found consumption inequality less dramatic than household income inequality, and the CBO's study found consumption data not \"adequately\" capturing \"consumption by high-income households\" as it does their income, though it did agree that household consumption numbers show more equal distribution than household income.",
+    "risposte_corrette": [
+      "consumption",
+      "consumption",
+      "consumption"
+    ],
+    "token_stimati": 201
+  },
+  {
+    "id": "5727f18c3acd2414000df063",
+    "argomento": "Doctor Who",
+    "domanda": "How many actors have played Doctor Who?",
+    "contesto": "Twelve actors have headlined the series as the Doctor. The transition from one actor to another is written into the plot of the show, as well as the differing approach to the role that each brings, under the concept of regeneration into a new incarnation. The show's premise is that this is a life process of Time Lords through which the character of the Doctor takes on a new body and, to some extent, new personality, which occurs after sustaining an injury which would be fatal to most other species. Each actor's portrayal differs, but they are all intended to be aspects of the same character and form part of the same storyline. The time-travelling nature of the plot means that, on occasion, different Doctors have met each other. Peter Capaldi took on the role after Matt Smith's exit in the 2013 Christmas special \"The Time of the Doctor\".",
+    "risposte_corrette": [
+      "Twelve",
+      "Twelve",
+      "Twelve"
+    ],
+    "token_stimati": 193
+  },
+  {
+    "id": "57280b2b2ca10214002d9c66",
+    "argomento": "Doctor Who",
+    "domanda": "What Doctor was first referred to as \"his secret\"?",
+    "contesto": "There have been instances of actors returning at later dates to reprise the role of their specific Doctor. In 1973's The Three Doctors, William Hartnell and Patrick Troughton returned alongside Jon Pertwee. For 1983's The Five Doctors, Troughton and Pertwee returned to star with Peter Davison, and Tom Baker appeared in previously unseen footage from the uncompleted Shada episode. For this episode, Richard Hurndall replaced William Hartnell. Patrick Troughton again returned in 1985's The Two Doctors with Colin Baker. In 2007, Peter Davison returned in the Children in Need short \"Time Crash\" alongside David Tennant, and most recently in 2013's 50th anniversary special episode, \"The Day of the Doctor\", David Tennant's Tenth Doctor appeared alongside Matt Smith as the Eleventh Doctor and John Hurt as the War Doctor, as well as brief footage from all of the previous actors. In addition, the Doctor has occasionally encountered himself in the form of his own incarnation, from the near future or past. The First Doctor encounters himself in the story The Space Museum (albeit frozen and as an exhibit), the Third Doctor encounters and interacts with himself in the story Day of the Daleks, the Fourth Doctor encounters and interacts with the future incarnation of himself (the 'Watcher') in the story Logopolis, the Ninth Doctor observes a former version of his current incarnation in \"Father's Day\", and the Eleventh Doctor briefly comes face to face with himself in \"The Big Bang\". In \"The Almost People\" the Doctor comes face-to-face with himself although it is found out that this incarnation is in fact just a flesh replica. In \"The Name of the Doctor\", the Eleventh Doctor meets an unknown incarnation of himself, whom he refers to as \"his secret\" and who is subsequently revealed to be the War Doctor.",
+    "risposte_corrette": [
+      "the War Doctor",
+      "an unknown incarnation of himself",
+      "the War Doctor"
+    ],
+    "token_stimati": 384
+  },
+  {
+    "id": "5728245b2ca10214002d9ed6",
+    "argomento": "Doctor Who",
+    "domanda": "Which Australian TV station has run Doctor Who since 1965?",
+    "contesto": "In Australia, the show has had a strong fan base since its inception, having been exclusively first run by the Australian Broadcasting Corporation (ABC) since January 1965. The ABC has periodically repeated episodes; of note were the weekly screenings of all available classic episodes starting in 2003, for the show's 40th anniversary, and the weekdaily screenings of all available revived episodes in 2013 for the show's 50th anniversary. The ABC broadcasts the modern series first run on ABC1, with repeats on ABC2. The ABC also provided partial funding for the 20th anniversary special The Five Doctors in 1983. Repeats of both the classic and modern series have also been shown on subscription television channels BBC UKTV, SF and later on SyFy upon SF's closure.[citation needed]",
+    "risposte_corrette": [
+      "Australian Broadcasting Corporation (ABC)",
+      "Australian Broadcasting Corporation",
+      "the Australian Broadcasting Corporation"
+    ],
+    "token_stimati": 162
+  },
+  {
+    "id": "57283c464b864d19001647c8",
+    "argomento": "University of Chicago",
+    "domanda": "What kind of university is the University of Chicago?",
+    "contesto": "The University of Chicago (UChicago, Chicago, or U of C) is a private research university in Chicago. The university, established in 1890, consists of The College, various graduate programs, interdisciplinary committees organized into four academic research divisions and seven professional schools. Beyond the arts and sciences, Chicago is also well known for its professional schools, which include the Pritzker School of Medicine, the University of Chicago Booth School of Business, the Law School, the School of Social Service Administration, the Harris School of Public Policy Studies, the Graham School of Continuing Liberal and Professional Studies and the Divinity School. The university currently enrolls approximately 5,000 students in the College and around 15,000 students overall.",
+    "risposte_corrette": [
+      "a private research university",
+      "private research",
+      "private research university",
+      "private research university"
+    ],
+    "token_stimati": 148
+  },
+  {
+    "id": "572863363acd2414000df985",
+    "argomento": "University of Chicago",
+    "domanda": "In the fall quarter of 2014, how many students signed up for the college?",
+    "contesto": "In the fall quarter of 2014, the University of Chicago enrolled 5,792 students in the College, 3,468 students in its four graduate divisions, 5,984 students in its professional schools, and 15,244 students overall. In the 2012 Spring Quarter, international students comprised almost 19% of the overall study body, over 26% of students were domestic ethnic minorities, and about 44% of enrolled students were female. Admissions to the University of Chicago is highly selective. The middle 50% band of SAT scores for the undergraduate class of 2015, excluding the writing section, was 1420–1530, the average MCAT score for entering students in the Pritzker School of Medicine in 2011 was 36, and the median LSAT score for entering students in the Law School in 2011 was 171. In 2015, the College of the University of Chicago had an acceptance rate of 7.8% for the Class of 2019, the lowest in the college's history.",
+    "risposte_corrette": [
+      "5,792",
+      "5,792",
+      "5,792"
+    ],
+    "token_stimati": 196
+  },
+  {
+    "id": "5728661e2ca10214002da2e8",
+    "argomento": "Yuan dynasty",
+    "domanda": "What ethnicity was Shi Tianze?",
+    "contesto": "Shi Tianze was a Han Chinese who lived in the Jin dynasty. Interethnic marriage between Han and Jurchen became common at this time. His father was Shi Bingzhi (史秉直, Shih Ping-chih). Shi Bingzhi was married to a Jurchen woman (surname Na-ho) and a Han Chinese woman (surname Chang); it is unknown which of them was Shi Tianze's mother. Shi Tianze was married to two Jurchen women, a Han Chinese woman, and a Korean woman, and his son Shi Gang was born to one of his Jurchen wives. The surnames of his Jurchen wives were Mo-nien and Na-ho; the surname of his Korean wife was Li; and the surname of his Han Chinese wife was Shi. Shi Tianze defected to Mongol forces upon their invasion of the Jin dynasty. His son Shi Gang married a Kerait woman; the Kerait were Mongolified Turkic people and were considered part of the \"Mongol nation\". Shi Tianze (Shih T'ien-tse), Zhang Rou (Chang Jou, 張柔), and Yan Shi (Yen Shih, 嚴實) and other high ranking Chinese who served in the Jin dynasty and defected to the Mongols helped build the structure for the administration of the new state. Chagaan (Tsagaan) and Zhang Rou jointly launched an attack on the Song dynasty ordered by Töregene Khatun.",
+    "risposte_corrette": [
+      "Han Chinese",
+      "Han Chinese",
+      "Han Chinese"
+    ],
+    "token_stimati": 271
+  },
+  {
+    "id": "57287c142ca10214002da3d0",
+    "argomento": "Yuan dynasty",
+    "domanda": "What astronomer worked for Kublai?",
+    "contesto": "The Yuan undertook extensive public works. Among Kublai Khan's top engineers and scientists was the astronomer Guo Shoujing, who was tasked with many public works projects and helped the Yuan reform the lunisolar calendar to provide an accuracy of 365.2425 days of the year, which was only 26 seconds off the modern Gregorian calendar's measurement. Road and water communications were reorganized and improved. To provide against possible famines, granaries were ordered built throughout the empire. The city of Beijing was rebuilt with new palace grounds that included artificial lakes, hills and mountains, and parks. During the Yuan period, Beijing became the terminus of the Grand Canal of China, which was completely renovated. These commercially oriented improvements encouraged overland and maritime commerce throughout Asia and facilitated direct Chinese contacts with Europe. Chinese travelers to the West were able to provide assistance in such areas as hydraulic engineering. Contacts with the West also brought the introduction to China of a major food crop, sorghum, along with other foreign food products and methods of preparation.",
+    "risposte_corrette": [
+      "Guo Shoujing",
+      "Guo Shoujing",
+      "Guo Shoujing"
+    ],
+    "token_stimati": 223
+  },
+  {
+    "id": "572885c44b864d1900164a78",
+    "argomento": "Yuan dynasty",
+    "domanda": "What region of China is Hebei part of?",
+    "contesto": "The Central Region, consisting of present-day Hebei, Shandong, Shanxi, the south-eastern part of present-day Inner Mongolia and the Henan areas to the north of the Yellow River, was considered the most important region of the dynasty and directly governed by the Central Secretariat (or Zhongshu Sheng) at Khanbaliq (modern Beijing); similarly, another top-level administrative department called the Bureau of Buddhist and Tibetan Affairs (or Xuanzheng Yuan) held administrative rule over the whole of modern-day Tibet and a part of Sichuan, Qinghai and Kashmir.",
+    "risposte_corrette": [
+      "The Central Region",
+      "Central Region",
+      "Central"
+    ],
+    "token_stimati": 107
+  },
+  {
+    "id": "572913626aef051400154a30",
+    "argomento": "Kenya",
+    "domanda": "What constitutional change was considered?",
+    "contesto": "A constitutional change was considered that would eliminate the position of Prime Minister and simultaneously reduce the powers of the President. A referendum to vote on the proposed constitution was held on 4 August 2010, and the new constitution passed by a wide margin. Among other things, the new constitution delegates more power to local governments and gives Kenyans a bill of rights. It was promulgated on 27 August 2010 at a euphoric ceremony in Nairobi's Uhuru Park, accompanied by a 21-gun salute. The event was attended by various African leaders and praised by the international community. As of that day, the new constitution heralding the Second Republic came into force.",
+    "risposte_corrette": [
+      "eliminate the position of Prime Minister and simultaneously reduce the powers of the President",
+      "eliminate the position of Prime Minister",
+      "eliminate the position of Prime Minister"
+    ],
+    "token_stimati": 144
+  },
+  {
+    "id": "57292449af94a219006aa0dd",
+    "argomento": "Kenya",
+    "domanda": "How many Kenyans are non-religious?",
+    "contesto": "Sizeable minorities of other faiths do exist (Muslim 11.2%, indigenous beliefs 1.7%), and nonreligious 2.4%. Sixty percent of the Muslim population lives in Kenya's Coastal Region, comprising 50% of the total population there. Roughly 4% of Muslims are Ahmadiyya, 8% Shia and another 8% are non-denominational Muslims, while 73% are Sunni. Western areas of the Coast Region are mostly Christian. The upper part of Kenya's Eastern Region is home to 10% of the country's Muslims, where they constitute the majority religious group. In addition, there is a large Hindu population in Kenya (around 300,000), who have played a key role in the local economy; they are mostly of Indian origin.",
+    "risposte_corrette": [
+      "2.4%",
+      "2.4%",
+      "2.4%"
+    ],
+    "token_stimati": 143
+  },
+  {
+    "id": "57293e983f37b3190047818b",
+    "argomento": "Intergovernmental Panel on Climate Change",
+    "domanda": "When was the joint statement on climate change issued?",
+    "contesto": "In 2001, 16 national science academies issued a joint statement on climate change. The joint statement was made by the Australian Academy of Science, the Royal Flemish Academy of Belgium for Science and the Arts, the Brazilian Academy of Sciences, the Royal Society of Canada, the Caribbean Academy of Sciences, the Chinese Academy of Sciences, the French Academy of Sciences, the German Academy of Natural Scientists Leopoldina, the Indian National Science Academy, the Indonesian Academy of Sciences, the Royal Irish Academy, Accademia Nazionale dei Lincei (Italy), the Academy of Sciences Malaysia, the Academy Council of the Royal Society of New Zealand, the Royal Swedish Academy of Sciences, and the Royal Society (UK). The statement, also published as an editorial in the journal Science, stated \"we support the [TAR's] conclusion that it is at least 90% certain that temperatures will continue to rise, with average global surface temperature projected to increase by between 1.4 and 5.8 °C above 1990 levels by 2100\". The TAR has also been endorsed by the Canadian Foundation for Climate and Atmospheric Sciences, Canadian Meteorological and Oceanographic Society, and European Geosciences Union (refer to \"Endorsements of the IPCC\").",
+    "risposte_corrette": [
+      "2001",
+      "2001",
+      "2001"
+    ],
+    "token_stimati": 248
+  },
+  {
+    "id": "572957ad1d046914007792d9",
+    "argomento": "Chloroplast",
+    "domanda": "What kind of cell did cynaobacteria enter long ago?",
+    "contesto": "Somewhere around a billion years ago, a free-living cyanobacterium entered an early eukaryotic cell, either as food or as an internal parasite, but managed to escape the phagocytic vacuole it was contained in. The two innermost lipid-bilayer membranes that surround all chloroplasts correspond to the outer and inner membranes of the ancestral cyanobacterium's gram negative cell wall, and not the phagosomal membrane from the host, which was probably lost. The new cellular resident quickly became an advantage, providing food for the eukaryotic host, which allowed it to live within it. Over time, the cyanobacterium was assimilated, and many of its genes were lost or transferred to the nucleus of the host. Some of its proteins were then synthesized in the cytoplasm of the host cell, and imported back into the chloroplast (formerly the cyanobacterium).",
+    "risposte_corrette": [
+      "eukaryotic",
+      "an early eukaryotic cell",
+      "eukaryotic"
+    ],
+    "token_stimati": 174
+  },
+  {
+    "id": "57296ab93f37b31900478369",
+    "argomento": "Chloroplast",
+    "domanda": "What is cpDNA's replication similar to?",
+    "contesto": "One of competing model for cpDNA replication asserts that most cpDNA is linear and participates in homologous recombination and replication structures similar to bacteriophage T4. It has been established that some plants have linear cpDNA, such as maize, and that more species still contain complex structures that scientists do not yet understand. When the original experiments on cpDNA were performed, scientists did notice linear structures; however, they attributed these linear forms to broken circles. If the branched and complex structures seen in cpDNA experiments are real and not artifacts of concatenated circular DNA or broken circles, then a D-loop mechanism of replication is insufficient to explain how those structures would replicate. At the same time, homologous recombination does not expand the multiple A --> G gradients seen in plastomes. Because of the failure to explain the deamination gradient as well as the numerous plant species that have been shown to have circular cpDNA, the predominant theory continues to hold that most cpDNA is circular and most likely replicates via a D loop mechanism.",
+    "risposte_corrette": [
+      "bacteriophage T4",
+      "bacteriophage T4.",
+      "bacteriophage T4"
+    ],
+    "token_stimati": 224
+  },
+  {
+    "id": "572972f46aef051400154ef2",
+    "argomento": "Chloroplast",
+    "domanda": "Where do cacti have chloroplasts?",
+    "contesto": "In some plants such as cacti, chloroplasts are found in the stems, though in most plants, chloroplasts are concentrated in the leaves. One square millimeter of leaf tissue can contain half a million chloroplasts. Within a leaf, chloroplasts are mainly found in the mesophyll layers of a leaf, and the guard cells of stomata. Palisade mesophyll cells can contain 30–70 chloroplasts per cell, while stomatal guard cells contain only around 8–15 per cell, as well as much less chlorophyll. Chloroplasts can also be found in the bundle sheath cells of a leaf, especially in C4 plants, which carry out the Calvin cycle in their bundle sheath cells. They are often absent from the epidermis of a leaf.",
+    "risposte_corrette": [
+      "in the stems",
+      "stems",
+      "stems"
+    ],
+    "token_stimati": 152
+  },
+  {
+    "id": "5729727baf94a219006aa437",
+    "argomento": "Prime number",
+    "domanda": "What is the name of the supposition that any number larger than 2 can be represented as the sum of two primes?",
+    "contesto": "Many questions regarding prime numbers remain open, such as Goldbach's conjecture (that every even integer greater than 2 can be expressed as the sum of two primes), and the twin prime conjecture (that there are infinitely many pairs of primes whose difference is 2). Such questions spurred the development of various branches of number theory, focusing on analytic or algebraic aspects of numbers. Primes are used in several routines in information technology, such as public-key cryptography, which makes use of properties such as the difficulty of factoring large numbers into their prime factors. Prime numbers give rise to various generalizations in other mathematical domains, mainly algebra, such as prime elements and prime ideals.",
+    "risposte_corrette": [
+      "Goldbach's conjecture",
+      "Goldbach's conjecture",
+      "Goldbach's conjecture",
+      "Goldbach's conjecture",
+      "Goldbach's conjecture"
+    ],
+    "token_stimati": 146
+  },
+  {
+    "id": "572998673f37b319004784d5",
+    "argomento": "Prime number",
+    "domanda": "What type of insect employs the use of prime numbers in its evolutionary strategy?",
+    "contesto": "The evolutionary strategy used by cicadas of the genus Magicicada make use of prime numbers. These insects spend most of their lives as grubs underground. They only pupate and then emerge from their burrows after 7, 13 or 17 years, at which point they fly about, breed, and then die after a few weeks at most. The logic for this is believed to be that the prime number intervals between emergences make it very difficult for predators to evolve that could specialize as predators on Magicicadas. If Magicicadas appeared at a non-prime number intervals, say every 12 years, then predators appearing every 2, 3, 4, 6, or 12 years would be sure to meet them. Over a 200-year period, average predator populations during hypothetical outbreaks of 14- and 15-year cicadas would be up to 2% higher than during outbreaks of 13- and 17-year cicadas. Though small, this advantage appears to have been enough to drive natural selection in favour of a prime-numbered life-cycle for these insects.",
+    "risposte_corrette": [
+      "cicadas",
+      "cicadas",
+      "cicadas",
+      "cicadas"
+    ],
+    "token_stimati": 215
+  },
+  {
+    "id": "572f6c85947a6a140053c940",
+    "argomento": "Rhine",
+    "domanda": "What contributed to water pollution in the Rhine? ",
+    "contesto": "Until the early 1980s, industry was a major source of water pollution. Although many plants and factories can be found along the Rhine up into Switzerland, it is along the Lower Rhine that the bulk of them are concentrated, as the river passes the major cities of Cologne, Düsseldorf and Duisburg. Duisburg is the home of Europe's largest inland port and functions as a hub to the sea ports of Rotterdam, Antwerp and Amsterdam. The Ruhr, which joins the Rhine in Duisburg, is nowadays a clean river, thanks to a combination of stricter environmental controls, a transition from heavy industry to light industry and cleanup measures, such as the reforestation of Slag and brownfields. The Ruhr currently provides the region with drinking water. It contributes 70 m3/s (2,500 cu ft/s) to the Rhine. Other rivers in the Ruhr Area, above all, the Emscher, still carry a considerable degree of pollution.",
+    "risposte_corrette": [
+      "plants and factories",
+      "industry",
+      "industry"
+    ],
+    "token_stimati": 195
+  },
+  {
+    "id": "5730069004bcaa1900d7702d",
+    "argomento": "Rhine",
+    "domanda": "Where do the branches Waal and Nederrijn-Lek discharge to?",
+    "contesto": "At present, the branches Waal and Nederrijn-Lek discharge to the North Sea, through the former Meuse estuary, near Rotterdam. The river IJssel branch flows to the north and enters the IJsselmeer, formerly the Zuider Zee brackish lagoon; however, since 1932, a freshwater lake. The discharge of the Rhine is divided among three branches: the River Waal (6/9 of total discharge), the River Nederrijn – Lek (2/9 of total discharge) and the River IJssel (1/9 of total discharge). This discharge distribution has been maintained since 1709, by river engineering works, including the digging of the Pannerdens canal and since the 20th century, with the help of weirs in the Nederrijn river.",
+    "risposte_corrette": [
+      "North Sea",
+      "North Sea",
+      "North Sea",
+      "North Sea"
+    ],
+    "token_stimati": 143
+  },
+  {
+    "id": "572fbea404bcaa1900d76c5b",
+    "argomento": "Scottish Parliament",
+    "domanda": "What is the seating arrangement of the debating chamber?",
+    "contesto": "The debating chamber of the Scottish Parliament has seating arranged in a hemicycle, which reflects the desire to encourage consensus amongst elected members. There are 131 seats in the debating chamber. Of the total 131 seats, 129 are occupied by the Parliament's elected MSPs and 2 are seats for the Scottish Law Officers – the Lord Advocate and the Solicitor General for Scotland, who are not elected members of the Parliament but are members of the Scottish Government. As such the Law Officers may attend and speak in the plenary meetings of the Parliament but, as they are not elected MSPs, cannot vote. Members are able to sit anywhere in the debating chamber, but typically sit in their party groupings. The First Minister, Scottish cabinet ministers and Law officers sit in the front row, in the middle section of the chamber. The largest party in the Parliament sits in the middle of the semicircle, with opposing parties on either side. The Presiding Officer, parliamentary clerks and officials sit opposite members at the front of the debating chamber.",
+    "risposte_corrette": [
+      "hemicycle",
+      "hemicycle",
+      "a hemicycle"
+    ],
+    "token_stimati": 230
+  },
+  {
+    "id": "572fd73e947a6a140053cd32",
+    "argomento": "Scottish Parliament",
+    "domanda": "What enables the Scottish Parliament to scrutinize the government?",
+    "contesto": "Several procedures enable the Scottish Parliament to scrutinise the Government. The First Minister or members of the cabinet can deliver statements to Parliament upon which MSPs are invited to question. For example, at the beginning of each parliamentary year, the First Minister delivers a statement to the chamber setting out the Government's legislative programme for the forthcoming year. After the statement has been delivered, the leaders of the opposition parties and other MSPs question the First Minister on issues related to the substance of the statement.",
+    "risposte_corrette": [
+      "Several procedures",
+      "Several procedures",
+      "Several procedures"
+    ],
+    "token_stimati": 111
+  },
+  {
+    "id": "5730035e04bcaa1900d77001",
+    "argomento": "Islamism",
+    "domanda": "When was the Muslim Brotherhood founded?",
+    "contesto": "Roughly contemporaneous with Maududi was the founding of the Muslim Brotherhood in Ismailiyah, Egypt in 1928 by Hassan al Banna. His was arguably the first, largest and most influential modern Islamic political/religious organization. Under the motto \"the Qur'an is our constitution,\" it sought Islamic revival through preaching and also by providing basic community services including schools, mosques, and workshops. Like Maududi, Al Banna believed in the necessity of government rule based on Shariah law implemented gradually and by persuasion, and of eliminating all imperialist influence in the Muslim world.",
+    "risposte_corrette": [
+      "1928",
+      "1928",
+      "1928"
+    ],
+    "token_stimati": 115
+  },
+  {
+    "id": "57302bd0b2c2fd14005689db",
+    "argomento": "Islamism",
+    "domanda": "What type of group is The Islamic State?",
+    "contesto": "\"The Islamic State\", formerly known as the \"Islamic State of Iraq and the Levant\" and before that as the \"Islamic State of Iraq\", (and called the acronym Daesh by its many detractors), is a Wahhabi/Salafi jihadist extremist militant group which is led by and mainly composed of Sunni Arabs from Iraq and Syria. In 2014, the group proclaimed itself a caliphate, with religious, political and military authority over all Muslims worldwide. As of March 2015[update], it had control over territory occupied by ten million people in Iraq and Syria, and has nominal control over small areas of Libya, Nigeria and Afghanistan. (While a self-described state, it lacks international recognition.) The group also operates or has affiliates in other parts of the world, including North Africa and South Asia.",
+    "risposte_corrette": [
+      "Wahhabi/Salafi jihadist extremist militant",
+      "Wahhabi/Salafi jihadist extremist militant group",
+      "extremist militant"
+    ],
+    "token_stimati": 166
+  },
+  {
+    "id": "57309564069b5314008321a5",
+    "argomento": "Imperialism",
+    "domanda": "When was John Gallagher born?",
+    "contesto": "During the 20th century, historians John Gallagher (1919–1980) and Ronald Robinson (1920–1999) constructed a framework for understanding European imperialism. They claim that European imperialism was influential, and Europeans rejected the notion that \"imperialism\" required formal, legal control by one government over another country. \"In their view, historians have been mesmerized by formal empire and maps of the world with regions colored red. The bulk of British emigration, trade, and capital went to areas outside the formal British Empire. Key to their thinking is the idea of empire 'informally if possible and formally if necessary.'\"[attribution needed] Because of the resources made available by imperialism, the world's economy grew significantly and became much more interconnected in the decades before World War I, making the many imperial powers rich and prosperous.",
+    "risposte_corrette": [
+      "1919",
+      "1919",
+      "1919",
+      "1919",
+      "1919"
+    ],
+    "token_stimati": 166
+  },
+  {
+    "id": "5730bb522461fd1900a9d011",
+    "argomento": "Imperialism",
+    "domanda": "Some people describe what between individuals or groups as imperialism or colonialism?",
+    "contesto": "Some have described the internal strife between various people groups as a form of imperialism or colonialism. This internal form is distinct from informal U.S. imperialism in the form of political and financial hegemony. This internal form of imperialism is also distinct from the United States' formation of \"colonies\" abroad. Through the treatment of its indigenous peoples during westward expansion, the United States took on the form of an imperial power prior to any attempts at external imperialism. This internal form of empire has been referred to as \"internal colonialism\". Participation in the African slave trade and the subsequent treatment of its 12 to 15 million Africans is viewed by some to be a more modern extension of America's \"internal colonialism\". However, this internal colonialism faced resistance, as external colonialism did, but the anti-colonial presence was far less prominent due to the nearly complete dominance that the United States was able to assert over both indigenous peoples and African-Americans. In his lecture on April 16, 2003, Edward Said made a bold statement on modern imperialism in the United States, whom he described as using aggressive means of attack towards the contemporary Orient, \"due to their backward living, lack of democracy and the violation of women’s rights. The western world forgets during this process of converting the other that enlightenment and democracy are concepts that not all will agree upon\".",
+    "risposte_corrette": [
+      "internal strife",
+      "internal strife",
+      "internal strife",
+      "internal strife",
+      "internal strife"
+    ],
+    "token_stimati": 297
+  },
+  {
+    "id": "5730b1e28ab72b1400f9c6ae",
+    "argomento": "United Methodist Church",
+    "domanda": "What are two official bodies of the UMC governing coalition?",
+    "contesto": "The church also holds that they \"are equally bound to respect the sacredness of the life and well-being of the mother, for whom devastating damage may result from an unacceptable pregnancy. In continuity with past Christian teaching, we recognize tragic conflicts of life with life that may justify abortion, and in such cases we support the legal option of abortion under proper medical procedures.\" As such, two official bodies of the United Methodist Church are part of the Religious Coalition for Reproductive Choice's governing coalition, The General Board of Church and Society, and the United Methodist Women. The church cautions that \"Governmental laws and regulations do not provide all the guidance required by the informed Christian conscience.\" The Church emphasizes the need to be in supportive ministry with all women, regardless of their choice.",
+    "risposte_corrette": [
+      "The General Board of Church and Society, and the United Methodist Women",
+      "two official bodies of the United Methodist Church",
+      "The General Board of Church and Society, and the United Methodist Women"
+    ],
+    "token_stimati": 174
+  },
+  {
+    "id": "5730d26fb54a4f140068cc94",
+    "argomento": "United Methodist Church",
+    "domanda": "Who ordained the first Methodist clergy?",
+    "contesto": "The first Methodist clergy were ordained by John Wesley, a priest of the Church of England, because of the crisis caused by the American Revolution which isolated the Methodists in the States from the Church of England and its sacraments. Today, the clergy includes men and women who are ordained by bishops as elders and deacons and are appointed to various ministries. Elders in the United Methodist Church itenerate and are subject to the authority and appointment of their bishops. They generally serve as pastors in local congregations. Deacons are in service ministry and may serve as musicians, liturgists, educators, business administrators, and a number of other areas. Elders and deacons are required to obtain a master's degree (generally an M.Div.), or another equivalent degree, before commissioning and then ultimately ordination. Elders in full connection are each a member of their Annual Conference Order of Elders. Likewise each deacon in full connection is a member of their Annual Conference Order of Deacons.",
+    "risposte_corrette": [
+      "John Wesley",
+      "John Wesley,",
+      "John Wesley"
+    ],
+    "token_stimati": 210
+  },
+  {
+    "id": "5733d5704776f4190066130e",
+    "argomento": "French and Indian War",
+    "domanda": "What was French population in North America?",
+    "contesto": "The French population numbered about 75,000 and was heavily concentrated along the St. Lawrence River valley, with some also in Acadia (present-day New Brunswick and parts of Nova Scotia, including Île Royale (present-day Cape Breton Island)). Fewer lived in New Orleans, Biloxi, Mississippi, Mobile, Alabama and small settlements in the Illinois Country, hugging the east side of the Mississippi River and its tributaries. French fur traders and trappers traveled throughout the St. Lawrence and Mississippi watersheds, did business with local tribes, and often married Indian women. Traders married daughters of chiefs, creating high-ranking unions.",
+    "risposte_corrette": [
+      "about 75,000",
+      "75,000",
+      "75,000",
+      "75,000",
+      "75,000"
+    ],
+    "token_stimati": 122
+  },
+  {
+    "id": "5733f7b9d058e614000b66a9",
+    "argomento": "French and Indian War",
+    "domanda": "Whose activities were the French able to gain knowledge of?",
+    "contesto": "The French acquired a copy of the British war plans, including the activities of Shirley and Johnson. Shirley's efforts to fortify Oswego were bogged down in logistical difficulties, exacerbated by Shirley's inexperience in managing large expeditions. In conjunction, Shirley was made aware that the French were massing for an attack on Fort Oswego in his absence when he planned to attack Fort Niagara. As a response, Shirley left garrisons at Oswego, Fort Bull, and Fort Williams (the latter two located on the Oneida Carry between the Mohawk River and Wood Creek at present-day Rome, New York). Supplies for use in the projected attack on Niagara were cached at Fort Bull.",
+    "risposte_corrette": [
+      "Shirley and Johnson.",
+      "British",
+      "British war plans",
+      "British war plans",
+      "Shirley and Johnson"
+    ],
+    "token_stimati": 143
+  },
+  {
+    "id": "57373d0cc3c5551400e51e85",
+    "argomento": "Force",
+    "domanda": "Who provided a philosophical discussion of force?",
+    "contesto": "Aristotle provided a philosophical discussion of the concept of a force as an integral part of Aristotelian cosmology. In Aristotle's view, the terrestrial sphere contained four elements that come to rest at different \"natural places\" therein. Aristotle believed that motionless objects on Earth, those composed mostly of the elements earth and water, to be in their natural place on the ground and that they will stay that way if left alone. He distinguished between the innate tendency of objects to find their \"natural place\" (e.g., for heavy bodies to fall), which led to \"natural motion\", and unnatural or forced motion, which required continued application of a force. This theory, based on the everyday experience of how objects move, such as the constant application of a force needed to keep a cart moving, had conceptual trouble accounting for the behavior of projectiles, such as the flight of arrows. The place where the archer moves the projectile was at the start of the flight, and while the projectile sailed through the air, no discernible efficient cause acts on it. Aristotle was aware of this problem and proposed that the air displaced through the projectile's path carries the projectile to its target. This explanation demands a continuum like air for change of place in general.",
+    "risposte_corrette": [
+      "Aristotle",
+      "Aristotle",
+      "Aristotle",
+      "Aristotle",
+      "Aristotle",
+      "Aristotle"
+    ],
+    "token_stimati": 275
+  },
+  {
+    "id": "573784fa1c45671900574483",
+    "argomento": "Force",
+    "domanda": "Who identified gravity as a force?",
+    "contesto": "What we now call gravity was not identified as a universal force until the work of Isaac Newton. Before Newton, the tendency for objects to fall towards the Earth was not understood to be related to the motions of celestial objects. Galileo was instrumental in describing the characteristics of falling objects by determining that the acceleration of every object in free-fall was constant and independent of the mass of the object. Today, this acceleration due to gravity towards the surface of the Earth is usually designated as  and has a magnitude of about 9.81 meters per second squared (this measurement is taken from sea level and may vary depending on location), and points toward the center of the Earth. This observation means that the force of gravity on an object at the Earth's surface is directly proportional to the object's mass. Thus an object that has a mass of  will experience a force:",
+    "risposte_corrette": [
+      "Isaac Newton",
+      "Isaac Newton",
+      "Isaac Newton",
+      "Isaac Newton"
+    ],
+    "token_stimati": 198
   }
 ]
