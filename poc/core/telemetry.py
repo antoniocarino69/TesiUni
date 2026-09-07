@@ -3,7 +3,9 @@
 Telemetry is deliberately best-effort. By default, trace payloads contain
 operational metadata only: no generated drafts, raw histograms, discarded
 tokens, user query, or final answer. ``capture_sensitive=True`` enables the
-full diagnostic payload for a trusted local/self-hosted Langfuse deployment.
+full diagnostic payload for authorized thesis experiments on a trusted
+endpoint, including cloud. A confidential deployment would use a local
+instance. Timing and operational diagnostics are NOT DP releases.
 
 External dependencies:
     ``langfuse`` is imported lazily when both Langfuse credentials exist.
@@ -130,6 +132,9 @@ class LangfuseTracer:
 
         if not self.is_active:
             return
+        metadata = {**dict(metadata or {}), "telemetry_purpose": "thesis_observability",
+                    "telemetry_dp_guarantee": False,
+                    "capture_sensitive": self.capture_sensitive}
         trace_input: dict[str, Any] = (
             {"domanda": domanda}
             if self.capture_sensitive
@@ -167,7 +172,7 @@ class LangfuseTracer:
                     "epsilon_find_best_k": decisione.epsilon_find_best_k,
                     "epsilon_top_k_ptr": decisione.epsilon_top_k_ptr,
                     "tempo_stimato_ms": decisione.tempo_stimato_ms,
-                    "ptr_pass_rate_attesa": decisione.ptr_pass_rate_attesa,
+                    "ptr_probability_reference_gap_3": decisione.ptr_pass_rate_attesa,
                     "motivazione": decisione.motivazione,
                 },
             )
@@ -216,11 +221,11 @@ class LangfuseTracer:
             "numero_invocazione": esito.numero_invocazione,
         }
         span_input: dict[str, Any] = {
-            "histogram_size": len(esito.conteggi_reali),
             "released_count": len(esito.parole_rilasciate),
         }
         output = {"termini_rilasciati": esito.parole_rilasciate}
         if self.capture_sensitive:
+            span_input["histogram_size"] = len(esito.conteggi_reali)
             span_input["raw_counts"] = esito.conteggi_reali
             metadata.update(
                 {
@@ -249,9 +254,10 @@ class LangfuseTracer:
             return None
         generation_metadata = {
             "byte_inviati": byte_inviati,
-            "risparmio_rete_percentuale": risparmio_perc,
             "latenza_ms": latenza_sec * 1000.0,
         }
+        if self.capture_sensitive:
+            generation_metadata["risparmio_testo_percentuale"] = risparmio_perc
         generation_output: str | dict[str, Any] = (
             risposta_finale
             if self.capture_sensitive
