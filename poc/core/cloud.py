@@ -26,7 +26,6 @@ DEFAULT_CLOUD_MODEL = "gpt-4o-mini"
 # the visible answer. A small cap can therefore produce a valid empty message.
 DEFAULT_CLOUD_MAX_TOKENS = 1024
 DEFAULT_CLOUD_TEMPERATURE = 0.2
-SIMULATED_CLOUD_LATENCY_SEC = 0.150
 
 
 @dataclass(frozen=True, slots=True)
@@ -39,6 +38,7 @@ class RisultatoCloud:
     byte_grezzi_rag: int
     risparmio_percentuale: float
     errore: str | None = None
+    simulato: bool = False
 
 
 class CloudGenerator:
@@ -67,6 +67,7 @@ class CloudGenerator:
         base_url: str | None = None,
         model: str | None = None,
         client: Any | None = None,
+        offline: bool = False,
     ) -> None:
         self.api_key = api_key or os.environ.get("CLOUD_API_KEY") or os.environ.get(
             "OPENAI_API_KEY"
@@ -78,6 +79,7 @@ class CloudGenerator:
             "OPENAI_MODEL", DEFAULT_CLOUD_MODEL
         )
         self._client = client
+        self.offline = offline
 
     def genera(
         self,
@@ -100,12 +102,15 @@ class CloudGenerator:
             still complete without exposing provider internals to the caller.
         """
 
-        keyword_string = ", ".join(parole_chiave)
+        keyword_string = ", ".join(sorted(set(parole_chiave)))
         prompt_cloud = (
             "You are a factual synthesis assistant. Answer the user question "
             "based strictly on these privately verified key concepts: "
             f"[{keyword_string}].\n\nQuestion: {domanda}"
         )
+        if not parole_chiave:
+            prompt_cloud = f"Answer the question using your general knowledge. Question: {domanda}"
+        # Text-volume estimates only: excludes JSON, headers, TLS and retries.
         byte_dp = len(prompt_cloud.encode("utf-8"))
         byte_grezzi = len("\n".join(testi_grezzi_per_confronto).encode("utf-8"))
         risparmio = (
@@ -114,13 +119,14 @@ class CloudGenerator:
             else 0.0
         )
 
-        if self._client is None and not self.api_key and not self.base_url:
+        if self.offline or (self._client is None and not self.api_key and not self.base_url):
             return RisultatoCloud(
                 risposta_testuale=(
                     "[Cloud Simulato] Synthesized response using verified terms "
-                    f"[{keyword_string}]: The answer is grounded in the retrieved facts."
+                    f"[{keyword_string}]. This simulation does not answer the question."
                 ),
-                latenza_rete_sec=SIMULATED_CLOUD_LATENCY_SEC,
+                latenza_rete_sec=0.0,
+                simulato=True,
                 byte_trasmessi_dp=byte_dp,
                 byte_grezzi_rag=byte_grezzi,
                 risparmio_percentuale=risparmio,

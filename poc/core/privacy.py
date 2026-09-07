@@ -1,6 +1,6 @@
 """Privacy mechanisms used by the DP-KSA pipeline.
 
-The module contains the two randomized mechanisms from Tang et al. (2025):
+The module contains the two randomized mechanisms from Tang et al. (local draft):
 ``FindBestK`` (Algorithm 3) and ``TopKWithPTR`` (Algorithm 2).  The
 histogram is built from set-valued responses, so each response contributes at
 most one count to a token.  This is the sample-and-aggregate assumption used
@@ -48,8 +48,8 @@ __all__ = [
 
 DEFAULT_DELTA = 1e-4
 DEFAULT_EPSILON = 1.0
-DEFAULT_R_MIN_K = 15
-DEFAULT_R_MAX_K = 30
+DEFAULT_R_MIN_K = 1
+DEFAULT_R_MAX_K = 10
 DEFAULT_SIGMA = 1.0
 DEFAULT_RDP_ORDERS: tuple[float, ...] = (
     2.0,
@@ -351,28 +351,22 @@ def _ordina_token(istogramma: Mapping[str, int]) -> list[str]:
     ]
 
 
-def calcola_gap(istogramma: Mapping[str, int]) -> dict[int, float]:
-    """Compute ``d_k = H(k) - H(k+1)`` for all valid ``k``.
+def calcola_gap(
+    istogramma: Mapping[str, int], max_k: int | None = None,
+) -> dict[int, float]:
+    """Histogram gaps with implicit zero counts beyond observed tokens.
 
-    Args:
-        istogramma: Positive token counts produced by
-            :func:`costruisci_istogramma`.
-
-    Returns:
-        One-indexed histogram gaps. An empty or single-token histogram has no
-        valid gap and returns an empty mapping.
-
-    Raises:
-        ValueError: If a count is negative or non-integral.
+    FindBestK always supplies a PUBLIC max_k, independent of the histogram.
+    With max_k omitted this function is local diagnostic output only.
     """
-
     if any(not isinstance(count, int) or count < 0 for count in istogramma.values()):
         raise ValueError("l'istogramma deve contenere conteggi interi non negativi")
-    token_ordinati = _ordina_token(istogramma)
-    return {
-        k: float(istogramma[token_ordinati[k - 1]] - istogramma[token_ordinati[k]])
-        for k in range(1, len(token_ordinati))
-    }
+    counts = sorted((c for c in istogramma.values() if c > 0), reverse=True)
+    limit = len(counts) if max_k is None else max_k
+    if not isinstance(limit, int) or limit < 0:
+        raise ValueError("max_k deve essere un intero non negativo")
+    counts = counts[:limit + 1] + [0] * max(0, limit + 1 - len(counts))
+    return {k: float(counts[k - 1] - counts[k]) for k in range(1, limit + 1)}
 
 
 def sample_gumbel_noise(
@@ -382,7 +376,9 @@ def sample_gumbel_noise(
 ) -> float | np.ndarray:
     """Sample centered Gumbel noise used by FindBestK.
 
-    The paper uses ``Gumbel(2 / epsilon)``.  The location is centered by
+    Appendix A.7 requires ``Gumbel(2 * sensitivity / epsilon)``.
+    With sensitivity 2 we conservatively use scale 4/epsilon, rather than
+    the inconsistent 2/epsilon written in Algorithm 3.  The location is centered by
     subtracting the Euler-Mascheroni mean; this does not change the argmax
     distribution because the same constant is subtracted from every utility.
 
@@ -392,11 +388,11 @@ def sample_gumbel_noise(
         rng: Optional NumPy generator for reproducible experiments.
 
     Returns:
-        A centered Gumbel sample or NumPy array with scale ``2 / epsilon``.
+        A centered Gumbel sample or NumPy array with scale ``4 / epsilon``.
     """
 
     _validate_positive_finite(epsilon, "epsilon")
-    scale = GLOBAL_GAP_SENSITIVITY / epsilon
+    scale = 2.0 * GLOBAL_GAP_SENSITIVITY / epsilon
     samples = _rng_or_default(rng).gumbel(loc=0.0, scale=scale, size=size)
     centered = samples - EULER_MASCHERONI * scale
     if size is None:
@@ -416,10 +412,8 @@ def _find_best_k_details(
     _validate_positive_finite(epsilon, "epsilon")
     if r_min_k < 1 or r_max_k < r_min_k:
         raise ValueError("i limiti del regolarizzatore devono soddisfare 1 <= min <= max")
-    gaps = calcola_gap(istogramma)
-    candidati = [k for k in gaps if r_min_k <= k <= r_max_k]
-    if not candidati:
-        return FindBestKResult(k_hat=0, scores={}, gaps={}, noise={})
+    gaps = calcola_gap(istogramma, max_k=r_max_k)
+    candidati = list(range(r_min_k, r_max_k + 1))
 
     generator = _rng_or_default(rng)
     scores: dict[int, float] = {}
@@ -448,10 +442,10 @@ def find_best_k(
 ) -> int:
     """Select ``k_hat`` with the exponential mechanism from Algorithm 3.
 
-    Sensitivity argument (Tang et al., 2025, Sec. 5): for adjacent datasets
+    Sensitivity argument (Tang et al., Sec. 5): for adjacent datasets
     differing in one document, one response can change. One token can gain
     one count in ``H(k)`` while another loses one count in ``H(k+1)``, hence
-    ``d_k`` has global sensitivity 2 and the Gumbel scale is ``2 / epsilon``.
+    ``d_k`` has global sensitivity 2 and the Gumbel scale is ``4 / epsilon``.
 
     Args:
         istogramma: Positive histogram of response-token frequencies.
@@ -461,8 +455,7 @@ def find_best_k(
         rng: Optional random generator.
 
     Returns:
-        The selected number of keywords, or zero when no admissible gap
-        exists.
+        A keyword count in the public interval, even for an empty histogram.
     """
 
     return _find_best_k_details(istogramma, epsilon, r_min_k, r_max_k, rng).k_hat
@@ -509,19 +502,14 @@ def top_k_with_ptr(
     if not isinstance(k, int) or k < 1:
         raise ValueError("k deve essere un intero positivo")
     token_ordinati = _ordina_token(istogramma)
-    if k >= len(token_ordinati):
-        raise ValueError("k deve essere minore del numero di token osservati")
-
-    gap = float(
-        istogramma[token_ordinati[k - 1]] - istogramma[token_ordinati[k]]
-    )
-    gaussian_threshold = 2.0 * sigma * NormalDist().inv_cdf(1.0 - delta)
+    gap = calcola_gap(istogramma, max_k=k)[k]
+    gaussian_threshold = 2.0 * sigma * (-NormalDist().inv_cdf(delta))
     gaussian_noise = float(_rng_or_default(rng).normal(loc=0.0, scale=2.0 * sigma))
     noisy_gap = max(GLOBAL_GAP_SENSITIVITY, gap) + gaussian_noise - gaussian_threshold
     passed = noisy_gap > GLOBAL_GAP_SENSITIVITY and (
         not strict_gap_guard or gap > GLOBAL_GAP_SENSITIVITY
     )
-    released_tokens = tuple(token_ordinati[:k]) if passed else ()
+    released_tokens = tuple(sorted(token_ordinati[:k])) if passed else ()
     return PTRResult(
         gap=gap,
         noisy_gap=noisy_gap,
@@ -570,7 +558,7 @@ def probabilita_passaggio_ptr(
     if strict_gap_guard and gap <= GLOBAL_GAP_SENSITIVITY:
         return 0.0
 
-    gaussian_threshold = 2.0 * sigma * NormalDist().inv_cdf(1.0 - delta)
+    gaussian_threshold = 2.0 * sigma * (-NormalDist().inv_cdf(delta))
     effective_gap = max(GLOBAL_GAP_SENSITIVITY, gap)
     z_score = (
         gaussian_threshold + GLOBAL_GAP_SENSITIVITY - effective_gap
@@ -785,9 +773,9 @@ def calcola_account_rdp(
 
 
 class DP_KSA_Filter:
-    """Implement the formal DP-KSA keyword extraction mechanism.
+    """Implement DP-KSA with a public domain and conservative EM calibration.
 
-    Sensitivity argument (Tang et al., 2025, Sec. 5): for adjacent databases
+    Sensitivity argument (Tang et al., Sec. 5): for adjacent databases
     ``D`` and ``D'`` differing in one document, the retrieved sets differ in
     one response. Hence histograms ``H`` and ``H'`` differ in one response.
     The utility ``d_k = H(k) - H(k+1)`` has global sensitivity 2: one token
@@ -812,7 +800,10 @@ class DP_KSA_Filter:
         epsilon_find_best_k: Optional explicit FindBestK allocation.
         epsilon_top_k_ptr: Optional explicit PTR allocation.
         delta_conversion: Optional delta used by RDP conversion.
-        rng: Optional random generator for reproducible experiments.
+        delta_budget: Cumulative delta ceiling; defaults to the one-call
+            delta_ptr + delta_conversion. Set explicitly for a multi-query session.
+        rng: Optional random generator for local reproducibility only. Never
+            expose DP noise seeds for releases of confidential data.
         strict_gap_guard: Optional operational no-release guard for gaps at
             most two. Disabled by default because Algorithm 2 already
             accounts for the ``delta`` failure branch.
@@ -834,6 +825,7 @@ class DP_KSA_Filter:
         epsilon_find_best_k: float | None = None,
         epsilon_top_k_ptr: float | None = None,
         delta_conversion: float | None = None,
+        delta_budget: float | None = None,
         rng: np.random.Generator | None = None,
         strict_gap_guard: bool = False,
     ) -> None:
@@ -856,7 +848,7 @@ class DP_KSA_Filter:
                 epsilon,
                 find_epsilon,
                 top_epsilon,
-                delta,
+                delta if delta_conversion is None else delta_conversion,
             )
             if sigma is None
             else sigma
@@ -874,6 +866,11 @@ class DP_KSA_Filter:
                 f"richiesto {account.epsilon_dp:.6f}, disponibile {epsilon:.6f}"
             )
 
+        total_delta_budget = account.delta_total if delta_budget is None else delta_budget
+        _validate_delta(total_delta_budget, "delta_budget")
+        if account.delta_total > total_delta_budget + 1e-15:
+            raise ValueError("delta di una chiamata supera delta_budget")
+        self.delta_budget = total_delta_budget
         self.epsilon = epsilon
         self.delta = delta
         self.sigma = chosen_sigma
@@ -897,6 +894,15 @@ class DP_KSA_Filter:
             alpha: alpha / (2.0 * chosen_sigma**2)
             for alpha in DEFAULT_RDP_ORDERS
         }
+
+    @property
+    def numero_invocazioni(self) -> int:
+        """Number of releases charged to this sequential in-memory account."""
+        return self._invocations
+
+    def verifica_budget(self) -> RDPAccount:
+        """Check the next invocation before expensive inference; do not spend it."""
+        return self._account_for_next_invocation()
 
     def _account_for_next_invocation(self) -> RDPAccount:
         """Compose one more invocation and reject an over-budget release."""
@@ -923,7 +929,8 @@ class DP_KSA_Filter:
                 invocation_count * self.delta + self.delta_conversion,
             ) from exc
 
-        if candidate.epsilon_dp > self.epsilon + 1e-9:
+        if (candidate.epsilon_dp > self.epsilon + 1e-9
+                or candidate.delta_total > self.delta_budget + 1e-15):
             raise DPBudgetExhaustedError(
                 self.epsilon,
                 candidate.epsilon_dp,
@@ -951,7 +958,7 @@ class DP_KSA_Filter:
         istogramma = costruisci_istogramma(bozze_ensemble)
         candidate_account = self._account_for_next_invocation()
         token_ordinati = _ordina_token(istogramma)
-        gap_per_k = calcola_gap(istogramma)
+        gap_per_k = calcola_gap(istogramma, max_k=self.r_max_k)
         find_result = _find_best_k_details(
             istogramma,
             self.epsilon_find_best_k,

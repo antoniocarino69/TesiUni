@@ -84,3 +84,21 @@ def test_custom_model_url_is_used_for_a_missing_destination(
 
     assert observed["url"] == "https://models.local/custom.gguf"
     assert destination.read_bytes() == b"partial"
+
+
+def test_public_prompt_cap_includes_query_and_template() -> None:
+    from core.engine import LocalNeuralEngine
+    from core.model_config import costruisci_prompt
+    class Tokenizer:
+        def tokenize(self, text):
+            return list(text)
+    engine = LocalNeuralEngine.__new__(LocalNeuralEngine)
+    engine.llm = Tokenizer()
+    engine.n_ctx = 4096
+    base = len(costruisci_prompt('', 'query').encode())
+    context = engine.limita_contesto('private document words ' * 100, 'query', base + 50, 30)
+    assert len(costruisci_prompt(context, 'query').encode()) <= base + 50
+    with pytest.raises(ValueError, match='Query e template'):
+        engine.limita_contesto('context', 'query', base - 1, 30)
+    with pytest.raises(ValueError, match='n_ctx'):
+        engine.limita_contesto('context', 'query', 4096, 30)

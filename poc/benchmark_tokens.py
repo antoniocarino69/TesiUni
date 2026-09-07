@@ -60,7 +60,7 @@ def carica_dati_reali() -> str:
 
 def main() -> None:
     console.print(Panel.fit(
-        "[bold cyan]Benchmark Architetturale: Impatto dei Token di Ingresso su TTFT e Throughput[/bold cyan]\n"
+        "[bold cyan]Benchmark Architetturale: Impatto dei Token di Ingresso sui tempi totali[/bold cyan]\n"
         "[dim]Valutazione sperimentale della fase di Prefill e Generazione su Apple Silicon (Metal)[/dim]",
         border_style="cyan"
     ))
@@ -105,11 +105,12 @@ def main() -> None:
     tabella = Table(title="Risultati Sperimentali: Scaling Prestazionale al variare del Contesto", show_header=True)
     tabella.add_column("Profilo Contesto", style="bold")
     tabella.add_column("Prompt Tokens (Input)", justify="right")
-    tabella.add_column("TTFT (Prefill stimato ms)", justify="right")
-    tabella.add_column("Throughput Prefill (tok/s)", justify="right")
-    tabella.add_column("Generazione (tok/s)", justify="right")
+    tabella.add_column("Prefill stimato (non TTFT, ms)", justify="right")
+    tabella.add_column("Input / tempo totale (tok/s)", justify="right")
+    tabella.add_column("Output / tempo totale (tok/s)", justify="right")
     tabella.add_column("Tempo Totale (ms)", justify="right")
 
+    durate_misurate = []
     with Progress(
         SpinnerColumn(),
         TextColumn("[progress.description]{task.description}"),
@@ -135,6 +136,7 @@ def main() -> None:
             n_prompt_tokens = usage["prompt_tokens"]
             n_completion_tokens = usage["completion_tokens"]
             tempo_totale_ms = (t_fine - t_inizio) * 1000
+            durate_misurate.append(tempo_totale_ms)
 
             # Il benchmark non espone il breakdown prefill/generazione da
             # llama.cpp: il valore riportato è quindi una stima euristica.
@@ -154,14 +156,15 @@ def main() -> None:
             progress.advance(task)
 
     console.print(tabella)
-    console.print(Panel(
-        "[bold]Implicazione Architetturale per la Tesi:[/bold]\n"
-        "All'aumentare dei token in ingresso (da ~100 a ~1000 token per documento), il calcolatore locale spende\n"
-        "fino a 5-8 volte più tempo nella fase di ingestione (Prefill / Memory Wall) per ogni elemento dell'ensemble.\n"
-        "Lo [bold cyan]Scheduler Adattivo[/bold cyan] deve quindi conoscere sia lo stato della rete sia la taglia in token\n"
-        "dei documenti recuperati per decidere quante risposte dell'ensemble locale generare senza superare la soglia massima di latenza.",
-        border_style="magenta"
-    ))
+    if durate_misurate and durate_misurate[0] > 0:
+        ratio = durate_misurate[-1] / durate_misurate[0]
+        console.print(Panel(
+            f"Rapporto misurato tempo totale ultimo/primo profilo: {ratio:.2f}x.\n"
+            "Una misura per profilo su testo ripetuto artificialmente: non è una stima "
+            "del TTFT né una conclusione generale sul prefill. Ripetere su documenti distinti "
+            "e riportare la variabilità prima di trarre conclusioni.",
+            border_style="magenta",
+        ))
 
 if __name__ == "__main__":
     main()

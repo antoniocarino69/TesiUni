@@ -196,3 +196,20 @@ def test_telemetry_supports_langfuse_v4_observations() -> None:
 
     assert trace_url == "http://langfuse.local/trace/trace-v4"
     assert client.trace_result.ended
+
+
+def test_redacted_trace_omits_unprotected_histogram_and_context_volume() -> None:
+    tracer, trace = _tracer(capture_sensitive=False)
+    tracer.avvia_richiesta('query')
+    tracer.registra_fase_privacy(_esito())
+    assert 'histogram_size' not in trace.spans[0].input
+    tracer.registra_fase_cloud('answer', 100, 98.123, 0.1)
+    # Capture kwargs directly: old fake generation did not retain metadata.
+    captured = {}
+    def generation(**kwargs):
+        captured.update(kwargs)
+        return _FakeSpan()
+    trace.generation = generation
+    tracer.registra_fase_cloud('answer', 100, 98.123, 0.1)
+    assert 'risparmio_testo_percentuale' not in captured['metadata']
+    assert 'risparmio_rete_percentuale' not in captured['metadata']

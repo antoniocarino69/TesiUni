@@ -1,130 +1,118 @@
-# Privacy Accounting
+# Privacy: meccanismo, adattamenti e limiti
 
-Questo documento definisce il contratto matematico implementato da
-`core.privacy`. Le formule seguono Tang et al., *Differentially Private
-Retrieval-Augmented Generation*, Algorithm 2, Algorithm 3 e Theorems A.6,
-A.9 e A.10 del PDF incluso nella directory degli studi di partenza.
+Riferimento: Tang et al., *Differentially Private Retrieval-Augmented
+Generation*, PDF presente nella root, Algoritmi 1–3 e Appendice A. Il PDF
+riporta metadati editoriali provvisori `YYYY(X)`: non va attribuita una
+pubblicazione PoPETS 2025 verificata. Il testo online disponibile è anche
+consultabile su [arXiv](https://arxiv.org/html/2602.14374v1).
 
-## Ipotesi
+## Ipotesi necessarie
 
-La garanzia riguarda il database esterno di retrieval, non i dati di
-pre-training del modello. Per due database adiacenti:
+La query, il dominio di k, N, i limiti dei prompt e i parametri di privacy
+sono pubblici e fissati indipendentemente dal contenuto privato. L'adiacenza
+riguarda la sostituzione di un documento originale normalizzato. Il retrieval
+deve modificare al massimo un membro dell'ensemble; una risposta dipende da
+un solo documento e ogni parola vi contribuisce al massimo una volta.
 
-- il retriever modifica al massimo un documento restituito;
-- ogni documento restituito appartiene a una sola risposta locale;
-- ogni risposta contribuisce al massimo una volta per token all'istogramma;
-- la scelta dello scheduler usa soltanto segnali operativi non privati;
-- la generazione cloud successiva riceve solo la query e l'output DP.
+Il retriever locale soddisfa questa proprietà perché punteggi ed estratti sono
+calcolati separatamente per documento, con pareggi stabili. Mancanze nel top-N
+sono riempite da slot vuoti pubblici. Cambiare N in funzione delle lunghezze
+private, usare IDF globale o voti indipendenti per chunk invaliderebbe questa
+analisi. Errori di ingestione, tempi, contatori e diagnostica non sono output
+protetti dal filtro. La correttezza dei parser e l'indipendenza del generatore
+sono assunzioni del sistema, non dimostrate dai test statistici.
 
-Se una di queste condizioni non vale, il bound non può essere dichiarato senza
-una nuova analisi di sensibilità.
+## FindBestK: dominio pubblico e calibrazione
 
-## PTR
+L'intervallo predefinito è `1 <= k <= 10`, adatto a risposte brevi. Può essere
+configurato prima della richiesta. H include implicitamente conteggi zero:
+si calcolano tutti i gap del dominio pubblico, anche se ci sono pochi token,
+e anche il gap tra l'ultimo token osservato e zero. Non si decide mai se
+eseguire FindBestK contando i token distinti privati.
 
-Per il candidato `k` si definisce:
+Per istogrammi adiacenti ogni conteggio ordinato cambia al massimo di 1,
+quindi `d_k = H(k)-H(k+1)` ha sensibilità globale al massimo 2. Il codice usa:
 
 ```text
-g = H(k) - H(k + 1)
-Delta(g) = 2
-Z ~ Normal(0, 4 sigma^2)
-tau = 2 sigma Phi^-1(1 - delta)
+Pr[k] proporzionale a exp(epsilon_find * (d_k + r(k)) / 4)
+score_k = d_k + r(k) + Gumbel(scale=4/epsilon_find)
+```
+
+Questa è una scelta conservativa esplicita rispetto allo pseudocodice
+Algoritmo 3, che scrive scala `2/epsilon`. La Definizione A.7 nello stesso PDF
+usa `exp(epsilon*q/(2*Delta(q)))`; con Delta=2 implica scala 4/epsilon.
+Si applicano quindi A.8 e A.9 all'effettivo epsilon configurato, senza
+assumere un miglioramento non dimostrato della costante. La centratura del
+Gumbel non cambia l'argmax. I test verificano scala e distribuzione di scelta.
+
+## TopKWithPTR
+
+```text
+g = H(k) - H(k+1)
+Z ~ Normal(0, 4 sigma²)
+tau = 2 sigma Phi^-1(1-delta_ptr)
 g_hat = max(2, g) + Z - tau
+rilascia se g_hat > 2
+P(pass | g) = 1 - Phi((tau + 2 - max(2,g)) / (2 sigma))
 ```
 
-`TopKWithPTR` rilascia i primi `k` token se e solo se `g_hat > 2`.
-Il valore `2` è sia la sensibilità globale della differenza sia la soglia
-del test. La funzione `probabilita_passaggio_ptr()` implementa la probabilità
-analitica dello stesso evento:
+Con `g <= 2` la probabilità di passaggio è delta_ptr, non zero (Teorema A.10).
+Il calcolo della quantile usa `-Phi^-1(delta_ptr)` per evitare la perdita di
+precisione di `1-delta_ptr` quando delta è piccolo.
+
+Quando il test passa, il codice seleziona i top-k e li ordina alfabeticamente.
+Il gap rende stabile l'insieme, non l'ordine interno delle frequenze private:
+quest'ultimo non deve essere esposto. Se k supera il numero di token osservati,
+g=0 e l'eventuale rilascio appartiene al failure event contabilizzato da delta;
+si restituiscono soltanto token osservati, mai segnaposto o conteggi zero.
+
+`strict_gap_guard=True` resta una modalità sperimentale separata, disattivata:
+sopprime i rilasci con gap <=2 e non è usata per rivendicare la prova del paper.
+
+## Account RDP e richieste ripetute
+
+Per ordine alpha, i Teoremi A.9 e A.10 danno:
 
 ```text
-P(pass | g) = 1 - Phi((tau + 2 - max(2, g)) / (2 sigma))
+epsilon_RDP(alpha) = epsilon_EM(alpha, epsilon_find) + alpha/(2*sigma²)
+epsilon_DP = min_alpha(epsilon_RDP(alpha) + log(1/delta_conversion)/(alpha-1))
+delta_totale = delta_ptr + delta_conversion
 ```
 
-Per `g <= 2`, la formula si riduce a `delta`. Questo è il failure event
-contabilizzato dal Theorem A.10. Per `g > 2`, la probabilità cresce con il gap.
+La conversione segue A.6. Di default `delta_conversion=delta_ptr`, quindi
+`--delta 1e-4` significa delta totale `2e-4` per una chiamata. Il limite epsilon
+è quello totale della conversione, non la semplice somma di due quote nominali.
 
-`strict_gap_guard=True` sopprime anche il failure event `g <= 2`. È una policy
-operativa aggiuntiva, non l’Algorithm 2 del paper: non viene attivata di
-default e non deve essere presentata come parte della prova formale senza una
-dimostrazione separata.
+Per m chiamate sulla stessa istanza, si sommano prima le componenti RDP per
+ordine (A.3), poi si converte una volta. Il delta diventa
+`m*delta_ptr + delta_conversion`. Il filtro rifiuta una chiamata che superi
+il limite epsilon o `delta_budget`, prima di consumare nuova casualità.
+Il delta_budget predefinito consente una chiamata; per una sessione va
+configurato esplicitamente. L'account è in memoria e per uso sequenziale.
 
-## RDP per una chiamata
+Una query diversa sullo stesso corpus **non azzera il budget**. La CLI singola
+rende esplicito `account_scope=single_request`; avvii ripetuti non implementano
+un account persistente di deployment. Per più richieste nel processo passare
+lo stesso filtro a `run_request`. `benchmark_scheduler.py` lo fa per tutta la
+sessione, inclusi i diversi N. Una nuova istanza non ripristina privacy già
+spesa: un servizio reale deve conservare l'account anche fra riavvii.
+Seed noti del rumore non vanno usati per rilasci riservati; il seed del benchmark
+di confronto controlla soltanto l'ordine degli esperimenti.
 
-Per ogni ordine di Rényi `alpha` il filtro compone:
+## Telemetria e risultati della tesi
 
-```text
-epsilon_find(alpha) = epsilon_EM(alpha)
-epsilon_ptr(alpha)  = alpha / (2 sigma^2)
-epsilon_total(alpha) = epsilon_find(alpha) + epsilon_ptr(alpha)
-```
+Langfuse serve a osservare e dimostrare cosa accade nelle fasi della pipeline.
+L'attuale uso sperimentale può avvenire sul servizio cloud con dati autorizzati;
+non è necessario predisporre ora un'istanza locale. In produzione con documenti
+riservati si userebbe un'istanza locale nel perimetro fidato.
 
-La conversione usa il Theorem A.6:
+`capture_sensitive` abilita bozze, conteggi, gap, query, risposta e statistiche
+sui documenti. La modalità redatta rimuove questi contenuti ma contiene ancora
+tempi e contatori operativi: nessuna delle due modalità viene dichiarata DP.
+Ogni trace espone questa distinzione nei metadati. I report JSON e la console
+sono diagnostica locale, anch'essi esterni all'accounting del rilascio cloud.
+L'esecuzione `--no-telemetry` permette di non creare trace.
 
-```text
-epsilon_DP = min_alpha(
-    epsilon_total(alpha) + log(1 / delta_conversion) / (alpha - 1)
-)
-delta_total = delta_ptr + delta_conversion
-```
-
-`delta_ptr` è il failure probability del PTR; `delta_conversion` è il delta
-usato nella conversione RDP-to-DP. Per impostazione predefinita entrambi
-valgono `delta`, quindi `delta_total = 2 * delta` per una chiamata.
-
-## Composizione tra chiamate
-
-Un `DP_KSA_Filter` è un account stateful. Se la stessa istanza viene usata `n`
-volte su dati correlati, il filtro non somma gli epsilon già convertiti.
-Ricostruisce invece l’account composto per ogni ordine:
-
-```text
-epsilon_find_n(alpha) = n * epsilon_find(alpha)
-epsilon_ptr_n(alpha)  = n * epsilon_ptr(alpha)
-epsilon_total_n(alpha) = epsilon_find_n(alpha) + epsilon_ptr_n(alpha)
-delta_ptr_n = n * delta_ptr
-delta_total_n = delta_ptr_n + delta_conversion
-```
-
-Solo dopo questa composizione viene applicato il `min` sugli ordini e viene
-calcolato `epsilon_DP`. Una nuova chiamata che supererebbe il budget solleva
-`DPBudgetExhaustedError` prima di consumare nuova casualità.
-
-Di conseguenza:
-
-- `budget_consumato_epsilon` e `budget_consumato_delta` sono cumulativi;
-- `epsilon_rimasto` è sempre `epsilon_budget - epsilon_DP_cumulativo`;
-- `numero_invocazione` identifica il punto dell’account composto;
-- per richieste indipendenti va creata una nuova istanza del filtro;
-- un RNG passato al filtro, o creato automaticamente quando `rng=None`, vive
-  per tutta la durata dell’istanza.
-
-## Audit e telemetria
-
-`EsitoDP` contiene diagnostica privata utile per esperimenti locali. Non tutto
-il contenuto dell’oggetto è un output da inviare al cloud. In particolare,
-conteggi, gap, ordine dei token e token scartati devono rimanere nel perimetro
-fidato.
-
-`LangfuseTracer` applica per default una modalità redatta:
-
-- niente query, bozze locali, istogrammi grezzi, gap grezzi o risposta finale;
-- solo contatori, tempi, esito del PTR e accounting aggregato;
-- i token rilasciati possono essere tracciati perché sono già l’output DP
-  inviato al provider cloud.
-
-`LANGFUSE_CAPTURE_SENSITIVE=true` abilita la diagnostica completa. Va usato
-solo con un’istanza Langfuse fidata, preferibilmente self-hosted e nella stessa
-zona di sicurezza del sistema. Il tracer resta best-effort: un errore di
-connessione o flush non modifica la decisione privacy.
-
-## Verifiche automatiche
-
-I test coprono:
-
-- riduzione analitica a `P(pass) = delta` per `g <= 2`;
-- formula analitica per un gap stabile `g = 3`;
-- composizione cumulativa di epsilon e delta tra invocazioni;
-- rifiuto della chiamata successiva al superamento del budget;
-- persistenza dello stream RNG per istanza;
-- redazione e opt-in dei payload Langfuse;
-- percorso `DatasetLoader -> AdaptiveScheduler -> DP_KSA_Filter` senza modello.
+Questi adattamenti rimuovono i controesempi della review. Non costituiscono
+una certificazione della pipeline: valgono le ipotesi sopra, e la prova
+assunta di TopKWithPTR resta quella del paper.

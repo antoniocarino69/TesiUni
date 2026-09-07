@@ -2,8 +2,6 @@
 
 from __future__ import annotations
 
-import math
-
 import pytest
 
 from core.privacy import probabilita_passaggio_ptr
@@ -17,7 +15,7 @@ def _documents(count: int = 40) -> list[int]:
     return [10] * count
 
 
-def test_slow_network_clamps_to_minimum_ensemble() -> None:
+def test_slow_network_returns_infeasible_zero_shot() -> None:
     decision = AdaptiveScheduler().schedule(
         _documents(),
         epsilon_budget=1.0,
@@ -25,7 +23,9 @@ def test_slow_network_clamps_to_minimum_ensemble() -> None:
         latenza_massima_ms=1_500.0,
         tempo_cloud_ms=150.0,
     )
-    assert decision.n_ensemble == 5
+    assert decision.n_ensemble == 0
+    assert not decision.sla_fattibile
+    assert decision.modalita == "zero_shot"
     assert decision.sigma > 0.0
 
 
@@ -40,12 +40,12 @@ def test_fast_network_uses_maximum_ensemble() -> None:
     assert decision.n_ensemble == 40
 
 
-def test_intermediate_latency_uses_capacity_clamp() -> None:
+def test_intermediate_latency_uses_estimated_capacity() -> None:
     decision = AdaptiveScheduler().schedule(
         _documents(),
         epsilon_budget=1.0,
         latenza_rete_ms=50.0,
-        latenza_massima_ms=3_000.0,
+        latenza_massima_ms=6_000.0,
         tempo_cloud_ms=150.0,
     )
     assert 5 <= decision.n_ensemble < 40
@@ -85,8 +85,7 @@ def test_ptr_pass_rate_uses_the_algorithm_2_gap_boundary() -> None:
         latenza_massima_ms=30_000.0,
     )
     analytical = probabilita_passaggio_ptr(3.0, decision.sigma, 1e-4)
-    empirical = 1.0 - math.exp(-decision.epsilon_top_k_ptr / 2.0)
-    expected = analytical * 0.5 + empirical * 0.5
+    expected = analytical
     assert decision.ptr_pass_rate_attesa == pytest.approx(expected)
 
 
@@ -98,11 +97,33 @@ def test_scheduler_validates_inputs() -> None:
     scheduler = AdaptiveScheduler()
     with pytest.raises(ValueError):
         scheduler.schedule([], epsilon_budget=1.0)
-    with pytest.raises(ValueError):
-        scheduler.schedule([1, 2], epsilon_budget=1.0)
+    assert scheduler.schedule([1, 2], epsilon_budget=1.0).n_ensemble == 0
     with pytest.raises(ValueError):
         scheduler.schedule(_documents(), epsilon_budget=1.0, tok_per_sec_prefill=0.0)
     with pytest.raises(ValueError):
         scheduler.schedule(_documents(), epsilon_budget=1.0, tok_per_sec_generazione=0.0)
     with pytest.raises(ValueError):
         scheduler.schedule(_documents(), epsilon_budget=1.0, delta=0.0)
+
+
+def test_impossible_edge_work_returns_zero_shot_with_feasible_cloud():
+    result = AdaptiveScheduler().schedule([10] * 40, 1.0)
+    assert result.n_ensemble == 0
+    assert result.tempo_stimato_ms == 200
+    assert result.sla_fattibile
+
+
+def test_fixed_baseline_explicitly_reports_estimated_sla_violation():
+    result = AdaptiveScheduler().schedule([10] * 40, 1.0, fixed_n=5)
+    assert result.n_ensemble == 5
+    assert result.tempo_stimato_ms == 3400
+    assert not result.sla_fattibile
+
+
+@pytest.mark.parametrize('kwargs', [
+    {'delta': 0.7}, {'epsilon_budget': 0.00001}, {'fixed_n': 41},
+    {'latenza_rete_ms': float('nan')}, {'tok_per_sec_prefill': float('inf')},
+])
+def test_invalid_or_unfundable_schedule(kwargs):
+    with pytest.raises(ValueError):
+        AdaptiveScheduler().schedule([10] * 40, **{'epsilon_budget': 1.0, **kwargs})

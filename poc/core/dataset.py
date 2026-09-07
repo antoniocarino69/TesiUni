@@ -17,6 +17,8 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
+from .documents import DocumentCorpus, LocalDocument, content_id
+
 __all__ = ["DatasetLoader", "DocumentoBenchmark"]
 
 DEFAULT_DATASET_PATH = (
@@ -73,6 +75,13 @@ class DatasetLoader:
             if not isinstance(item, dict):
                 raise ValueError("ogni record del dataset deve essere un oggetto JSON")
             try:
+                if (any(not isinstance(item[name], str) or not item[name].strip()
+                        for name in ("id", "argomento", "domanda", "contesto"))
+                    or not isinstance(item["risposte_corrette"], list)
+                    or any(not isinstance(answer, str) for answer in item["risposte_corrette"])
+                    or not isinstance(item["token_stimati"], int)
+                    or item["token_stimati"] < 0):
+                    raise ValueError("tipi o valori non validi")
                 documenti.append(
                     DocumentoBenchmark(
                         id=str(item["id"]),
@@ -87,7 +96,16 @@ class DatasetLoader:
                 raise ValueError("record dataset incompleto o non valido") from exc
         if not documenti:
             raise ValueError("il dataset non può essere vuoto")
-        return documenti
+        unique = {content_id(doc.contesto): doc for doc in reversed(documenti)}
+        self.duplicates_removed = len(documenti) - len(unique)
+        return list(unique.values())
+
+    def as_corpus(self) -> DocumentCorpus:
+        """Use unique original contexts, not repeated question/answer rows."""
+        return DocumentCorpus([
+            LocalDocument(content_id(doc.contesto), doc.contesto, doc.id)
+            for doc in self.documenti
+        ])
 
     def ottieni_per_argomento(self, argomento: str) -> list[DocumentoBenchmark]:
         """Return documents whose topic matches case-insensitively.
