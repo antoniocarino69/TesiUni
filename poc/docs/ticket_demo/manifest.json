@@ -1,0 +1,1286 @@
+{
+  "synthetic": true,
+  "privacy_unit": "ticket",
+  "documents": [
+    {
+      "path": "documenti/TKT-E42-001.md",
+      "ticket_id": "TKT-E42-001",
+      "customer_id": "clientefittizioe42001",
+      "error": "E42",
+      "sensitive_fields": {
+        "customer": "clientefittizioe42001",
+        "contact": "referentee42001",
+        "hostname": "hoste42001",
+        "ip": "192.0.2.1",
+        "domain": "clientefittizioe42001.example",
+        "case_code": "privatoe42001",
+        "internal_cluster": "clusterinternoaurora"
+      },
+      "sha256": "299eed63de155a5befbcd649f53ce10432cffecdbef66fad101a515720c672d4"
+    },
+    {
+      "path": "documenti/TKT-E42-002.md",
+      "ticket_id": "TKT-E42-002",
+      "customer_id": "clientefittizioe42002",
+      "error": "E42",
+      "sensitive_fields": {
+        "customer": "clientefittizioe42002",
+        "contact": "referentee42002",
+        "hostname": "hoste42002",
+        "ip": "192.0.2.2",
+        "domain": "clientefittizioe42002.example",
+        "case_code": "privatoe42002",
+        "internal_cluster": "clusterinternoaurora"
+      },
+      "sha256": "73b3c3c59d5a3acda62b30bc9410f7a6d8173d17606cd812869cee20b2d87b0d"
+    },
+    {
+      "path": "documenti/TKT-E42-003.md",
+      "ticket_id": "TKT-E42-003",
+      "customer_id": "clientefittizioe42003",
+      "error": "E42",
+      "sensitive_fields": {
+        "customer": "clientefittizioe42003",
+        "contact": "referentee42003",
+        "hostname": "hoste42003",
+        "ip": "192.0.2.3",
+        "domain": "clientefittizioe42003.example",
+        "case_code": "privatoe42003",
+        "internal_cluster": "clusterinternoaurora"
+      },
+      "sha256": "3291ea0dd2af630e7b5068e89e4b6a7844306c97b67458794e29a7c06ba5b9d7"
+    },
+    {
+      "path": "documenti/TKT-E42-004.md",
+      "ticket_id": "TKT-E42-004",
+      "customer_id": "clientefittizioe42004",
+      "error": "E42",
+      "sensitive_fields": {
+        "customer": "clientefittizioe42004",
+        "contact": "referentee42004",
+        "hostname": "hoste42004",
+        "ip": "192.0.2.4",
+        "domain": "clientefittizioe42004.example",
+        "case_code": "privatoe42004",
+        "internal_cluster": "clusterinternoaurora"
+      },
+      "sha256": "e867bab366ab57eb7192ae8e33bb5577b6b10ab25d25571ddd45a0fdc1475c7f"
+    },
+    {
+      "path": "documenti/TKT-E42-005.md",
+      "ticket_id": "TKT-E42-005",
+      "customer_id": "clientefittizioe42005",
+      "error": "E42",
+      "sensitive_fields": {
+        "customer": "clientefittizioe42005",
+        "contact": "referentee42005",
+        "hostname": "hoste42005",
+        "ip": "192.0.2.5",
+        "domain": "clientefittizioe42005.example",
+        "case_code": "privatoe42005",
+        "internal_cluster": "clusterinternoaurora"
+      },
+      "sha256": "d968f3995f50fbdb98372c595890f4d6c84cfaadc4adb9ec575a6cd031ac1d9f"
+    },
+    {
+      "path": "documenti/TKT-E42-006.md",
+      "ticket_id": "TKT-E42-006",
+      "customer_id": "clientefittizioe42006",
+      "error": "E42",
+      "sensitive_fields": {
+        "customer": "clientefittizioe42006",
+        "contact": "referentee42006",
+        "hostname": "hoste42006",
+        "ip": "192.0.2.6",
+        "domain": "clientefittizioe42006.example",
+        "case_code": "privatoe42006",
+        "internal_cluster": "clusterinternoaurora"
+      },
+      "sha256": "809c7853c83c634b52a79d1b36f10b9a816da4bbbe0431d40153382e1cab9728"
+    },
+    {
+      "path": "documenti/TKT-E42-007.md",
+      "ticket_id": "TKT-E42-007",
+      "customer_id": "clientefittizioe42007",
+      "error": "E42",
+      "sensitive_fields": {
+        "customer": "clientefittizioe42007",
+        "contact": "referentee42007",
+        "hostname": "hoste42007",
+        "ip": "192.0.2.7",
+        "domain": "clientefittizioe42007.example",
+        "case_code": "privatoe42007",
+        "internal_cluster": "clusterinternoaurora"
+      },
+      "sha256": "6228e8da37940b424fdefe47127214016140a78cbbdbb9588391e82b92f2fbd4"
+    },
+    {
+      "path": "documenti/TKT-E42-008.md",
+      "ticket_id": "TKT-E42-008",
+      "customer_id": "clientefittizioe42008",
+      "error": "E42",
+      "sensitive_fields": {
+        "customer": "clientefittizioe42008",
+        "contact": "referentee42008",
+        "hostname": "hoste42008",
+        "ip": "192.0.2.8",
+        "domain": "clientefittizioe42008.example",
+        "case_code": "privatoe42008",
+        "internal_cluster": "clusterinternoaurora"
+      },
+      "sha256": "53a3de14692f422909d8d83767b99d6ce470be8becd1f1e3b51a49cd650216d2"
+    },
+    {
+      "path": "documenti/TKT-E42-009.md",
+      "ticket_id": "TKT-E42-009",
+      "customer_id": "clientefittizioe42009",
+      "error": "E42",
+      "sensitive_fields": {
+        "customer": "clientefittizioe42009",
+        "contact": "referentee42009",
+        "hostname": "hoste42009",
+        "ip": "192.0.2.9",
+        "domain": "clientefittizioe42009.example",
+        "case_code": "privatoe42009",
+        "internal_cluster": "clusterinternoaurora"
+      },
+      "sha256": "a407d91e179c82f76752f134ad15f9356d39ebd0eedcbbe9d30b8aea363a6cb6"
+    },
+    {
+      "path": "documenti/TKT-E42-010.md",
+      "ticket_id": "TKT-E42-010",
+      "customer_id": "clientefittizioe42010",
+      "error": "E42",
+      "sensitive_fields": {
+        "customer": "clientefittizioe42010",
+        "contact": "referentee42010",
+        "hostname": "hoste42010",
+        "ip": "192.0.2.10",
+        "domain": "clientefittizioe42010.example",
+        "case_code": "privatoe42010",
+        "internal_cluster": "clusterinternoaurora"
+      },
+      "sha256": "bde8abdb3ca91e1b416699c2c09002273c3d8c40c6e0454c3adff6efe5a03a62"
+    },
+    {
+      "path": "documenti/TKT-E42-011.md",
+      "ticket_id": "TKT-E42-011",
+      "customer_id": "clientefittizioe42011",
+      "error": "E42",
+      "sensitive_fields": {
+        "customer": "clientefittizioe42011",
+        "contact": "referentee42011",
+        "hostname": "hoste42011",
+        "ip": "192.0.2.11",
+        "domain": "clientefittizioe42011.example",
+        "case_code": "privatoe42011",
+        "internal_cluster": "clusterinternoaurora"
+      },
+      "sha256": "73c2d0ec0ce813d9df4143119664c7c616397751822f3e507f78abb028cb02d1"
+    },
+    {
+      "path": "documenti/TKT-E42-012.md",
+      "ticket_id": "TKT-E42-012",
+      "customer_id": "clientefittizioe42012",
+      "error": "E42",
+      "sensitive_fields": {
+        "customer": "clientefittizioe42012",
+        "contact": "referentee42012",
+        "hostname": "hoste42012",
+        "ip": "192.0.2.12",
+        "domain": "clientefittizioe42012.example",
+        "case_code": "privatoe42012",
+        "internal_cluster": "clusterinternoaurora"
+      },
+      "sha256": "40449c84cbdaa8b0f358c80e874daf7ab9070e4e573be05699870ed5e75736e3"
+    },
+    {
+      "path": "documenti/TKT-E42-013.md",
+      "ticket_id": "TKT-E42-013",
+      "customer_id": "clientefittizioe42013",
+      "error": "E42",
+      "sensitive_fields": {
+        "customer": "clientefittizioe42013",
+        "contact": "referentee42013",
+        "hostname": "hoste42013",
+        "ip": "192.0.2.13",
+        "domain": "clientefittizioe42013.example",
+        "case_code": "privatoe42013",
+        "internal_cluster": "clusterinternoaurora"
+      },
+      "sha256": "f8ab3678bf311ac6c61743d67d5b22b713cb37f78cb79cc8cdce81a162cacfd1"
+    },
+    {
+      "path": "documenti/TKT-E42-014.md",
+      "ticket_id": "TKT-E42-014",
+      "customer_id": "clientefittizioe42014",
+      "error": "E42",
+      "sensitive_fields": {
+        "customer": "clientefittizioe42014",
+        "contact": "referentee42014",
+        "hostname": "hoste42014",
+        "ip": "192.0.2.14",
+        "domain": "clientefittizioe42014.example",
+        "case_code": "privatoe42014",
+        "internal_cluster": "clusterinternoaurora"
+      },
+      "sha256": "6b07f6d7dadbbc4d51c589232be686ad9a0c81fdf4601c2b08b35f34ef6ab0e4"
+    },
+    {
+      "path": "documenti/TKT-E42-015.md",
+      "ticket_id": "TKT-E42-015",
+      "customer_id": "clientefittizioe42015",
+      "error": "E42",
+      "sensitive_fields": {
+        "customer": "clientefittizioe42015",
+        "contact": "referentee42015",
+        "hostname": "hoste42015",
+        "ip": "192.0.2.15",
+        "domain": "clientefittizioe42015.example",
+        "case_code": "privatoe42015",
+        "internal_cluster": "clusterinternoaurora"
+      },
+      "sha256": "a4e83fa70c82328ab4ce5d210872c90122441d78f95bdec0bb4449fa790a021d"
+    },
+    {
+      "path": "documenti/TKT-E42-016.md",
+      "ticket_id": "TKT-E42-016",
+      "customer_id": "clientefittizioe42016",
+      "error": "E42",
+      "sensitive_fields": {
+        "customer": "clientefittizioe42016",
+        "contact": "referentee42016",
+        "hostname": "hoste42016",
+        "ip": "192.0.2.16",
+        "domain": "clientefittizioe42016.example",
+        "case_code": "privatoe42016",
+        "internal_cluster": "clusterinternoaurora"
+      },
+      "sha256": "a44b0fd025d8b82b6e953f61f82e4db5bd3c84fddf462f38c3455894517ba58e"
+    },
+    {
+      "path": "documenti/TKT-E42-017.md",
+      "ticket_id": "TKT-E42-017",
+      "customer_id": "clientefittizioe42017",
+      "error": "E42",
+      "sensitive_fields": {
+        "customer": "clientefittizioe42017",
+        "contact": "referentee42017",
+        "hostname": "hoste42017",
+        "ip": "192.0.2.17",
+        "domain": "clientefittizioe42017.example",
+        "case_code": "privatoe42017",
+        "internal_cluster": "clusterinternoaurora"
+      },
+      "sha256": "1e0a381628473097b256f44adf934e8c98156901a1c8ab85e34fc025d0cc4100"
+    },
+    {
+      "path": "documenti/TKT-E42-018.md",
+      "ticket_id": "TKT-E42-018",
+      "customer_id": "clientefittizioe42018",
+      "error": "E42",
+      "sensitive_fields": {
+        "customer": "clientefittizioe42018",
+        "contact": "referentee42018",
+        "hostname": "hoste42018",
+        "ip": "192.0.2.18",
+        "domain": "clientefittizioe42018.example",
+        "case_code": "privatoe42018",
+        "internal_cluster": "clusterinternoaurora"
+      },
+      "sha256": "b2f5d75c7be3561ce014b4f0abd24a0a67f53f85bfdd5749891e67cbe65d5a08"
+    },
+    {
+      "path": "documenti/TKT-E42-019.md",
+      "ticket_id": "TKT-E42-019",
+      "customer_id": "clientefittizioe42019",
+      "error": "E42",
+      "sensitive_fields": {
+        "customer": "clientefittizioe42019",
+        "contact": "referentee42019",
+        "hostname": "hoste42019",
+        "ip": "192.0.2.19",
+        "domain": "clientefittizioe42019.example",
+        "case_code": "privatoe42019",
+        "internal_cluster": "clusterinternoaurora"
+      },
+      "sha256": "aea5330353074c2dca19b86563b2dc9dad43adf38e5c917a0f90f5af49613258"
+    },
+    {
+      "path": "documenti/TKT-E42-020.md",
+      "ticket_id": "TKT-E42-020",
+      "customer_id": "clientefittizioe42020",
+      "error": "E42",
+      "sensitive_fields": {
+        "customer": "clientefittizioe42020",
+        "contact": "referentee42020",
+        "hostname": "hoste42020",
+        "ip": "192.0.2.20",
+        "domain": "clientefittizioe42020.example",
+        "case_code": "privatoe42020",
+        "internal_cluster": "clusterinternoaurora"
+      },
+      "sha256": "9438421b637caebe5f0dc2de148a0889ee5f186fb26a0cea183bf8c2ce422803"
+    },
+    {
+      "path": "documenti/TKT-E42-021.md",
+      "ticket_id": "TKT-E42-021",
+      "customer_id": "clientefittizioe42021",
+      "error": "E42",
+      "sensitive_fields": {
+        "customer": "clientefittizioe42021",
+        "contact": "referentee42021",
+        "hostname": "hoste42021",
+        "ip": "192.0.2.21",
+        "domain": "clientefittizioe42021.example",
+        "case_code": "privatoe42021",
+        "internal_cluster": "clusterinternoaurora"
+      },
+      "sha256": "5a41276e13e26197073639db949eb1562a80527482dcf49019a0879246875013"
+    },
+    {
+      "path": "documenti/TKT-E42-022.md",
+      "ticket_id": "TKT-E42-022",
+      "customer_id": "clientefittizioe42022",
+      "error": "E42",
+      "sensitive_fields": {
+        "customer": "clientefittizioe42022",
+        "contact": "referentee42022",
+        "hostname": "hoste42022",
+        "ip": "192.0.2.22",
+        "domain": "clientefittizioe42022.example",
+        "case_code": "privatoe42022",
+        "internal_cluster": "clusterinternoaurora"
+      },
+      "sha256": "da7a9a98722423a1981e3eec3953132804bc353b3eaa0ff76ffdf266f20af40a"
+    },
+    {
+      "path": "documenti/TKT-E42-023.md",
+      "ticket_id": "TKT-E42-023",
+      "customer_id": "clientefittizioe42023",
+      "error": "E42",
+      "sensitive_fields": {
+        "customer": "clientefittizioe42023",
+        "contact": "referentee42023",
+        "hostname": "hoste42023",
+        "ip": "192.0.2.23",
+        "domain": "clientefittizioe42023.example",
+        "case_code": "privatoe42023",
+        "internal_cluster": "clusterinternoaurora"
+      },
+      "sha256": "74d29bc2ffb07541d8a5991fe84cae20e88abe58e347b091fac1c202c3317bfc"
+    },
+    {
+      "path": "documenti/TKT-E42-024.md",
+      "ticket_id": "TKT-E42-024",
+      "customer_id": "clientefittizioe42024",
+      "error": "E42",
+      "sensitive_fields": {
+        "customer": "clientefittizioe42024",
+        "contact": "referentee42024",
+        "hostname": "hoste42024",
+        "ip": "192.0.2.24",
+        "domain": "clientefittizioe42024.example",
+        "case_code": "privatoe42024",
+        "internal_cluster": "clusterinternoaurora"
+      },
+      "sha256": "b8ea9f75e64222a174fe40eb85a56d4597a9dc0800df173617adfd876391fb34"
+    },
+    {
+      "path": "documenti/TKT-E42-025.md",
+      "ticket_id": "TKT-E42-025",
+      "customer_id": "clientefittizioe42025",
+      "error": "E42",
+      "sensitive_fields": {
+        "customer": "clientefittizioe42025",
+        "contact": "referentee42025",
+        "hostname": "hoste42025",
+        "ip": "192.0.2.25",
+        "domain": "clientefittizioe42025.example",
+        "case_code": "privatoe42025",
+        "internal_cluster": "clusterinternoaurora"
+      },
+      "sha256": "9a6dbd06dd224e1b4c8502f73a742030e519912fc6a44b70c1622af678722575"
+    },
+    {
+      "path": "documenti/TKT-E42-026.md",
+      "ticket_id": "TKT-E42-026",
+      "customer_id": "clientefittizioe42026",
+      "error": "E42",
+      "sensitive_fields": {
+        "customer": "clientefittizioe42026",
+        "contact": "referentee42026",
+        "hostname": "hoste42026",
+        "ip": "192.0.2.26",
+        "domain": "clientefittizioe42026.example",
+        "case_code": "privatoe42026",
+        "internal_cluster": "clusterinternoaurora"
+      },
+      "sha256": "823e87aac4168ce09132cfc4e8b8b5e692b9720a4b7d00a273026e3d629cfe0a"
+    },
+    {
+      "path": "documenti/TKT-E42-027.md",
+      "ticket_id": "TKT-E42-027",
+      "customer_id": "clientefittizioe42027",
+      "error": "E42",
+      "sensitive_fields": {
+        "customer": "clientefittizioe42027",
+        "contact": "referentee42027",
+        "hostname": "hoste42027",
+        "ip": "192.0.2.27",
+        "domain": "clientefittizioe42027.example",
+        "case_code": "privatoe42027",
+        "internal_cluster": "clusterinternoaurora"
+      },
+      "sha256": "24abf2e6c4cd1700cedc562df4fc620ce1fb9503417e9db8ba37ff2edb83aff4"
+    },
+    {
+      "path": "documenti/TKT-E42-028.md",
+      "ticket_id": "TKT-E42-028",
+      "customer_id": "clientefittizioe42028",
+      "error": "E42",
+      "sensitive_fields": {
+        "customer": "clientefittizioe42028",
+        "contact": "referentee42028",
+        "hostname": "hoste42028",
+        "ip": "192.0.2.28",
+        "domain": "clientefittizioe42028.example",
+        "case_code": "privatoe42028",
+        "internal_cluster": "clusterinternoaurora"
+      },
+      "sha256": "7be5b1d7a923a1a675f01202b3ec0d4978e16c1d857cbd271999b4c3a497a06d"
+    },
+    {
+      "path": "documenti/TKT-E42-029.md",
+      "ticket_id": "TKT-E42-029",
+      "customer_id": "clientefittizioe42029",
+      "error": "E42",
+      "sensitive_fields": {
+        "customer": "clientefittizioe42029",
+        "contact": "referentee42029",
+        "hostname": "hoste42029",
+        "ip": "192.0.2.29",
+        "domain": "clientefittizioe42029.example",
+        "case_code": "privatoe42029",
+        "internal_cluster": "clusterinternoaurora"
+      },
+      "sha256": "ec3a8348db78e66a8223cf5f890d3b7f3c886adf31ee9a44742014a5774722c3"
+    },
+    {
+      "path": "documenti/TKT-E42-030.md",
+      "ticket_id": "TKT-E42-030",
+      "customer_id": "clientefittizioe42030",
+      "error": "E42",
+      "sensitive_fields": {
+        "customer": "clientefittizioe42030",
+        "contact": "referentee42030",
+        "hostname": "hoste42030",
+        "ip": "192.0.2.30",
+        "domain": "clientefittizioe42030.example",
+        "case_code": "privatoe42030",
+        "internal_cluster": "clusterinternoaurora"
+      },
+      "sha256": "13e34c35e4c4523e2233e9909d77eca876a38e72f8a5009b4d2d19bad2676bf9"
+    },
+    {
+      "path": "documenti/TKT-E42-031.md",
+      "ticket_id": "TKT-E42-031",
+      "customer_id": "clientefittizioe42031",
+      "error": "E42",
+      "sensitive_fields": {
+        "customer": "clientefittizioe42031",
+        "contact": "referentee42031",
+        "hostname": "hoste42031",
+        "ip": "192.0.2.31",
+        "domain": "clientefittizioe42031.example",
+        "case_code": "privatoe42031",
+        "internal_cluster": "clusterinternoaurora"
+      },
+      "sha256": "701ca0489295babbeb5ea39a84f8e770b6120fcf79fed760a839e1d13f80868e"
+    },
+    {
+      "path": "documenti/TKT-E42-032.md",
+      "ticket_id": "TKT-E42-032",
+      "customer_id": "clientefittizioe42032",
+      "error": "E42",
+      "sensitive_fields": {
+        "customer": "clientefittizioe42032",
+        "contact": "referentee42032",
+        "hostname": "hoste42032",
+        "ip": "192.0.2.32",
+        "domain": "clientefittizioe42032.example",
+        "case_code": "privatoe42032",
+        "internal_cluster": "clusterinternoaurora"
+      },
+      "sha256": "f5d6d9e990045aee6d64f533559acf236b183d0f9188961b8f6bca0107338f06"
+    },
+    {
+      "path": "documenti/TKT-E42-033.md",
+      "ticket_id": "TKT-E42-033",
+      "customer_id": "clientefittizioe42033",
+      "error": "E42",
+      "sensitive_fields": {
+        "customer": "clientefittizioe42033",
+        "contact": "referentee42033",
+        "hostname": "hoste42033",
+        "ip": "192.0.2.33",
+        "domain": "clientefittizioe42033.example",
+        "case_code": "privatoe42033",
+        "internal_cluster": "clusterinternoaurora"
+      },
+      "sha256": "39ae38da7bd7d8ef216313b55c3b8c75175fd93bad8c52f10952e5f655b8a1b8"
+    },
+    {
+      "path": "documenti/TKT-E42-034.md",
+      "ticket_id": "TKT-E42-034",
+      "customer_id": "clientefittizioe42034",
+      "error": "E42",
+      "sensitive_fields": {
+        "customer": "clientefittizioe42034",
+        "contact": "referentee42034",
+        "hostname": "hoste42034",
+        "ip": "192.0.2.34",
+        "domain": "clientefittizioe42034.example",
+        "case_code": "privatoe42034",
+        "internal_cluster": "clusterinternoaurora"
+      },
+      "sha256": "2ef7152691b2d590a2e398b3d4dabab950f6dadd0913e049f8a43fc9a25da123"
+    },
+    {
+      "path": "documenti/TKT-E42-035.md",
+      "ticket_id": "TKT-E42-035",
+      "customer_id": "clientefittizioe42035",
+      "error": "E42",
+      "sensitive_fields": {
+        "customer": "clientefittizioe42035",
+        "contact": "referentee42035",
+        "hostname": "hoste42035",
+        "ip": "192.0.2.35",
+        "domain": "clientefittizioe42035.example",
+        "case_code": "privatoe42035",
+        "internal_cluster": "clusterinternoaurora"
+      },
+      "sha256": "62c9684039b1a16486dc659047984e14c6919f6ea3186f55fddd8ccdc5da588d"
+    },
+    {
+      "path": "documenti/TKT-E42-036.md",
+      "ticket_id": "TKT-E42-036",
+      "customer_id": "clientefittizioe42036",
+      "error": "E42",
+      "sensitive_fields": {
+        "customer": "clientefittizioe42036",
+        "contact": "referentee42036",
+        "hostname": "hoste42036",
+        "ip": "192.0.2.36",
+        "domain": "clientefittizioe42036.example",
+        "case_code": "privatoe42036",
+        "internal_cluster": "clusterinternoaurora"
+      },
+      "sha256": "e65ad0a2a03032fe6ef2ee640a7854d85fb28aee0bb7c8f758d3b754aaefdb0f"
+    },
+    {
+      "path": "documenti/TKT-E42-037.md",
+      "ticket_id": "TKT-E42-037",
+      "customer_id": "clientefittizioe42037",
+      "error": "E42",
+      "sensitive_fields": {
+        "customer": "clientefittizioe42037",
+        "contact": "referentee42037",
+        "hostname": "hoste42037",
+        "ip": "192.0.2.37",
+        "domain": "clientefittizioe42037.example",
+        "case_code": "privatoe42037",
+        "internal_cluster": "clusterinternoaurora"
+      },
+      "sha256": "c557675eed2d14057c9df86d75b04f9c26c9a887c1b9407b4bdab092ff80d8d6"
+    },
+    {
+      "path": "documenti/TKT-E42-038.md",
+      "ticket_id": "TKT-E42-038",
+      "customer_id": "clientefittizioe42038",
+      "error": "E42",
+      "sensitive_fields": {
+        "customer": "clientefittizioe42038",
+        "contact": "referentee42038",
+        "hostname": "hoste42038",
+        "ip": "192.0.2.38",
+        "domain": "clientefittizioe42038.example",
+        "case_code": "privatoe42038",
+        "internal_cluster": "clusterinternoaurora"
+      },
+      "sha256": "ee4d6d3e780abfe6e65ec575c5219f7a2c2c90c273688fb4762c228ca8bd94cc"
+    },
+    {
+      "path": "documenti/TKT-E42-039.md",
+      "ticket_id": "TKT-E42-039",
+      "customer_id": "clientefittizioe42039",
+      "error": "E42",
+      "sensitive_fields": {
+        "customer": "clientefittizioe42039",
+        "contact": "referentee42039",
+        "hostname": "hoste42039",
+        "ip": "192.0.2.39",
+        "domain": "clientefittizioe42039.example",
+        "case_code": "privatoe42039",
+        "internal_cluster": "clusterinternoaurora"
+      },
+      "sha256": "157e57b1aedf499bba4376f7f2316e445ee9de98d00f39a8012e983e6418d1a6"
+    },
+    {
+      "path": "documenti/TKT-E42-040.md",
+      "ticket_id": "TKT-E42-040",
+      "customer_id": "clientefittizioe42040",
+      "error": "E42",
+      "sensitive_fields": {
+        "customer": "clientefittizioe42040",
+        "contact": "referentee42040",
+        "hostname": "hoste42040",
+        "ip": "192.0.2.40",
+        "domain": "clientefittizioe42040.example",
+        "case_code": "privatoe42040",
+        "internal_cluster": "clusterinternoaurora"
+      },
+      "sha256": "1d65e2b3b3297ee8c71117d55bbf7c0e0a5ba05758a16e3d0fd92a43e4bb121a"
+    },
+    {
+      "path": "documenti/TKT-E42-041.md",
+      "ticket_id": "TKT-E42-041",
+      "customer_id": "clientefittizioe42041",
+      "error": "E42",
+      "sensitive_fields": {
+        "customer": "clientefittizioe42041",
+        "contact": "referentee42041",
+        "hostname": "hoste42041",
+        "ip": "192.0.2.41",
+        "domain": "clientefittizioe42041.example",
+        "case_code": "privatoe42041",
+        "internal_cluster": "clusterinternoaurora"
+      },
+      "sha256": "5bbeac3c46ff4691eeb3fde5465e54f98c2ca344b01a439dab21961773168168"
+    },
+    {
+      "path": "documenti/TKT-E42-042.md",
+      "ticket_id": "TKT-E42-042",
+      "customer_id": "clientefittizioe42042",
+      "error": "E42",
+      "sensitive_fields": {
+        "customer": "clientefittizioe42042",
+        "contact": "referentee42042",
+        "hostname": "hoste42042",
+        "ip": "192.0.2.42",
+        "domain": "clientefittizioe42042.example",
+        "case_code": "privatoe42042",
+        "internal_cluster": "clusterinternoaurora"
+      },
+      "sha256": "ed78dd9f039b3ddefce88ca383150368e6244e6660cb7785fb21c463a61adee1"
+    },
+    {
+      "path": "documenti/TKT-E42-043.md",
+      "ticket_id": "TKT-E42-043",
+      "customer_id": "clientefittizioe42043",
+      "error": "E42",
+      "sensitive_fields": {
+        "customer": "clientefittizioe42043",
+        "contact": "referentee42043",
+        "hostname": "hoste42043",
+        "ip": "192.0.2.43",
+        "domain": "clientefittizioe42043.example",
+        "case_code": "privatoe42043",
+        "internal_cluster": "clusterinternoaurora"
+      },
+      "sha256": "3e112499ca1c9f39eabb17736e18a766faa74162881185dc6c3112576f1a5c6f"
+    },
+    {
+      "path": "documenti/TKT-E42-044.md",
+      "ticket_id": "TKT-E42-044",
+      "customer_id": "clientefittizioe42044",
+      "error": "E42",
+      "sensitive_fields": {
+        "customer": "clientefittizioe42044",
+        "contact": "referentee42044",
+        "hostname": "hoste42044",
+        "ip": "192.0.2.44",
+        "domain": "clientefittizioe42044.example",
+        "case_code": "privatoe42044",
+        "internal_cluster": "clusterinternoaurora"
+      },
+      "sha256": "c3617beb74fff6b2213045ab5949bb7e70ddd82c4a2fbdfcfe7b155b2b762f84"
+    },
+    {
+      "path": "documenti/TKT-E42-045.md",
+      "ticket_id": "TKT-E42-045",
+      "customer_id": "clientefittizioe42045",
+      "error": "E42",
+      "sensitive_fields": {
+        "customer": "clientefittizioe42045",
+        "contact": "referentee42045",
+        "hostname": "hoste42045",
+        "ip": "192.0.2.45",
+        "domain": "clientefittizioe42045.example",
+        "case_code": "privatoe42045",
+        "internal_cluster": "clusterinternoaurora"
+      },
+      "sha256": "08dec699d2fb1f23a1c1014014036e13326e55543577d82a94e5c8d85ceb3eea"
+    },
+    {
+      "path": "documenti/TKT-E42-046.md",
+      "ticket_id": "TKT-E42-046",
+      "customer_id": "clientefittizioe42046",
+      "error": "E42",
+      "sensitive_fields": {
+        "customer": "clientefittizioe42046",
+        "contact": "referentee42046",
+        "hostname": "hoste42046",
+        "ip": "192.0.2.46",
+        "domain": "clientefittizioe42046.example",
+        "case_code": "privatoe42046",
+        "internal_cluster": "clusterinternoaurora"
+      },
+      "sha256": "862c8a8ff3e8e4a06610d5a49457abf1ca60dec77d65a73ac15821081896c2b2"
+    },
+    {
+      "path": "documenti/TKT-E42-047.md",
+      "ticket_id": "TKT-E42-047",
+      "customer_id": "clientefittizioe42047",
+      "error": "E42",
+      "sensitive_fields": {
+        "customer": "clientefittizioe42047",
+        "contact": "referentee42047",
+        "hostname": "hoste42047",
+        "ip": "192.0.2.47",
+        "domain": "clientefittizioe42047.example",
+        "case_code": "privatoe42047",
+        "internal_cluster": "clusterinternoaurora"
+      },
+      "sha256": "bc4ecb6d6b567a0bc5ed761c920937189ece6815996d591a3c342a1a5d3fa848"
+    },
+    {
+      "path": "documenti/TKT-E42-048.md",
+      "ticket_id": "TKT-E42-048",
+      "customer_id": "clientefittizioe42048",
+      "error": "E42",
+      "sensitive_fields": {
+        "customer": "clientefittizioe42048",
+        "contact": "referentee42048",
+        "hostname": "hoste42048",
+        "ip": "192.0.2.48",
+        "domain": "clientefittizioe42048.example",
+        "case_code": "privatoe42048",
+        "internal_cluster": "clusterinternoaurora"
+      },
+      "sha256": "834ca5736eca643c1c0242b4e859638f5e9f9444471bfd032930ce452872b71d"
+    },
+    {
+      "path": "documenti/TKT-E17-001.md",
+      "ticket_id": "TKT-E17-001",
+      "customer_id": "clienteripetuto",
+      "error": "E17",
+      "sensitive_fields": {
+        "customer": "clienteripetuto",
+        "contact": "referentee17001",
+        "hostname": "hoste17001",
+        "ip": "192.0.2.61",
+        "domain": "clienteripetuto.example",
+        "case_code": "privatoe17001",
+        "internal_cluster": "clusterinternobeta"
+      },
+      "sha256": "89e54a2f2571d2534f779fb39cd0dc741574b9cb27e079c5064a7afe571ba297"
+    },
+    {
+      "path": "documenti/TKT-E17-002.md",
+      "ticket_id": "TKT-E17-002",
+      "customer_id": "clienteripetuto",
+      "error": "E17",
+      "sensitive_fields": {
+        "customer": "clienteripetuto",
+        "contact": "referentee17002",
+        "hostname": "hoste17002",
+        "ip": "192.0.2.62",
+        "domain": "clienteripetuto.example",
+        "case_code": "privatoe17002",
+        "internal_cluster": "clusterinternobeta"
+      },
+      "sha256": "d990dd3b220a674b1aede9429b9da3f7bb303cdb5f9e8de4103de402664f400b"
+    },
+    {
+      "path": "documenti/TKT-E17-003.md",
+      "ticket_id": "TKT-E17-003",
+      "customer_id": "clienteripetuto",
+      "error": "E17",
+      "sensitive_fields": {
+        "customer": "clienteripetuto",
+        "contact": "referentee17003",
+        "hostname": "hoste17003",
+        "ip": "192.0.2.63",
+        "domain": "clienteripetuto.example",
+        "case_code": "privatoe17003",
+        "internal_cluster": "clusterinternobeta"
+      },
+      "sha256": "df40eee1e641cf42fae45ce6c35ab56d460bc6714d4bdd07e626b030f068578a"
+    },
+    {
+      "path": "documenti/TKT-E17-004.md",
+      "ticket_id": "TKT-E17-004",
+      "customer_id": "clienteripetuto",
+      "error": "E17",
+      "sensitive_fields": {
+        "customer": "clienteripetuto",
+        "contact": "referentee17004",
+        "hostname": "hoste17004",
+        "ip": "192.0.2.64",
+        "domain": "clienteripetuto.example",
+        "case_code": "privatoe17004",
+        "internal_cluster": "clusterinternobeta"
+      },
+      "sha256": "cb096f461ef621ef1371952bb3da675f768ddb7325689c06301c7d32d46a02a0"
+    },
+    {
+      "path": "documenti/TKT-E17-005.md",
+      "ticket_id": "TKT-E17-005",
+      "customer_id": "clienteripetuto",
+      "error": "E17",
+      "sensitive_fields": {
+        "customer": "clienteripetuto",
+        "contact": "referentee17005",
+        "hostname": "hoste17005",
+        "ip": "192.0.2.65",
+        "domain": "clienteripetuto.example",
+        "case_code": "privatoe17005",
+        "internal_cluster": "clusterinternobeta"
+      },
+      "sha256": "d9b416a6a9553a6621e0a02f4f78e5eafc5726e40959076cad3692c4d60ded9e"
+    },
+    {
+      "path": "documenti/TKT-E17-006.md",
+      "ticket_id": "TKT-E17-006",
+      "customer_id": "clienteripetuto",
+      "error": "E17",
+      "sensitive_fields": {
+        "customer": "clienteripetuto",
+        "contact": "referentee17006",
+        "hostname": "hoste17006",
+        "ip": "192.0.2.66",
+        "domain": "clienteripetuto.example",
+        "case_code": "privatoe17006",
+        "internal_cluster": "clusterinternobeta"
+      },
+      "sha256": "6242a7a6438dfe42a9b17992d7177b8cd3465b343453b733c56cdb75f4092fdc"
+    },
+    {
+      "path": "documenti/TKT-E17-007.md",
+      "ticket_id": "TKT-E17-007",
+      "customer_id": "clienteripetuto",
+      "error": "E17",
+      "sensitive_fields": {
+        "customer": "clienteripetuto",
+        "contact": "referentee17007",
+        "hostname": "hoste17007",
+        "ip": "192.0.2.67",
+        "domain": "clienteripetuto.example",
+        "case_code": "privatoe17007",
+        "internal_cluster": "clusterinternobeta"
+      },
+      "sha256": "5615cecdf820026fa8bd17cc71ef7ba7accd903960e2c5aac8eaefc7650b72e1"
+    },
+    {
+      "path": "documenti/TKT-E17-008.md",
+      "ticket_id": "TKT-E17-008",
+      "customer_id": "clienteripetuto",
+      "error": "E17",
+      "sensitive_fields": {
+        "customer": "clienteripetuto",
+        "contact": "referentee17008",
+        "hostname": "hoste17008",
+        "ip": "192.0.2.68",
+        "domain": "clienteripetuto.example",
+        "case_code": "privatoe17008",
+        "internal_cluster": "clusterinternobeta"
+      },
+      "sha256": "e276fdf04217f621b6c5f9bb45d1fbec395893e530a1b69551733e5b1c18128e"
+    },
+    {
+      "path": "documenti/TKT-E17-009.md",
+      "ticket_id": "TKT-E17-009",
+      "customer_id": "clienteripetuto",
+      "error": "E17",
+      "sensitive_fields": {
+        "customer": "clienteripetuto",
+        "contact": "referentee17009",
+        "hostname": "hoste17009",
+        "ip": "192.0.2.69",
+        "domain": "clienteripetuto.example",
+        "case_code": "privatoe17009",
+        "internal_cluster": "clusterinternobeta"
+      },
+      "sha256": "cf963251ac41ce194dd387d67216c091c6c2210a509b58e1108fdf702ea69e6e"
+    },
+    {
+      "path": "documenti/TKT-E17-010.md",
+      "ticket_id": "TKT-E17-010",
+      "customer_id": "clienteripetuto",
+      "error": "E17",
+      "sensitive_fields": {
+        "customer": "clienteripetuto",
+        "contact": "referentee17010",
+        "hostname": "hoste17010",
+        "ip": "192.0.2.70",
+        "domain": "clienteripetuto.example",
+        "case_code": "privatoe17010",
+        "internal_cluster": "clusterinternobeta"
+      },
+      "sha256": "69aa0b9a211ae453efbf0c68afaace6a31fb3096ced80f43a28ae83d140da603"
+    },
+    {
+      "path": "documenti/TKT-E17-011.md",
+      "ticket_id": "TKT-E17-011",
+      "customer_id": "clientefittizioe17011",
+      "error": "E17",
+      "sensitive_fields": {
+        "customer": "clientefittizioe17011",
+        "contact": "referentee17011",
+        "hostname": "hoste17011",
+        "ip": "192.0.2.71",
+        "domain": "clientefittizioe17011.example",
+        "case_code": "privatoe17011",
+        "internal_cluster": "clusterinternobeta"
+      },
+      "sha256": "3dd13b275cdf6079da931add014d5fd6be36acf99165c8fb74d516bc5b5bd0fb"
+    },
+    {
+      "path": "documenti/TKT-E17-012.md",
+      "ticket_id": "TKT-E17-012",
+      "customer_id": "clientefittizioe17012",
+      "error": "E17",
+      "sensitive_fields": {
+        "customer": "clientefittizioe17012",
+        "contact": "referentee17012",
+        "hostname": "hoste17012",
+        "ip": "192.0.2.72",
+        "domain": "clientefittizioe17012.example",
+        "case_code": "privatoe17012",
+        "internal_cluster": "clusterinternobeta"
+      },
+      "sha256": "101c585533e922c7b2ba78b110610fd14b7a43c7dc4c4cd9abf9d88bf318c921"
+    },
+    {
+      "path": "documenti/TKT-E17-013.md",
+      "ticket_id": "TKT-E17-013",
+      "customer_id": "clientefittizioe17013",
+      "error": "E17",
+      "sensitive_fields": {
+        "customer": "clientefittizioe17013",
+        "contact": "referentee17013",
+        "hostname": "hoste17013",
+        "ip": "192.0.2.73",
+        "domain": "clientefittizioe17013.example",
+        "case_code": "privatoe17013",
+        "internal_cluster": "clusterinternobeta"
+      },
+      "sha256": "c31fb56dcfb83c772231783a4d8755efb8726cd2ad938989fa9f6499dd472ed0"
+    },
+    {
+      "path": "documenti/TKT-E17-014.md",
+      "ticket_id": "TKT-E17-014",
+      "customer_id": "clientefittizioe17014",
+      "error": "E17",
+      "sensitive_fields": {
+        "customer": "clientefittizioe17014",
+        "contact": "referentee17014",
+        "hostname": "hoste17014",
+        "ip": "192.0.2.74",
+        "domain": "clientefittizioe17014.example",
+        "case_code": "privatoe17014",
+        "internal_cluster": "clusterinternobeta"
+      },
+      "sha256": "197b8a0e3afa05d92b95560892f559b53870a962fb8a20bd99b28476f9cfe819"
+    },
+    {
+      "path": "documenti/TKT-E17-015.md",
+      "ticket_id": "TKT-E17-015",
+      "customer_id": "clientefittizioe17015",
+      "error": "E17",
+      "sensitive_fields": {
+        "customer": "clientefittizioe17015",
+        "contact": "referentee17015",
+        "hostname": "hoste17015",
+        "ip": "192.0.2.75",
+        "domain": "clientefittizioe17015.example",
+        "case_code": "privatoe17015",
+        "internal_cluster": "clusterinternobeta"
+      },
+      "sha256": "f22ca1411ed904de8bb84a28d2054a272838d15a663905f11272918aca004531"
+    },
+    {
+      "path": "documenti/TKT-E17-016.md",
+      "ticket_id": "TKT-E17-016",
+      "customer_id": "clientefittizioe17016",
+      "error": "E17",
+      "sensitive_fields": {
+        "customer": "clientefittizioe17016",
+        "contact": "referentee17016",
+        "hostname": "hoste17016",
+        "ip": "192.0.2.76",
+        "domain": "clientefittizioe17016.example",
+        "case_code": "privatoe17016",
+        "internal_cluster": "clusterinternobeta"
+      },
+      "sha256": "06bf6e856c5f7bea77024750c3c0f650100580e76eddb8d40d10bed29ee72756"
+    },
+    {
+      "path": "documenti/TKT-E55-001.md",
+      "ticket_id": "TKT-E55-001",
+      "customer_id": "clientefittizioe55001",
+      "error": "E55",
+      "sensitive_fields": {
+        "customer": "clientefittizioe55001",
+        "contact": "referentee55001",
+        "hostname": "hoste55001",
+        "ip": "192.0.2.121",
+        "domain": "clientefittizioe55001.example",
+        "case_code": "privatoe55001",
+        "internal_cluster": "clusterinternobeta"
+      },
+      "sha256": "6d5464b39173b42d071bc279babeb076d4a048ec6316b7c1486089d00d45da7e"
+    },
+    {
+      "path": "documenti/TKT-E55-002.md",
+      "ticket_id": "TKT-E55-002",
+      "customer_id": "clientefittizioe55002",
+      "error": "E55",
+      "sensitive_fields": {
+        "customer": "clientefittizioe55002",
+        "contact": "referentee55002",
+        "hostname": "hoste55002",
+        "ip": "192.0.2.122",
+        "domain": "clientefittizioe55002.example",
+        "case_code": "privatoe55002",
+        "internal_cluster": "clusterinternobeta"
+      },
+      "sha256": "fab092743af2d18b22152134e43699cc08a751ee13c504bb37954a85662a6ee6"
+    },
+    {
+      "path": "documenti/TKT-E55-003.md",
+      "ticket_id": "TKT-E55-003",
+      "customer_id": "clientefittizioe55003",
+      "error": "E55",
+      "sensitive_fields": {
+        "customer": "clientefittizioe55003",
+        "contact": "referentee55003",
+        "hostname": "hoste55003",
+        "ip": "192.0.2.123",
+        "domain": "clientefittizioe55003.example",
+        "case_code": "privatoe55003",
+        "internal_cluster": "clusterinternobeta"
+      },
+      "sha256": "02af38459aa3330cef6d65cfa4572ba5966e3efed11e800a656ce6f81cf15075"
+    },
+    {
+      "path": "documenti/TKT-E55-004.md",
+      "ticket_id": "TKT-E55-004",
+      "customer_id": "clientefittizioe55004",
+      "error": "E55",
+      "sensitive_fields": {
+        "customer": "clientefittizioe55004",
+        "contact": "referentee55004",
+        "hostname": "hoste55004",
+        "ip": "192.0.2.124",
+        "domain": "clientefittizioe55004.example",
+        "case_code": "privatoe55004",
+        "internal_cluster": "clusterinternobeta"
+      },
+      "sha256": "dbc3dad53210596d1fa7fc6ca6ae83e9b355e0063fa05db45ce0be156ab51219"
+    },
+    {
+      "path": "documenti/TKT-E55-005.md",
+      "ticket_id": "TKT-E55-005",
+      "customer_id": "clientefittizioe55005",
+      "error": "E55",
+      "sensitive_fields": {
+        "customer": "clientefittizioe55005",
+        "contact": "referentee55005",
+        "hostname": "hoste55005",
+        "ip": "192.0.2.125",
+        "domain": "clientefittizioe55005.example",
+        "case_code": "privatoe55005",
+        "internal_cluster": "clusterinternobeta"
+      },
+      "sha256": "677bec61856e1e55719c0923a0fab0bb368076c9ec9ba72c20b2356f3ddc119d"
+    },
+    {
+      "path": "documenti/TKT-E55-006.md",
+      "ticket_id": "TKT-E55-006",
+      "customer_id": "clientefittizioe55006",
+      "error": "E55",
+      "sensitive_fields": {
+        "customer": "clientefittizioe55006",
+        "contact": "referentee55006",
+        "hostname": "hoste55006",
+        "ip": "192.0.2.126",
+        "domain": "clientefittizioe55006.example",
+        "case_code": "privatoe55006",
+        "internal_cluster": "clusterinternobeta"
+      },
+      "sha256": "eeeb37829391af496aba97bede2dee6168258c0237f26bac80f9fe73ec6908dc"
+    },
+    {
+      "path": "documenti/TKT-E55-007.md",
+      "ticket_id": "TKT-E55-007",
+      "customer_id": "clientefittizioe55007",
+      "error": "E55",
+      "sensitive_fields": {
+        "customer": "clientefittizioe55007",
+        "contact": "referentee55007",
+        "hostname": "hoste55007",
+        "ip": "192.0.2.127",
+        "domain": "clientefittizioe55007.example",
+        "case_code": "privatoe55007",
+        "internal_cluster": "clusterinternobeta"
+      },
+      "sha256": "96336e0d28def14df97f99a44ec29851fdc9eb388e23f3f501b8abde92dcb329"
+    },
+    {
+      "path": "documenti/TKT-E55-008.md",
+      "ticket_id": "TKT-E55-008",
+      "customer_id": "clientefittizioe55008",
+      "error": "E55",
+      "sensitive_fields": {
+        "customer": "clientefittizioe55008",
+        "contact": "referentee55008",
+        "hostname": "hoste55008",
+        "ip": "192.0.2.128",
+        "domain": "clientefittizioe55008.example",
+        "case_code": "privatoe55008",
+        "internal_cluster": "clusterinternobeta"
+      },
+      "sha256": "c061f1c4f434570b170606aae7bb1a8d77a953f9a0fe56849ebc4c9eceb32611"
+    },
+    {
+      "path": "documenti/TKT-E55-009.md",
+      "ticket_id": "TKT-E55-009",
+      "customer_id": "clientefittizioe55009",
+      "error": "E55",
+      "sensitive_fields": {
+        "customer": "clientefittizioe55009",
+        "contact": "referentee55009",
+        "hostname": "hoste55009",
+        "ip": "192.0.2.129",
+        "domain": "clientefittizioe55009.example",
+        "case_code": "privatoe55009",
+        "internal_cluster": "clusterinternobeta"
+      },
+      "sha256": "2666c29e72989962f9e7656451867679023542c228be9fbff9f48343e39ac6a4"
+    },
+    {
+      "path": "documenti/TKT-E55-010.md",
+      "ticket_id": "TKT-E55-010",
+      "customer_id": "clientefittizioe55010",
+      "error": "E55",
+      "sensitive_fields": {
+        "customer": "clientefittizioe55010",
+        "contact": "referentee55010",
+        "hostname": "hoste55010",
+        "ip": "192.0.2.130",
+        "domain": "clientefittizioe55010.example",
+        "case_code": "privatoe55010",
+        "internal_cluster": "clusterinternobeta"
+      },
+      "sha256": "e1a8976d13aed29b204ad06e455bbe142fdf50a810b3259ae2c5aa24a792004f"
+    },
+    {
+      "path": "documenti/TKT-E55-011.md",
+      "ticket_id": "TKT-E55-011",
+      "customer_id": "clientefittizioe55011",
+      "error": "E55",
+      "sensitive_fields": {
+        "customer": "clientefittizioe55011",
+        "contact": "referentee55011",
+        "hostname": "hoste55011",
+        "ip": "192.0.2.131",
+        "domain": "clientefittizioe55011.example",
+        "case_code": "privatoe55011",
+        "internal_cluster": "clusterinternobeta"
+      },
+      "sha256": "c51fac46a79194060e62da3e2722ce3158ad6ac92bac2fc82976a9b65426f233"
+    },
+    {
+      "path": "documenti/TKT-E55-012.md",
+      "ticket_id": "TKT-E55-012",
+      "customer_id": "clientefittizioe55012",
+      "error": "E55",
+      "sensitive_fields": {
+        "customer": "clientefittizioe55012",
+        "contact": "referentee55012",
+        "hostname": "hoste55012",
+        "ip": "192.0.2.132",
+        "domain": "clientefittizioe55012.example",
+        "case_code": "privatoe55012",
+        "internal_cluster": "clusterinternobeta"
+      },
+      "sha256": "1e548e09eeed7313f2313284edfcee622ccd08fa4d0d1145e8873780eb9a8e42"
+    },
+    {
+      "path": "documenti/TKT-E55-013.md",
+      "ticket_id": "TKT-E55-013",
+      "customer_id": "clientefittizioe55013",
+      "error": "E55",
+      "sensitive_fields": {
+        "customer": "clientefittizioe55013",
+        "contact": "referentee55013",
+        "hostname": "hoste55013",
+        "ip": "192.0.2.133",
+        "domain": "clientefittizioe55013.example",
+        "case_code": "privatoe55013",
+        "internal_cluster": "clusterinternobeta"
+      },
+      "sha256": "f71137cf81581d075268b520e2e2329e6982722edf6d5acad68117b7a05f21c4"
+    },
+    {
+      "path": "documenti/TKT-E55-014.md",
+      "ticket_id": "TKT-E55-014",
+      "customer_id": "clientefittizioe55014",
+      "error": "E55",
+      "sensitive_fields": {
+        "customer": "clientefittizioe55014",
+        "contact": "referentee55014",
+        "hostname": "hoste55014",
+        "ip": "192.0.2.134",
+        "domain": "clientefittizioe55014.example",
+        "case_code": "privatoe55014",
+        "internal_cluster": "clusterinternobeta"
+      },
+      "sha256": "73b9a407e0ce5941570ca58fbeaef80a5b67c78d5852fb7ad443aa0d85841640"
+    },
+    {
+      "path": "documenti/TKT-E55-015.md",
+      "ticket_id": "TKT-E55-015",
+      "customer_id": "clientefittizioe55015",
+      "error": "E55",
+      "sensitive_fields": {
+        "customer": "clientefittizioe55015",
+        "contact": "referentee55015",
+        "hostname": "hoste55015",
+        "ip": "192.0.2.135",
+        "domain": "clientefittizioe55015.example",
+        "case_code": "privatoe55015",
+        "internal_cluster": "clusterinternobeta"
+      },
+      "sha256": "a27947a4f7ce23e8a14cfcb455fe74590203ef4d65a7d89de61946b8ed43f765"
+    },
+    {
+      "path": "documenti/TKT-E55-016.md",
+      "ticket_id": "TKT-E55-016",
+      "customer_id": "clientefittizioe55016",
+      "error": "E55",
+      "sensitive_fields": {
+        "customer": "clientefittizioe55016",
+        "contact": "referentee55016",
+        "hostname": "hoste55016",
+        "ip": "192.0.2.136",
+        "domain": "clientefittizioe55016.example",
+        "case_code": "privatoe55016",
+        "internal_cluster": "clusterinternobeta"
+      },
+      "sha256": "0bac511fdd44afb9b89f6f60dafe17c30fe723f0c9e6deb8b3e2239923f3b8eb"
+    }
+  ]
+}
