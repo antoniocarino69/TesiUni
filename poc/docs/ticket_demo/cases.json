@@ -1,0 +1,68 @@
+[
+  {
+    "id": "procedura_e42",
+    "kind": "procedure",
+    "error": "E42",
+    "query": "Come si risolve l’errore E42 dopo aggiornamento di FerroSync? Riporta i passaggi della procedura generale in ordine.",
+    "step_groups": {
+      "stop_service": [
+        [
+          "arrestare",
+          "arresta",
+          "fermare",
+          "ferma",
+          "stop",
+          "interrompere"
+        ]
+      ],
+      "clear_cache": [
+        [
+          "cache"
+        ],
+        [
+          "cancellare",
+          "cancella",
+          "svuotare",
+          "svuota",
+          "eliminare",
+          "elimina",
+          "pulire",
+          "pulisci"
+        ]
+      ],
+      "restart_service": [
+        [
+          "riavviare",
+          "riavvia",
+          "riavvio",
+          "restart"
+        ]
+      ]
+    },
+    "expected_answer": "Arrestare FerroSync, cancellare la cache, riavviare FerroSync."
+  },
+  {
+    "id": "dettaglio_unico",
+    "kind": "unique_detail",
+    "error": "E42",
+    "query": "Qual è il codice privato della pratica nel ticket per errore E42 dopo aggiornamento di FerroSync? Riporta soltanto il codice.",
+    "step_groups": {},
+    "expected_answer": null
+  },
+  {
+    "id": "dettaglio_condiviso",
+    "kind": "shared_detail",
+    "error": "E42",
+    "query": "Qual è l’identificativo interno del cluster nei ticket per errore E42 dopo aggiornamento di FerroSync? Riporta soltanto l’identificativo.",
+    "step_groups": {},
+    "expected_answer": "clusterinternoaurora"
+  },
+  {
+    "id": "errore_assente",
+    "kind": "unsupported",
+    "error": "E99",
+    "query": "Come si risolve l’errore E99 dopo aggiornamento di FerroSync? Se il ticket non descrive E99, rispondi non disponibile.",
+    "step_groups": {},
+    "expected_answer": "non disponibile"
+  }
+]

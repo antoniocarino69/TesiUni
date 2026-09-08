@@ -1,0 +1,987 @@
+{
+  "synthetic_data": true,
+  "privacy_unit": "ticket",
+  "client_level_guarantee": false,
+  "real_local_inference": true,
+  "external_calls": false,
+  "documents": 80,
+  "distinct_customers": 71,
+  "max_tickets_per_customer": 10,
+  "corpus_manifest_sha256": "89bd0d1eabb3fc53805cdb73b414142450e7081f7b5be5cd47892b09b02a1dec",
+  "results": [
+    {
+      "case": {
+        "id": "procedura_e42",
+        "kind": "procedure",
+        "error": "E42",
+        "query": "Come si risolve l’errore E42 dopo aggiornamento di FerroSync? Riporta i passaggi della procedura generale in ordine.",
+        "step_groups": {
+          "stop_service": [
+            [
+              "arrestare",
+              "arresta",
+              "fermare",
+              "ferma",
+              "stop",
+              "interrompere"
+            ]
+          ],
+          "clear_cache": [
+            [
+              "cache"
+            ],
+            [
+              "cancellare",
+              "cancella",
+              "svuotare",
+              "svuota",
+              "eliminare",
+              "elimina",
+              "pulire",
+              "pulisci"
+            ]
+          ],
+          "restart_service": [
+            [
+              "riavviare",
+              "riavvia",
+              "riavvio",
+              "restart"
+            ]
+          ]
+        },
+        "expected_answer": "Arrestare FerroSync, cancellare la cache, riavviare FerroSync."
+      },
+      "relevant_tickets": 40,
+      "histogram": {
+        "locale": 33,
+        "arrestare": 35,
+        "cancellare": 35,
+        "tecnico": 32,
+        "riavviare": 28,
+        "ricorrere": 32,
+        "cache": 35,
+        "servizio": 40,
+        "fer": 9,
+        "ferrosync": 29,
+        "ordine": 2,
+        "riporta": 2,
+        "passaggi": 2,
+        "procedura": 2,
+        "generale": 2,
+        "ferro": 1,
+        "serv": 1
+      },
+      "release_metrics": {
+        "step_matches": {
+          "stop_service": true,
+          "clear_cache": true,
+          "restart_service": true
+        },
+        "all_step_terms_present": true,
+        "sensitive_fragments": [],
+        "unique_identifier_tokens": [],
+        "shared_identifier_present": false
+      },
+      "local_keyword_synthesis": {
+        "text": "Riavviare servizio FerroSync dopo aggiornamento. Se non funziona, controllare se il servizio è att",
+        "inference_ms": 513.597542012576,
+        "input_keywords": [
+          "arrestare",
+          "cache",
+          "cancellare",
+          "ferrosync",
+          "locale",
+          "riavviare",
+          "ricorrere",
+          "servizio",
+          "tecnico"
+        ],
+        "provider": "real local model; keyword-only input"
+      },
+      "synthesis_metrics": {
+        "step_matches": {
+          "stop_service": false,
+          "clear_cache": false,
+          "restart_service": true
+        },
+        "all_step_terms_present": false,
+        "sensitive_fragments": [],
+        "unique_identifier_tokens": [],
+        "shared_identifier_present": false
+      },
+      "conditional_trials": [
+        {
+          "n": 5,
+          "epsilon": 1.0,
+          "delta_per_trial": 0.0002,
+          "trials": 500,
+          "release_rate": 0.0,
+          "all_step_terms_rate": 0.0,
+          "step_term_rates": {
+            "stop_service": 0.0,
+            "clear_cache": 0.0,
+            "restart_service": 0.0
+          },
+          "unique_identifier_rate": 0.0,
+          "shared_identifier_rate": 0.0,
+          "sensitive_fragment_hits": {}
+        },
+        {
+          "n": 5,
+          "epsilon": 4.0,
+          "delta_per_trial": 0.0002,
+          "trials": 500,
+          "release_rate": 0.0,
+          "all_step_terms_rate": 0.0,
+          "step_term_rates": {
+            "stop_service": 0.0,
+            "clear_cache": 0.0,
+            "restart_service": 0.0
+          },
+          "unique_identifier_rate": 0.0,
+          "shared_identifier_rate": 0.0,
+          "sensitive_fragment_hits": {}
+        },
+        {
+          "n": 5,
+          "epsilon": 8.0,
+          "delta_per_trial": 0.0002,
+          "trials": 500,
+          "release_rate": 0.0,
+          "all_step_terms_rate": 0.0,
+          "step_term_rates": {
+            "stop_service": 0.0,
+            "clear_cache": 0.0,
+            "restart_service": 0.0
+          },
+          "unique_identifier_rate": 0.0,
+          "shared_identifier_rate": 0.0,
+          "sensitive_fragment_hits": {}
+        },
+        {
+          "n": 10,
+          "epsilon": 1.0,
+          "delta_per_trial": 0.0002,
+          "trials": 500,
+          "release_rate": 0.0,
+          "all_step_terms_rate": 0.0,
+          "step_term_rates": {
+            "stop_service": 0.0,
+            "clear_cache": 0.0,
+            "restart_service": 0.0
+          },
+          "unique_identifier_rate": 0.0,
+          "shared_identifier_rate": 0.0,
+          "sensitive_fragment_hits": {}
+        },
+        {
+          "n": 10,
+          "epsilon": 4.0,
+          "delta_per_trial": 0.0002,
+          "trials": 500,
+          "release_rate": 0.0,
+          "all_step_terms_rate": 0.0,
+          "step_term_rates": {
+            "stop_service": 0.0,
+            "clear_cache": 0.0,
+            "restart_service": 0.0
+          },
+          "unique_identifier_rate": 0.0,
+          "shared_identifier_rate": 0.0,
+          "sensitive_fragment_hits": {}
+        },
+        {
+          "n": 10,
+          "epsilon": 8.0,
+          "delta_per_trial": 0.0002,
+          "trials": 500,
+          "release_rate": 0.0,
+          "all_step_terms_rate": 0.0,
+          "step_term_rates": {
+            "stop_service": 0.0,
+            "clear_cache": 0.0,
+            "restart_service": 0.0
+          },
+          "unique_identifier_rate": 0.0,
+          "shared_identifier_rate": 0.0,
+          "sensitive_fragment_hits": {}
+        },
+        {
+          "n": 20,
+          "epsilon": 1.0,
+          "delta_per_trial": 0.0002,
+          "trials": 500,
+          "release_rate": 0.0,
+          "all_step_terms_rate": 0.0,
+          "step_term_rates": {
+            "stop_service": 0.0,
+            "clear_cache": 0.0,
+            "restart_service": 0.0
+          },
+          "unique_identifier_rate": 0.0,
+          "shared_identifier_rate": 0.0,
+          "sensitive_fragment_hits": {}
+        },
+        {
+          "n": 20,
+          "epsilon": 4.0,
+          "delta_per_trial": 0.0002,
+          "trials": 500,
+          "release_rate": 0.0,
+          "all_step_terms_rate": 0.0,
+          "step_term_rates": {
+            "stop_service": 0.0,
+            "clear_cache": 0.0,
+            "restart_service": 0.0
+          },
+          "unique_identifier_rate": 0.0,
+          "shared_identifier_rate": 0.0,
+          "sensitive_fragment_hits": {}
+        },
+        {
+          "n": 20,
+          "epsilon": 8.0,
+          "delta_per_trial": 0.0002,
+          "trials": 500,
+          "release_rate": 0.136,
+          "all_step_terms_rate": 0.136,
+          "step_term_rates": {
+            "stop_service": 0.136,
+            "clear_cache": 0.136,
+            "restart_service": 0.136
+          },
+          "unique_identifier_rate": 0.0,
+          "shared_identifier_rate": 0.0,
+          "sensitive_fragment_hits": {}
+        },
+        {
+          "n": 40,
+          "epsilon": 1.0,
+          "delta_per_trial": 0.0002,
+          "trials": 500,
+          "release_rate": 0.0,
+          "all_step_terms_rate": 0.0,
+          "step_term_rates": {
+            "stop_service": 0.0,
+            "clear_cache": 0.0,
+            "restart_service": 0.0
+          },
+          "unique_identifier_rate": 0.0,
+          "shared_identifier_rate": 0.0,
+          "sensitive_fragment_hits": {}
+        },
+        {
+          "n": 40,
+          "epsilon": 4.0,
+          "delta_per_trial": 0.0002,
+          "trials": 500,
+          "release_rate": 0.514,
+          "all_step_terms_rate": 0.514,
+          "step_term_rates": {
+            "stop_service": 0.514,
+            "clear_cache": 0.514,
+            "restart_service": 0.514
+          },
+          "unique_identifier_rate": 0.0,
+          "shared_identifier_rate": 0.0,
+          "sensitive_fragment_hits": {}
+        },
+        {
+          "n": 40,
+          "epsilon": 8.0,
+          "delta_per_trial": 0.0002,
+          "trials": 500,
+          "release_rate": 0.998,
+          "all_step_terms_rate": 0.998,
+          "step_term_rates": {
+            "stop_service": 0.998,
+            "clear_cache": 0.998,
+            "restart_service": 0.998
+          },
+          "unique_identifier_rate": 0.0,
+          "shared_identifier_rate": 0.0,
+          "sensitive_fragment_hits": {}
+        }
+      ],
+      "cloud_answer_quality": null,
+      "draft_count": 40,
+      "drafts_with_all_step_terms": 23,
+      "released_keywords": [
+        "arrestare",
+        "cache",
+        "cancellare",
+        "ferrosync",
+        "locale",
+        "riavviare",
+        "ricorrere",
+        "servizio",
+        "tecnico"
+      ]
+    },
+    {
+      "case": {
+        "id": "dettaglio_unico",
+        "kind": "unique_detail",
+        "error": "E42",
+        "query": "Qual è il codice privato della pratica nel ticket per errore E42 dopo aggiornamento di FerroSync? Riporta soltanto il codice.",
+        "step_groups": {},
+        "expected_answer": null
+      },
+      "relevant_tickets": 40,
+      "histogram": {
+        "privatoe42034": 1,
+        "privatoe42006": 1,
+        "privatoe42022": 1,
+        "privatoe42017": 1,
+        "example": 1,
+        "privatoe42013": 1,
+        "privatoe42037": 1,
+        "privatoe42018": 1,
+        "privatoe42035": 1,
+        "privatoe42021": 1,
+        "privatoe42038": 1,
+        "privatoe42033": 1,
+        "privatoe42009": 1,
+        "privatoe42023": 1,
+        "privatoe42016": 1,
+        "privatoe42041": 1,
+        "privatoe42012": 1,
+        "privatoe42030": 1,
+        "privatoe42040": 1,
+        "privatoe42007": 1,
+        "privatoe42045": 1,
+        "privatoe42002": 1,
+        "privatoe42046": 1,
+        "privatoe42027": 1,
+        "privatoe42024": 1,
+        "privatoe42044": 1,
+        "privatoe42029": 1,
+        "privatoe42032": 1,
+        "privatoe42047": 1,
+        "privatoe42015": 1,
+        "privatoe42010": 1,
+        "privatoe42028": 1,
+        "privatoe42008": 1,
+        "privatoe42026": 1,
+        "privatoe42003": 1,
+        "privatoe42019": 1,
+        "privatoe42039": 1,
+        "privatoe42020": 1,
+        "privatoe42014": 1,
+        "privatoe42031": 1,
+        "privatoe42005": 1
+      },
+      "release_metrics": {
+        "step_matches": {},
+        "all_step_terms_present": null,
+        "sensitive_fragments": [],
+        "unique_identifier_tokens": [],
+        "shared_identifier_present": false
+      },
+      "local_keyword_synthesis": {
+        "text": "Informazioni insufficienti: nessuna keyword rilasciata.",
+        "inference_ms": 0.0,
+        "input_keywords": [],
+        "provider": "no inference"
+      },
+      "synthesis_metrics": {
+        "step_matches": {},
+        "all_step_terms_present": null,
+        "sensitive_fragments": [],
+        "unique_identifier_tokens": [],
+        "shared_identifier_present": false
+      },
+      "conditional_trials": [
+        {
+          "n": 5,
+          "epsilon": 1.0,
+          "delta_per_trial": 0.0002,
+          "trials": 500,
+          "release_rate": 0.002,
+          "all_step_terms_rate": null,
+          "step_term_rates": {},
+          "unique_identifier_rate": 0.002,
+          "shared_identifier_rate": 0.0,
+          "sensitive_fragment_hits": {
+            "example": 1,
+            "privatoe42006": 1,
+            "privatoe42013": 1,
+            "privatoe42017": 1,
+            "privatoe42022": 1,
+            "privatoe42034": 1
+          }
+        },
+        {
+          "n": 5,
+          "epsilon": 4.0,
+          "delta_per_trial": 0.0002,
+          "trials": 500,
+          "release_rate": 0.0,
+          "all_step_terms_rate": null,
+          "step_term_rates": {},
+          "unique_identifier_rate": 0.0,
+          "shared_identifier_rate": 0.0,
+          "sensitive_fragment_hits": {}
+        },
+        {
+          "n": 5,
+          "epsilon": 8.0,
+          "delta_per_trial": 0.0002,
+          "trials": 500,
+          "release_rate": 0.0,
+          "all_step_terms_rate": null,
+          "step_term_rates": {},
+          "unique_identifier_rate": 0.0,
+          "shared_identifier_rate": 0.0,
+          "sensitive_fragment_hits": {}
+        },
+        {
+          "n": 10,
+          "epsilon": 1.0,
+          "delta_per_trial": 0.0002,
+          "trials": 500,
+          "release_rate": 0.0,
+          "all_step_terms_rate": null,
+          "step_term_rates": {},
+          "unique_identifier_rate": 0.0,
+          "shared_identifier_rate": 0.0,
+          "sensitive_fragment_hits": {}
+        },
+        {
+          "n": 10,
+          "epsilon": 4.0,
+          "delta_per_trial": 0.0002,
+          "trials": 500,
+          "release_rate": 0.0,
+          "all_step_terms_rate": null,
+          "step_term_rates": {},
+          "unique_identifier_rate": 0.0,
+          "shared_identifier_rate": 0.0,
+          "sensitive_fragment_hits": {}
+        },
+        {
+          "n": 10,
+          "epsilon": 8.0,
+          "delta_per_trial": 0.0002,
+          "trials": 500,
+          "release_rate": 0.0,
+          "all_step_terms_rate": null,
+          "step_term_rates": {},
+          "unique_identifier_rate": 0.0,
+          "shared_identifier_rate": 0.0,
+          "sensitive_fragment_hits": {}
+        },
+        {
+          "n": 20,
+          "epsilon": 1.0,
+          "delta_per_trial": 0.0002,
+          "trials": 500,
+          "release_rate": 0.0,
+          "all_step_terms_rate": null,
+          "step_term_rates": {},
+          "unique_identifier_rate": 0.0,
+          "shared_identifier_rate": 0.0,
+          "sensitive_fragment_hits": {}
+        },
+        {
+          "n": 20,
+          "epsilon": 4.0,
+          "delta_per_trial": 0.0002,
+          "trials": 500,
+          "release_rate": 0.0,
+          "all_step_terms_rate": null,
+          "step_term_rates": {},
+          "unique_identifier_rate": 0.0,
+          "shared_identifier_rate": 0.0,
+          "sensitive_fragment_hits": {}
+        },
+        {
+          "n": 20,
+          "epsilon": 8.0,
+          "delta_per_trial": 0.0002,
+          "trials": 500,
+          "release_rate": 0.0,
+          "all_step_terms_rate": null,
+          "step_term_rates": {},
+          "unique_identifier_rate": 0.0,
+          "shared_identifier_rate": 0.0,
+          "sensitive_fragment_hits": {}
+        },
+        {
+          "n": 40,
+          "epsilon": 1.0,
+          "delta_per_trial": 0.0002,
+          "trials": 500,
+          "release_rate": 0.0,
+          "all_step_terms_rate": null,
+          "step_term_rates": {},
+          "unique_identifier_rate": 0.0,
+          "shared_identifier_rate": 0.0,
+          "sensitive_fragment_hits": {}
+        },
+        {
+          "n": 40,
+          "epsilon": 4.0,
+          "delta_per_trial": 0.0002,
+          "trials": 500,
+          "release_rate": 0.0,
+          "all_step_terms_rate": null,
+          "step_term_rates": {},
+          "unique_identifier_rate": 0.0,
+          "shared_identifier_rate": 0.0,
+          "sensitive_fragment_hits": {}
+        },
+        {
+          "n": 40,
+          "epsilon": 8.0,
+          "delta_per_trial": 0.0002,
+          "trials": 500,
+          "release_rate": 0.0,
+          "all_step_terms_rate": null,
+          "step_term_rates": {},
+          "unique_identifier_rate": 0.0,
+          "shared_identifier_rate": 0.0,
+          "sensitive_fragment_hits": {}
+        }
+      ],
+      "cloud_answer_quality": null,
+      "draft_count": 40,
+      "drafts_with_all_step_terms": 0,
+      "released_keywords": []
+    },
+    {
+      "case": {
+        "id": "dettaglio_condiviso",
+        "kind": "shared_detail",
+        "error": "E42",
+        "query": "Qual è l’identificativo interno del cluster nei ticket per errore E42 dopo aggiornamento di FerroSync? Riporta soltanto l’identificativo.",
+        "step_groups": {},
+        "expected_answer": "clusterinternoaurora"
+      },
+      "relevant_tickets": 40,
+      "histogram": {
+        "clusterinternoaurora": 40
+      },
+      "release_metrics": {
+        "step_matches": {},
+        "all_step_terms_present": null,
+        "sensitive_fragments": [
+          "clusterinternoaurora"
+        ],
+        "unique_identifier_tokens": [],
+        "shared_identifier_present": true
+      },
+      "local_keyword_synthesis": {
+        "text": "E42, 1144000000",
+        "inference_ms": 261.1346250050701,
+        "input_keywords": [
+          "clusterinternoaurora"
+        ],
+        "provider": "real local model; keyword-only input"
+      },
+      "synthesis_metrics": {
+        "step_matches": {},
+        "all_step_terms_present": null,
+        "sensitive_fragments": [],
+        "unique_identifier_tokens": [],
+        "shared_identifier_present": false
+      },
+      "conditional_trials": [
+        {
+          "n": 5,
+          "epsilon": 1.0,
+          "delta_per_trial": 0.0002,
+          "trials": 500,
+          "release_rate": 0.0,
+          "all_step_terms_rate": null,
+          "step_term_rates": {},
+          "unique_identifier_rate": 0.0,
+          "shared_identifier_rate": 0.0,
+          "sensitive_fragment_hits": {}
+        },
+        {
+          "n": 5,
+          "epsilon": 4.0,
+          "delta_per_trial": 0.0002,
+          "trials": 500,
+          "release_rate": 0.0,
+          "all_step_terms_rate": null,
+          "step_term_rates": {},
+          "unique_identifier_rate": 0.0,
+          "shared_identifier_rate": 0.0,
+          "sensitive_fragment_hits": {}
+        },
+        {
+          "n": 5,
+          "epsilon": 8.0,
+          "delta_per_trial": 0.0002,
+          "trials": 500,
+          "release_rate": 0.002,
+          "all_step_terms_rate": null,
+          "step_term_rates": {},
+          "unique_identifier_rate": 0.0,
+          "shared_identifier_rate": 0.002,
+          "sensitive_fragment_hits": {
+            "clusterinternoaurora": 1
+          }
+        },
+        {
+          "n": 10,
+          "epsilon": 1.0,
+          "delta_per_trial": 0.0002,
+          "trials": 500,
+          "release_rate": 0.002,
+          "all_step_terms_rate": null,
+          "step_term_rates": {},
+          "unique_identifier_rate": 0.0,
+          "shared_identifier_rate": 0.002,
+          "sensitive_fragment_hits": {
+            "clusterinternoaurora": 1
+          }
+        },
+        {
+          "n": 10,
+          "epsilon": 4.0,
+          "delta_per_trial": 0.0002,
+          "trials": 500,
+          "release_rate": 0.022,
+          "all_step_terms_rate": null,
+          "step_term_rates": {},
+          "unique_identifier_rate": 0.0,
+          "shared_identifier_rate": 0.022,
+          "sensitive_fragment_hits": {
+            "clusterinternoaurora": 11
+          }
+        },
+        {
+          "n": 10,
+          "epsilon": 8.0,
+          "delta_per_trial": 0.0002,
+          "trials": 500,
+          "release_rate": 0.32,
+          "all_step_terms_rate": null,
+          "step_term_rates": {},
+          "unique_identifier_rate": 0.0,
+          "shared_identifier_rate": 0.32,
+          "sensitive_fragment_hits": {
+            "clusterinternoaurora": 160
+          }
+        },
+        {
+          "n": 20,
+          "epsilon": 1.0,
+          "delta_per_trial": 0.0002,
+          "trials": 500,
+          "release_rate": 0.002,
+          "all_step_terms_rate": null,
+          "step_term_rates": {},
+          "unique_identifier_rate": 0.0,
+          "shared_identifier_rate": 0.002,
+          "sensitive_fragment_hits": {
+            "clusterinternoaurora": 1
+          }
+        },
+        {
+          "n": 20,
+          "epsilon": 4.0,
+          "delta_per_trial": 0.0002,
+          "trials": 500,
+          "release_rate": 0.582,
+          "all_step_terms_rate": null,
+          "step_term_rates": {},
+          "unique_identifier_rate": 0.0,
+          "shared_identifier_rate": 0.582,
+          "sensitive_fragment_hits": {
+            "clusterinternoaurora": 291
+          }
+        },
+        {
+          "n": 20,
+          "epsilon": 8.0,
+          "delta_per_trial": 0.0002,
+          "trials": 500,
+          "release_rate": 1.0,
+          "all_step_terms_rate": null,
+          "step_term_rates": {},
+          "unique_identifier_rate": 0.0,
+          "shared_identifier_rate": 1.0,
+          "sensitive_fragment_hits": {
+            "clusterinternoaurora": 500
+          }
+        },
+        {
+          "n": 40,
+          "epsilon": 1.0,
+          "delta_per_trial": 0.0002,
+          "trials": 500,
+          "release_rate": 0.056,
+          "all_step_terms_rate": null,
+          "step_term_rates": {},
+          "unique_identifier_rate": 0.0,
+          "shared_identifier_rate": 0.056,
+          "sensitive_fragment_hits": {
+            "clusterinternoaurora": 28
+          }
+        },
+        {
+          "n": 40,
+          "epsilon": 4.0,
+          "delta_per_trial": 0.0002,
+          "trials": 500,
+          "release_rate": 1.0,
+          "all_step_terms_rate": null,
+          "step_term_rates": {},
+          "unique_identifier_rate": 0.0,
+          "shared_identifier_rate": 1.0,
+          "sensitive_fragment_hits": {
+            "clusterinternoaurora": 500
+          }
+        },
+        {
+          "n": 40,
+          "epsilon": 8.0,
+          "delta_per_trial": 0.0002,
+          "trials": 500,
+          "release_rate": 1.0,
+          "all_step_terms_rate": null,
+          "step_term_rates": {},
+          "unique_identifier_rate": 0.0,
+          "shared_identifier_rate": 1.0,
+          "sensitive_fragment_hits": {
+            "clusterinternoaurora": 500
+          }
+        }
+      ],
+      "cloud_answer_quality": null,
+      "draft_count": 40,
+      "drafts_with_all_step_terms": 0,
+      "released_keywords": [
+        "clusterinternoaurora"
+      ]
+    },
+    {
+      "case": {
+        "id": "errore_assente",
+        "kind": "unsupported",
+        "error": "E99",
+        "query": "Come si risolve l’errore E99 dopo aggiornamento di FerroSync? Se il ticket non descrive E99, rispondi non disponibile.",
+        "step_groups": {},
+        "expected_answer": "non disponibile"
+      },
+      "relevant_tickets": 0,
+      "histogram": {
+        "locale": 39,
+        "raccettare": 26,
+        "servizio": 27,
+        "riavviare": 27,
+        "cache": 37,
+        "ferrosync": 27,
+        "cancellare": 27,
+        "ricaricare": 10,
+        "raccartare": 1,
+        "tecnico": 2,
+        "ricorrere": 2,
+        "stata": 1,
+        "e99": 1,
+        "errore": 1,
+        "utilizzata": 1,
+        "raccolta": 1,
+        "risolvere": 1,
+        "log": 1
+      },
+      "release_metrics": {
+        "step_matches": {},
+        "all_step_terms_present": null,
+        "sensitive_fragments": [],
+        "unique_identifier_tokens": [],
+        "shared_identifier_present": false
+      },
+      "local_keyword_synthesis": {
+        "text": "Informazioni insufficienti: nessuna keyword rilasciata.",
+        "inference_ms": 0.0,
+        "input_keywords": [],
+        "provider": "no inference"
+      },
+      "synthesis_metrics": {
+        "step_matches": {},
+        "all_step_terms_present": null,
+        "sensitive_fragments": [],
+        "unique_identifier_tokens": [],
+        "shared_identifier_present": false
+      },
+      "conditional_trials": [
+        {
+          "n": 5,
+          "epsilon": 1.0,
+          "delta_per_trial": 0.0002,
+          "trials": 500,
+          "release_rate": 0.0,
+          "all_step_terms_rate": null,
+          "step_term_rates": {},
+          "unique_identifier_rate": 0.0,
+          "shared_identifier_rate": 0.0,
+          "sensitive_fragment_hits": {}
+        },
+        {
+          "n": 5,
+          "epsilon": 4.0,
+          "delta_per_trial": 0.0002,
+          "trials": 500,
+          "release_rate": 0.0,
+          "all_step_terms_rate": null,
+          "step_term_rates": {},
+          "unique_identifier_rate": 0.0,
+          "shared_identifier_rate": 0.0,
+          "sensitive_fragment_hits": {}
+        },
+        {
+          "n": 5,
+          "epsilon": 8.0,
+          "delta_per_trial": 0.0002,
+          "trials": 500,
+          "release_rate": 0.0,
+          "all_step_terms_rate": null,
+          "step_term_rates": {},
+          "unique_identifier_rate": 0.0,
+          "shared_identifier_rate": 0.0,
+          "sensitive_fragment_hits": {}
+        },
+        {
+          "n": 10,
+          "epsilon": 1.0,
+          "delta_per_trial": 0.0002,
+          "trials": 500,
+          "release_rate": 0.0,
+          "all_step_terms_rate": null,
+          "step_term_rates": {},
+          "unique_identifier_rate": 0.0,
+          "shared_identifier_rate": 0.0,
+          "sensitive_fragment_hits": {}
+        },
+        {
+          "n": 10,
+          "epsilon": 4.0,
+          "delta_per_trial": 0.0002,
+          "trials": 500,
+          "release_rate": 0.0,
+          "all_step_terms_rate": null,
+          "step_term_rates": {},
+          "unique_identifier_rate": 0.0,
+          "shared_identifier_rate": 0.0,
+          "sensitive_fragment_hits": {}
+        },
+        {
+          "n": 10,
+          "epsilon": 8.0,
+          "delta_per_trial": 0.0002,
+          "trials": 500,
+          "release_rate": 0.0,
+          "all_step_terms_rate": null,
+          "step_term_rates": {},
+          "unique_identifier_rate": 0.0,
+          "shared_identifier_rate": 0.0,
+          "sensitive_fragment_hits": {}
+        },
+        {
+          "n": 20,
+          "epsilon": 1.0,
+          "delta_per_trial": 0.0002,
+          "trials": 500,
+          "release_rate": 0.0,
+          "all_step_terms_rate": null,
+          "step_term_rates": {},
+          "unique_identifier_rate": 0.0,
+          "shared_identifier_rate": 0.0,
+          "sensitive_fragment_hits": {}
+        },
+        {
+          "n": 20,
+          "epsilon": 4.0,
+          "delta_per_trial": 0.0002,
+          "trials": 500,
+          "release_rate": 0.006,
+          "all_step_terms_rate": null,
+          "step_term_rates": {},
+          "unique_identifier_rate": 0.0,
+          "shared_identifier_rate": 0.0,
+          "sensitive_fragment_hits": {}
+        },
+        {
+          "n": 20,
+          "epsilon": 8.0,
+          "delta_per_trial": 0.0002,
+          "trials": 500,
+          "release_rate": 0.032,
+          "all_step_terms_rate": null,
+          "step_term_rates": {},
+          "unique_identifier_rate": 0.0,
+          "shared_identifier_rate": 0.0,
+          "sensitive_fragment_hits": {}
+        },
+        {
+          "n": 40,
+          "epsilon": 1.0,
+          "delta_per_trial": 0.0002,
+          "trials": 500,
+          "release_rate": 0.002,
+          "all_step_terms_rate": null,
+          "step_term_rates": {},
+          "unique_identifier_rate": 0.0,
+          "shared_identifier_rate": 0.0,
+          "sensitive_fragment_hits": {}
+        },
+        {
+          "n": 40,
+          "epsilon": 4.0,
+          "delta_per_trial": 0.0002,
+          "trials": 500,
+          "release_rate": 0.23,
+          "all_step_terms_rate": null,
+          "step_term_rates": {},
+          "unique_identifier_rate": 0.0,
+          "shared_identifier_rate": 0.0,
+          "sensitive_fragment_hits": {}
+        },
+        {
+          "n": 40,
+          "epsilon": 8.0,
+          "delta_per_trial": 0.0002,
+          "trials": 500,
+          "release_rate": 0.982,
+          "all_step_terms_rate": null,
+          "step_term_rates": {},
+          "unique_identifier_rate": 0.0,
+          "shared_identifier_rate": 0.0,
+          "sensitive_fragment_hits": {}
+        }
+      ],
+      "cloud_answer_quality": null,
+      "draft_count": 40,
+      "drafts_with_all_step_terms": 0,
+      "released_keywords": []
+    }
+  ],
+  "pipeline_session_epsilon": 12.128914792297458,
+  "pipeline_session_delta": 0.0005,
+  "limits": "Conditional trials are seeded local diagnostics on public synthetic data. Word coverage does not check order, negation, technical validity or PII completeness. Keyword-only synthesis runs locally and is not a real cloud evaluation.",
+  "model_sha256": "74a4da8c9fdbcd15bd1f6d01d621410d31c6fc00986f5eb687824e7b93d7a9db",
+  "model_setup_seconds": 0.6820611669973005,
+  "model_config": {
+    "filename": "qwen2.5-0.5b-instruct-q4_k_m.gguf",
+    "url": "https://huggingface.co/Qwen/Qwen2.5-0.5B-Instruct-GGUF/resolve/main/qwen2.5-0.5b-instruct-q4_k_m.gguf",
+    "n_ctx": 4096,
+    "n_gpu_layers": -1,
+    "verbose": false,
+    "max_tokens": 30,
+    "temperature": 0.2,
+    "stop": [
+      "<|im_end|>",
+      "\n\n"
+    ],
+    "prefill_generation_ratio": 4.0,
+    "system_prompt": "You are a precise and concise factual extractor. Answer using ONLY facts from the provided context in under 10 words."
+  },
+  "platform": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+  "total_experiment_seconds": 82.27648941701045
+}

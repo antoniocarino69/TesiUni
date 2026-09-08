@@ -37,7 +37,15 @@ Per un provider reale configurare `.env` seguendo
 [Configurazione](poc/docs/CONFIGURATION.md) e omettere `--offline-cloud`.
 Non vengono caricati automaticamente documenti dal vault.
 
-Per una prova pronta con file locali, il corpus
+Il caso applicativo principale è un assistente su
+[ticket IT sintetici](poc/docs/ticket_demo/README.md): 80 documenti locali
+con procedure ricorrenti, clienti, IP, domini e identificativi fittizi.
+L'esperimento misura separatamente conservazione della procedura e rilascio
+dei dettagli, includendo un identificativo condiviso e un errore assente.
+I [risultati locali](poc/docs/ticket_demo/RISULTATI.md) mostrano anche i limiti
+del modello e della rappresentazione a keyword.
+
+Come prova dei limiti, il corpus
 [Aurora Demo](poc/docs/azienda_demo/README.md) contiene 80 schede salariali
 interamente fittizie, domande con risposte note e comandi per testare il modello
 locale, il filtro e lo scheduler. Usare solo la sua sottocartella `documenti/`
