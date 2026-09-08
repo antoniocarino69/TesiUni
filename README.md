@@ -37,6 +37,12 @@ Per un provider reale configurare `.env` seguendo
 [Configurazione](poc/docs/CONFIGURATION.md) e omettere `--offline-cloud`.
 Non vengono caricati automaticamente documenti dal vault.
 
+Per una prova pronta con file locali, il corpus
+[Aurora Demo](poc/docs/azienda_demo/README.md) contiene 80 schede salariali
+interamente fittizie, domande con risposte note e comandi per testare il modello
+locale, il filtro e lo scheduler. Usare solo la sua sottocartella `documenti/`
+come corpus: i risultati e la guida devono restare fuori dal retrieval.
+
 ## Scelte sperimentali
 
 Lo scheduler usa limiti pubblici del prompt e stime di throughput/RTT. Se lo
