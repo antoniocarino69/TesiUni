@@ -1,0 +1,48 @@
+[
+  {
+    "id": "base_t",
+    "query": "Qual è la retribuzione annua lorda base del personale del reparto Tecnologia, livello T2, di Aurora Demo Srl? Scrivi soltanto l’importo intero in euro senza separatori.",
+    "references": [
+      "42000"
+    ],
+    "target_token": "42000",
+    "department": "Tecnologia",
+    "grade": "T2",
+    "relevant_documents": 40
+  },
+  {
+    "id": "base_a",
+    "query": "Qual è la retribuzione annua lorda base del personale del reparto Amministrazione, livello A1, di Aurora Demo Srl? Scrivi soltanto l’importo intero in euro senza separatori.",
+    "references": [
+      "36000"
+    ],
+    "target_token": "36000",
+    "department": "Amministrazione",
+    "grade": "A1",
+    "relevant_documents": 20
+  },
+  {
+    "id": "base_c",
+    "query": "Qual è la retribuzione annua lorda base del personale del reparto Commerciale, livello C2, di Aurora Demo Srl? Scrivi soltanto l’importo intero in euro senza separatori.",
+    "references": [
+      "30000"
+    ],
+    "target_token": "30000",
+    "department": "Commerciale",
+    "grade": "C2",
+    "relevant_documents": 20
+  },
+  {
+    "id": "netto_assente",
+    "query": "Qual è lo stipendio netto mensile del dipendente DEMO-T001? Se il documento non lo indica, rispondi non disponibile.",
+    "references": [
+      "non disponibile",
+      "non indicato"
+    ],
+    "target_token": null,
+    "department": null,
+    "grade": null,
+    "relevant_documents": 0,
+    "purpose": "Controllo negativo: il corpus contiene soltanto importi lordi."
+  }
+]

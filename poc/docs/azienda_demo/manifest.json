@@ -1,0 +1,727 @@
+{
+  "synthetic": true,
+  "company": "Aurora Demo Srl",
+  "generation_seed": 20260908,
+  "documents": [
+    {
+      "path": "documenti/DEMO-T001.md",
+      "employee_id": "DEMO-T001",
+      "department": "Tecnologia",
+      "grade": "T2",
+      "base_salary_eur": 42000,
+      "bonus_eur": 1000,
+      "sha256": "ffdaf13b8b3e12bd98cb418bc7d885510edda2637bcf7a2587cc753528516298"
+    },
+    {
+      "path": "documenti/DEMO-T002.md",
+      "employee_id": "DEMO-T002",
+      "department": "Tecnologia",
+      "grade": "T2",
+      "base_salary_eur": 42000,
+      "bonus_eur": 1000,
+      "sha256": "0a69e9f5f74e47ac0338b14b5d9dd45c614735b42913287270f01a45b6ec203c"
+    },
+    {
+      "path": "documenti/DEMO-T003.md",
+      "employee_id": "DEMO-T003",
+      "department": "Tecnologia",
+      "grade": "T2",
+      "base_salary_eur": 42000,
+      "bonus_eur": 0,
+      "sha256": "e3c022cce95f5c334c11b4bc05e90bc329168ff2b2e57f6002bd7103b9b0a042"
+    },
+    {
+      "path": "documenti/DEMO-T004.md",
+      "employee_id": "DEMO-T004",
+      "department": "Tecnologia",
+      "grade": "T2",
+      "base_salary_eur": 42000,
+      "bonus_eur": 1000,
+      "sha256": "7fbf2a9b722b2c82329e09958203e883a197d4453b927fc99549d486dae84f80"
+    },
+    {
+      "path": "documenti/DEMO-T005.md",
+      "employee_id": "DEMO-T005",
+      "department": "Tecnologia",
+      "grade": "T2",
+      "base_salary_eur": 42000,
+      "bonus_eur": 1000,
+      "sha256": "45ce5ad70ff552f85694725fb8619c604e5a7615d0ee9b0fc995438ca8528825"
+    },
+    {
+      "path": "documenti/DEMO-T006.md",
+      "employee_id": "DEMO-T006",
+      "department": "Tecnologia",
+      "grade": "T2",
+      "base_salary_eur": 42000,
+      "bonus_eur": 1750,
+      "sha256": "f9d6018b6a96684e467ceb300b79fa934f0c8884e8a05e533d336d7b29fafd58"
+    },
+    {
+      "path": "documenti/DEMO-T007.md",
+      "employee_id": "DEMO-T007",
+      "department": "Tecnologia",
+      "grade": "T2",
+      "base_salary_eur": 42000,
+      "bonus_eur": 0,
+      "sha256": "f26d66c76c2cec824eca8fe8e6cb509b6b0d0d91d1751f957d65f77cda450fd2"
+    },
+    {
+      "path": "documenti/DEMO-T008.md",
+      "employee_id": "DEMO-T008",
+      "department": "Tecnologia",
+      "grade": "T2",
+      "base_salary_eur": 42000,
+      "bonus_eur": 1250,
+      "sha256": "7dc8c5be002f195d1792a2c7de09170971a3185c4635463df0144997d202d709"
+    },
+    {
+      "path": "documenti/DEMO-T009.md",
+      "employee_id": "DEMO-T009",
+      "department": "Tecnologia",
+      "grade": "T2",
+      "base_salary_eur": 42000,
+      "bonus_eur": 1250,
+      "sha256": "84305da881dd4d9b7c6926c1143864d7087980105e20f42ef164681a5162da8a"
+    },
+    {
+      "path": "documenti/DEMO-T010.md",
+      "employee_id": "DEMO-T010",
+      "department": "Tecnologia",
+      "grade": "T2",
+      "base_salary_eur": 42000,
+      "bonus_eur": 1000,
+      "sha256": "ab5753ab14fc018105f869fb22eacdb6c1a10c5b208a7150dfee1345403e6ef2"
+    },
+    {
+      "path": "documenti/DEMO-T011.md",
+      "employee_id": "DEMO-T011",
+      "department": "Tecnologia",
+      "grade": "T2",
+      "base_salary_eur": 42000,
+      "bonus_eur": 1000,
+      "sha256": "afe4193dbec3c73b30b6ca5e301781ee9dab7bd6f6e9a2a490a64b819430c361"
+    },
+    {
+      "path": "documenti/DEMO-T012.md",
+      "employee_id": "DEMO-T012",
+      "department": "Tecnologia",
+      "grade": "T2",
+      "base_salary_eur": 42000,
+      "bonus_eur": 1500,
+      "sha256": "53790fc42fe7ad1fc7602e6ac15fb015cacd4d1ffb37e36c4013c0de3646a1e9"
+    },
+    {
+      "path": "documenti/DEMO-T013.md",
+      "employee_id": "DEMO-T013",
+      "department": "Tecnologia",
+      "grade": "T2",
+      "base_salary_eur": 42000,
+      "bonus_eur": 500,
+      "sha256": "60b89970874dcc7e253705a359a51a9662f88d7f0ee20d98f3bfe7e9e0816147"
+    },
+    {
+      "path": "documenti/DEMO-T014.md",
+      "employee_id": "DEMO-T014",
+      "department": "Tecnologia",
+      "grade": "T2",
+      "base_salary_eur": 42000,
+      "bonus_eur": 1250,
+      "sha256": "81374de06d29bfbfd6970fb48dd7771c30c99d9a66f6952d0029e141c0304639"
+    },
+    {
+      "path": "documenti/DEMO-T015.md",
+      "employee_id": "DEMO-T015",
+      "department": "Tecnologia",
+      "grade": "T2",
+      "base_salary_eur": 42000,
+      "bonus_eur": 2000,
+      "sha256": "a36f6ec78b8f73629302b3ca950bbd5c34fac93b046a3123449d43d28e2c44b8"
+    },
+    {
+      "path": "documenti/DEMO-T016.md",
+      "employee_id": "DEMO-T016",
+      "department": "Tecnologia",
+      "grade": "T2",
+      "base_salary_eur": 42000,
+      "bonus_eur": 1250,
+      "sha256": "0da8d31984102db1a7c3927997febb30bdd6e598fbed75b00622d28cdcd50fcb"
+    },
+    {
+      "path": "documenti/DEMO-T017.md",
+      "employee_id": "DEMO-T017",
+      "department": "Tecnologia",
+      "grade": "T2",
+      "base_salary_eur": 42000,
+      "bonus_eur": 1500,
+      "sha256": "ff456fc7f647e3683f8b4508151aaeb6eda34ff8800c8bce4a12520db0c5235a"
+    },
+    {
+      "path": "documenti/DEMO-T018.md",
+      "employee_id": "DEMO-T018",
+      "department": "Tecnologia",
+      "grade": "T2",
+      "base_salary_eur": 42000,
+      "bonus_eur": 1500,
+      "sha256": "e47479438e8c75207d20d29595a85790d654ba13030b0533780ba68b5b477a30"
+    },
+    {
+      "path": "documenti/DEMO-T019.md",
+      "employee_id": "DEMO-T019",
+      "department": "Tecnologia",
+      "grade": "T2",
+      "base_salary_eur": 42000,
+      "bonus_eur": 0,
+      "sha256": "e06e713cd422a92be2c80910b37541316abd1dc3f03279dc57945d994f468ba2"
+    },
+    {
+      "path": "documenti/DEMO-T020.md",
+      "employee_id": "DEMO-T020",
+      "department": "Tecnologia",
+      "grade": "T2",
+      "base_salary_eur": 42000,
+      "bonus_eur": 1500,
+      "sha256": "39858b404861a4eb66d15406a153add93ae6cff1f3c608b1c4f4db47cee2385a"
+    },
+    {
+      "path": "documenti/DEMO-T021.md",
+      "employee_id": "DEMO-T021",
+      "department": "Tecnologia",
+      "grade": "T2",
+      "base_salary_eur": 42000,
+      "bonus_eur": 1750,
+      "sha256": "a9b287390bd4087081fd1d8493de5718b1d3e6fbdb627fe423a96d31747e37b6"
+    },
+    {
+      "path": "documenti/DEMO-T022.md",
+      "employee_id": "DEMO-T022",
+      "department": "Tecnologia",
+      "grade": "T2",
+      "base_salary_eur": 42000,
+      "bonus_eur": 1250,
+      "sha256": "d7daa64f2381533490798f770b1c3a84f2a1de7d2d6e837ff20375a66367eaff"
+    },
+    {
+      "path": "documenti/DEMO-T023.md",
+      "employee_id": "DEMO-T023",
+      "department": "Tecnologia",
+      "grade": "T2",
+      "base_salary_eur": 42000,
+      "bonus_eur": 750,
+      "sha256": "6d07317421644b49f77725b90a6d25b734986bff810a34de92918e4e421cfe33"
+    },
+    {
+      "path": "documenti/DEMO-T024.md",
+      "employee_id": "DEMO-T024",
+      "department": "Tecnologia",
+      "grade": "T2",
+      "base_salary_eur": 42000,
+      "bonus_eur": 0,
+      "sha256": "a67ec80d8956bfbff331701247ea6008e28e03e28405d893cd3099815f44078c"
+    },
+    {
+      "path": "documenti/DEMO-T025.md",
+      "employee_id": "DEMO-T025",
+      "department": "Tecnologia",
+      "grade": "T2",
+      "base_salary_eur": 42000,
+      "bonus_eur": 1250,
+      "sha256": "721cefa29094f7b3321bf626fad207dc85e5f41074cc0358ed057c4a6634ea2d"
+    },
+    {
+      "path": "documenti/DEMO-T026.md",
+      "employee_id": "DEMO-T026",
+      "department": "Tecnologia",
+      "grade": "T2",
+      "base_salary_eur": 42000,
+      "bonus_eur": 0,
+      "sha256": "6f1d68afdb75e8457954dd79e004cbf9016ca3f74b330b974732c09c6e2ed9d1"
+    },
+    {
+      "path": "documenti/DEMO-T027.md",
+      "employee_id": "DEMO-T027",
+      "department": "Tecnologia",
+      "grade": "T2",
+      "base_salary_eur": 42000,
+      "bonus_eur": 0,
+      "sha256": "dca691f2b8e320691707cbed99cf22b7fb0d854d9d35392fa29d62edd081df7c"
+    },
+    {
+      "path": "documenti/DEMO-T028.md",
+      "employee_id": "DEMO-T028",
+      "department": "Tecnologia",
+      "grade": "T2",
+      "base_salary_eur": 42000,
+      "bonus_eur": 1500,
+      "sha256": "adc28580b4069171e0e2604efa5ca6227f40e3f746f6fef2ec156ca75dc67353"
+    },
+    {
+      "path": "documenti/DEMO-T029.md",
+      "employee_id": "DEMO-T029",
+      "department": "Tecnologia",
+      "grade": "T2",
+      "base_salary_eur": 42000,
+      "bonus_eur": 1750,
+      "sha256": "3cbb346fd018569757d13e938e4ed450a5ce481ec1ce3bd22221c2c8e4a82eaa"
+    },
+    {
+      "path": "documenti/DEMO-T030.md",
+      "employee_id": "DEMO-T030",
+      "department": "Tecnologia",
+      "grade": "T2",
+      "base_salary_eur": 42000,
+      "bonus_eur": 1500,
+      "sha256": "82a253edd40d88c7f543a9a79831b696da21460cdab4cfdfcfd79adfba3c79a6"
+    },
+    {
+      "path": "documenti/DEMO-T031.md",
+      "employee_id": "DEMO-T031",
+      "department": "Tecnologia",
+      "grade": "T2",
+      "base_salary_eur": 42000,
+      "bonus_eur": 1500,
+      "sha256": "addcc2fb74deba6d9073fb44f56a4cae2c8a5cb4499fef6296ccd583e8df9338"
+    },
+    {
+      "path": "documenti/DEMO-T032.md",
+      "employee_id": "DEMO-T032",
+      "department": "Tecnologia",
+      "grade": "T2",
+      "base_salary_eur": 42000,
+      "bonus_eur": 1000,
+      "sha256": "97c8ddb5e5006b826e513f4550d8877b874c8fc87042482a99e8bc9b3cd12c30"
+    },
+    {
+      "path": "documenti/DEMO-T033.md",
+      "employee_id": "DEMO-T033",
+      "department": "Tecnologia",
+      "grade": "T2",
+      "base_salary_eur": 42000,
+      "bonus_eur": 1500,
+      "sha256": "3ff525f8837b1e13812361aabb1963f9bfe001f0f5df0671c152d9d84e2561ec"
+    },
+    {
+      "path": "documenti/DEMO-T034.md",
+      "employee_id": "DEMO-T034",
+      "department": "Tecnologia",
+      "grade": "T2",
+      "base_salary_eur": 42000,
+      "bonus_eur": 750,
+      "sha256": "5821d47edba1dafcb54cf6bb2a33604ede547720c92f10cad2efa525134d8b8d"
+    },
+    {
+      "path": "documenti/DEMO-T035.md",
+      "employee_id": "DEMO-T035",
+      "department": "Tecnologia",
+      "grade": "T2",
+      "base_salary_eur": 42000,
+      "bonus_eur": 1000,
+      "sha256": "50ea47780b718b14371cea167d7077730d2ec1089df5c47136eee6028369ae84"
+    },
+    {
+      "path": "documenti/DEMO-T036.md",
+      "employee_id": "DEMO-T036",
+      "department": "Tecnologia",
+      "grade": "T2",
+      "base_salary_eur": 42000,
+      "bonus_eur": 500,
+      "sha256": "0121d2ae9225ba45945f03f010ca570c270f8a84697566b019f465524bc6a331"
+    },
+    {
+      "path": "documenti/DEMO-T037.md",
+      "employee_id": "DEMO-T037",
+      "department": "Tecnologia",
+      "grade": "T2",
+      "base_salary_eur": 42000,
+      "bonus_eur": 750,
+      "sha256": "a2a1eeff9f37237e0a2e8934ba5fb855d4319793422ff9c088c77d35dcb14f70"
+    },
+    {
+      "path": "documenti/DEMO-T038.md",
+      "employee_id": "DEMO-T038",
+      "department": "Tecnologia",
+      "grade": "T2",
+      "base_salary_eur": 42000,
+      "bonus_eur": 500,
+      "sha256": "8eb1ea1ddc8dd52f8910047dd673cc6656fc3dd8eb9e1932106adb71ea900e85"
+    },
+    {
+      "path": "documenti/DEMO-T039.md",
+      "employee_id": "DEMO-T039",
+      "department": "Tecnologia",
+      "grade": "T2",
+      "base_salary_eur": 42000,
+      "bonus_eur": 0,
+      "sha256": "9be81ebd62738e4204b46c84059f2cdb4a1eda10ec3095f2affc6d4483fcfb3c"
+    },
+    {
+      "path": "documenti/DEMO-T040.md",
+      "employee_id": "DEMO-T040",
+      "department": "Tecnologia",
+      "grade": "T2",
+      "base_salary_eur": 42000,
+      "bonus_eur": 0,
+      "sha256": "e9727306533aa0fd8c27d3787b003a9f835b4c2a16b0c3b24a87997bb2267059"
+    },
+    {
+      "path": "documenti/DEMO-A001.md",
+      "employee_id": "DEMO-A001",
+      "department": "Amministrazione",
+      "grade": "A1",
+      "base_salary_eur": 36000,
+      "bonus_eur": 1750,
+      "sha256": "93a7f1b7639e6ff3603180f75373e77925a8c273cbe4304d23436cad2ca192ca"
+    },
+    {
+      "path": "documenti/DEMO-A002.md",
+      "employee_id": "DEMO-A002",
+      "department": "Amministrazione",
+      "grade": "A1",
+      "base_salary_eur": 36000,
+      "bonus_eur": 1250,
+      "sha256": "5c9d8d6fb85f803bfef95ef55cd1d5c11f5b26a620afefb1fc77fccf86ceff81"
+    },
+    {
+      "path": "documenti/DEMO-A003.md",
+      "employee_id": "DEMO-A003",
+      "department": "Amministrazione",
+      "grade": "A1",
+      "base_salary_eur": 36000,
+      "bonus_eur": 1750,
+      "sha256": "5bd9d1c98c6d1f20bdfa4958304889b78c64a28edee396b302557398add05833"
+    },
+    {
+      "path": "documenti/DEMO-A004.md",
+      "employee_id": "DEMO-A004",
+      "department": "Amministrazione",
+      "grade": "A1",
+      "base_salary_eur": 36000,
+      "bonus_eur": 1500,
+      "sha256": "9b075e2579444bbabee7d841637ab93dae6b8db9ea607aa9c1cae4921c0f9df6"
+    },
+    {
+      "path": "documenti/DEMO-A005.md",
+      "employee_id": "DEMO-A005",
+      "department": "Amministrazione",
+      "grade": "A1",
+      "base_salary_eur": 36000,
+      "bonus_eur": 2000,
+      "sha256": "bb5c65120fe27ba4dcdfbf8be0dcc9674cf0ae5e28d772da2833eb01bcf354ce"
+    },
+    {
+      "path": "documenti/DEMO-A006.md",
+      "employee_id": "DEMO-A006",
+      "department": "Amministrazione",
+      "grade": "A1",
+      "base_salary_eur": 36000,
+      "bonus_eur": 750,
+      "sha256": "1d2610a8bde674cb6a88de202058d88202d0200d9a2149993bbd8868584fb5d1"
+    },
+    {
+      "path": "documenti/DEMO-A007.md",
+      "employee_id": "DEMO-A007",
+      "department": "Amministrazione",
+      "grade": "A1",
+      "base_salary_eur": 36000,
+      "bonus_eur": 0,
+      "sha256": "c35d70833fb056e0f79252ed94a7287cf42d802dc037290b72ec3b77398f08aa"
+    },
+    {
+      "path": "documenti/DEMO-A008.md",
+      "employee_id": "DEMO-A008",
+      "department": "Amministrazione",
+      "grade": "A1",
+      "base_salary_eur": 36000,
+      "bonus_eur": 500,
+      "sha256": "c83f8fc6234057f9bd7fc472eb965879157204a4f0a0c23d305322ab7088bac9"
+    },
+    {
+      "path": "documenti/DEMO-A009.md",
+      "employee_id": "DEMO-A009",
+      "department": "Amministrazione",
+      "grade": "A1",
+      "base_salary_eur": 36000,
+      "bonus_eur": 1000,
+      "sha256": "33ec29f2528f5d21a5f7260a48a185a60391821ca59ae60633dfd190883e5641"
+    },
+    {
+      "path": "documenti/DEMO-A010.md",
+      "employee_id": "DEMO-A010",
+      "department": "Amministrazione",
+      "grade": "A1",
+      "base_salary_eur": 36000,
+      "bonus_eur": 750,
+      "sha256": "d7c7f12e4b196a4b81cf36a55919fcb4539d083adf73f3af676a0cea70153b53"
+    },
+    {
+      "path": "documenti/DEMO-A011.md",
+      "employee_id": "DEMO-A011",
+      "department": "Amministrazione",
+      "grade": "A1",
+      "base_salary_eur": 36000,
+      "bonus_eur": 2000,
+      "sha256": "b0b3a4707785accedbf5a8210788f8dcbbde944f51dd646542094dcbd573503b"
+    },
+    {
+      "path": "documenti/DEMO-A012.md",
+      "employee_id": "DEMO-A012",
+      "department": "Amministrazione",
+      "grade": "A1",
+      "base_salary_eur": 36000,
+      "bonus_eur": 1500,
+      "sha256": "bc724a091f791bb7659b990101dc09e17dada301998fc1b8de9979d569ed68f8"
+    },
+    {
+      "path": "documenti/DEMO-A013.md",
+      "employee_id": "DEMO-A013",
+      "department": "Amministrazione",
+      "grade": "A1",
+      "base_salary_eur": 36000,
+      "bonus_eur": 1000,
+      "sha256": "20e1daa5f5d4a2106021e0f9430977ce7ac674093b5e31709cd69d7658a44d34"
+    },
+    {
+      "path": "documenti/DEMO-A014.md",
+      "employee_id": "DEMO-A014",
+      "department": "Amministrazione",
+      "grade": "A1",
+      "base_salary_eur": 36000,
+      "bonus_eur": 1750,
+      "sha256": "8082a2fcbd8a722335f071d32bb62056b44f5e8b0e69dc0c7b0045590fb76291"
+    },
+    {
+      "path": "documenti/DEMO-A015.md",
+      "employee_id": "DEMO-A015",
+      "department": "Amministrazione",
+      "grade": "A1",
+      "base_salary_eur": 36000,
+      "bonus_eur": 2000,
+      "sha256": "fa8f114817e60ee4de6281df7cce6384cad438cc7e8fe4e9e385d6f468514cd5"
+    },
+    {
+      "path": "documenti/DEMO-A016.md",
+      "employee_id": "DEMO-A016",
+      "department": "Amministrazione",
+      "grade": "A1",
+      "base_salary_eur": 36000,
+      "bonus_eur": 1000,
+      "sha256": "e3c5ff2c82f7475be3da61ba6353e0ed37eb082dfab1781a7eb9fa43ff75f623"
+    },
+    {
+      "path": "documenti/DEMO-A017.md",
+      "employee_id": "DEMO-A017",
+      "department": "Amministrazione",
+      "grade": "A1",
+      "base_salary_eur": 36000,
+      "bonus_eur": 2000,
+      "sha256": "7c81e0b8995a4e5a914246e2a16bdce7bbfcdb88d2fd00b517380b145de35e53"
+    },
+    {
+      "path": "documenti/DEMO-A018.md",
+      "employee_id": "DEMO-A018",
+      "department": "Amministrazione",
+      "grade": "A1",
+      "base_salary_eur": 36000,
+      "bonus_eur": 750,
+      "sha256": "59b06fdfdd5c7fbebcde97a08cbdbafdf6e898957d1b037fdffd313309b80d01"
+    },
+    {
+      "path": "documenti/DEMO-A019.md",
+      "employee_id": "DEMO-A019",
+      "department": "Amministrazione",
+      "grade": "A1",
+      "base_salary_eur": 36000,
+      "bonus_eur": 1000,
+      "sha256": "b43afb35eda054cec758b6033ed24f4c5489dbe41868a3654bfde299a61aa23b"
+    },
+    {
+      "path": "documenti/DEMO-A020.md",
+      "employee_id": "DEMO-A020",
+      "department": "Amministrazione",
+      "grade": "A1",
+      "base_salary_eur": 36000,
+      "bonus_eur": 750,
+      "sha256": "b2a893a31fa295618450e23d9ca9cc0264af1431c621d171c0290b8bdcf4f8f1"
+    },
+    {
+      "path": "documenti/DEMO-C001.md",
+      "employee_id": "DEMO-C001",
+      "department": "Commerciale",
+      "grade": "C2",
+      "base_salary_eur": 30000,
+      "bonus_eur": 750,
+      "sha256": "d656bc905e9076c149d5f0905d95cc995b5dcb701ee572191eb0680ca06dc752"
+    },
+    {
+      "path": "documenti/DEMO-C002.md",
+      "employee_id": "DEMO-C002",
+      "department": "Commerciale",
+      "grade": "C2",
+      "base_salary_eur": 30000,
+      "bonus_eur": 1000,
+      "sha256": "e26592aa9ef2495c43df3cf03bb83df89283375e4f20cc6a056df0b36e7d75b3"
+    },
+    {
+      "path": "documenti/DEMO-C003.md",
+      "employee_id": "DEMO-C003",
+      "department": "Commerciale",
+      "grade": "C2",
+      "base_salary_eur": 30000,
+      "bonus_eur": 500,
+      "sha256": "0eab7a09aaa590303135b70e6f35d551f922592777075ed8db309658350d530b"
+    },
+    {
+      "path": "documenti/DEMO-C004.md",
+      "employee_id": "DEMO-C004",
+      "department": "Commerciale",
+      "grade": "C2",
+      "base_salary_eur": 30000,
+      "bonus_eur": 2000,
+      "sha256": "33479d19311f3fa0588e6de22b374ba4d7653ff25ec6d6800224b58c13b9d79e"
+    },
+    {
+      "path": "documenti/DEMO-C005.md",
+      "employee_id": "DEMO-C005",
+      "department": "Commerciale",
+      "grade": "C2",
+      "base_salary_eur": 30000,
+      "bonus_eur": 2000,
+      "sha256": "21b06e48c8b1563c5d83a7008a26f17b0f9952cd115f19da5e2ec511b6d25ec5"
+    },
+    {
+      "path": "documenti/DEMO-C006.md",
+      "employee_id": "DEMO-C006",
+      "department": "Commerciale",
+      "grade": "C2",
+      "base_salary_eur": 30000,
+      "bonus_eur": 2000,
+      "sha256": "e9ee17cc02ec166d767997279d4160ed390ab9619196491547e08d651d256120"
+    },
+    {
+      "path": "documenti/DEMO-C007.md",
+      "employee_id": "DEMO-C007",
+      "department": "Commerciale",
+      "grade": "C2",
+      "base_salary_eur": 30000,
+      "bonus_eur": 500,
+      "sha256": "99d08f5f21186fa615e4a6607ac959f323bfdf3c82da7095b6aaf8f041504de3"
+    },
+    {
+      "path": "documenti/DEMO-C008.md",
+      "employee_id": "DEMO-C008",
+      "department": "Commerciale",
+      "grade": "C2",
+      "base_salary_eur": 30000,
+      "bonus_eur": 2000,
+      "sha256": "484e7df1133d5bf1713b8b9747d211ae74e5f8b5d4470b6633dbaaa6a4cead14"
+    },
+    {
+      "path": "documenti/DEMO-C009.md",
+      "employee_id": "DEMO-C009",
+      "department": "Commerciale",
+      "grade": "C2",
+      "base_salary_eur": 30000,
+      "bonus_eur": 2000,
+      "sha256": "fdc4b5d527c3b3acbdaf2fbe49487e8a878cba3fc0c9ce04f304dc29b0dd9b5b"
+    },
+    {
+      "path": "documenti/DEMO-C010.md",
+      "employee_id": "DEMO-C010",
+      "department": "Commerciale",
+      "grade": "C2",
+      "base_salary_eur": 30000,
+      "bonus_eur": 0,
+      "sha256": "e126fbfecd0df6031dabb69ba45cd27c6a1d0856b5882ab18d8fd51281b2f138"
+    },
+    {
+      "path": "documenti/DEMO-C011.md",
+      "employee_id": "DEMO-C011",
+      "department": "Commerciale",
+      "grade": "C2",
+      "base_salary_eur": 30000,
+      "bonus_eur": 1000,
+      "sha256": "7f3be11e2cc8292223ff3e5f05850262e67800c338a9bd98620b89058067341b"
+    },
+    {
+      "path": "documenti/DEMO-C012.md",
+      "employee_id": "DEMO-C012",
+      "department": "Commerciale",
+      "grade": "C2",
+      "base_salary_eur": 30000,
+      "bonus_eur": 1000,
+      "sha256": "0b046189e9bf819555ff92aa4f94b07df0d4bbb5892181d94876c3f203a48ba2"
+    },
+    {
+      "path": "documenti/DEMO-C013.md",
+      "employee_id": "DEMO-C013",
+      "department": "Commerciale",
+      "grade": "C2",
+      "base_salary_eur": 30000,
+      "bonus_eur": 1500,
+      "sha256": "d0a3d2e1aac6158c8131a81d96460f34142bab2440f7ed858bf235300f52ad2a"
+    },
+    {
+      "path": "documenti/DEMO-C014.md",
+      "employee_id": "DEMO-C014",
+      "department": "Commerciale",
+      "grade": "C2",
+      "base_salary_eur": 30000,
+      "bonus_eur": 500,
+      "sha256": "9224634e63d38667bf41fb4f1341aac4c8c35c6434ef5f55b29ecc92609e0962"
+    },
+    {
+      "path": "documenti/DEMO-C015.md",
+      "employee_id": "DEMO-C015",
+      "department": "Commerciale",
+      "grade": "C2",
+      "base_salary_eur": 30000,
+      "bonus_eur": 2000,
+      "sha256": "c7de10239301bbf73961d93ca6cf7d372c44c7392ca400f62622995901e973ee"
+    },
+    {
+      "path": "documenti/DEMO-C016.md",
+      "employee_id": "DEMO-C016",
+      "department": "Commerciale",
+      "grade": "C2",
+      "base_salary_eur": 30000,
+      "bonus_eur": 1500,
+      "sha256": "ec6f66211ae56009157ad02deb2b7094742eaafe02678ce0e3eef864cb8a7225"
+    },
+    {
+      "path": "documenti/DEMO-C017.md",
+      "employee_id": "DEMO-C017",
+      "department": "Commerciale",
+      "grade": "C2",
+      "base_salary_eur": 30000,
+      "bonus_eur": 1250,
+      "sha256": "3a831b260f2b9e6408b2a307b4c47b63795b7327374f388d140f30ddd9c20230"
+    },
+    {
+      "path": "documenti/DEMO-C018.md",
+      "employee_id": "DEMO-C018",
+      "department": "Commerciale",
+      "grade": "C2",
+      "base_salary_eur": 30000,
+      "bonus_eur": 1000,
+      "sha256": "97337473d395c13f6df96ab46a70af5e70561ab03deb65551c64646707c93f37"
+    },
+    {
+      "path": "documenti/DEMO-C019.md",
+      "employee_id": "DEMO-C019",
+      "department": "Commerciale",
+      "grade": "C2",
+      "base_salary_eur": 30000,
+      "bonus_eur": 1500,
+      "sha256": "d0843f752ecf6cef98c877e09a6cf0a041ab386ccfe7118bfb70c38a82883ebf"
+    },
+    {
+      "path": "documenti/DEMO-C020.md",
+      "employee_id": "DEMO-C020",
+      "department": "Commerciale",
+      "grade": "C2",
+      "base_salary_eur": 30000,
+      "bonus_eur": 1500,
+      "sha256": "90add933c65d23cb9ee322c074dfc6a5c733db4c5e094b1ab8930033470a228a"
+    }
+  ]
+}
