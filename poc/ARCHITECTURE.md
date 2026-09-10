@@ -1,7 +1,9 @@
 # Architettura del PoC
 
 Il percorso supportato è `run_pipeline.py`; l'orchestrazione testabile è in
-`core.pipeline.run_request`. I prototipi in `archive/` restano storici.
+`core.pipeline.run_request`. `repl_interattiva.py` riusa la stessa pipeline per
+domande ripetute con un unico account privacy di sessione. I prototipi in
+`archive/` restano storici.
 
 ## Flusso della richiesta
 

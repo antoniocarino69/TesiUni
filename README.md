@@ -45,6 +45,25 @@ dei dettagli, includendo un identificativo condiviso e un errore assente.
 I [risultati locali](poc/docs/ticket_demo/RISULTATI.md) mostrano anche i limiti
 del modello e della rappresentazione a keyword.
 
+### Interfaccia interattiva
+
+`poc/repl_interattiva.py` permette di fare domande a turno su un corpus
+locale, riusando la stessa pipeline di `run_pipeline.py` ma con un **unico
+account privacy cumulativo per tutta la sessione** (epsilon di sessione =
+`--epsilon` × `--max-queries`, delta cumulativo esplicito). A budget esaurito
+le domande successive passano al fallback zero-shot senza consultare i
+documenti e senza addebiti. Il modello locale viene caricato una volta sola.
+
+```bash
+.venv/bin/python repl_interattiva.py \
+  --documents docs/ticket_demo/documenti --epsilon 4 --max-queries 10
+```
+
+I comandi disponibili sono `/help`, `/stats` (stato dell'account), `/docs`
+(dimensione del corpus) e `/exit`. Il cloud è simulato per default; con
+`--online` si usa il provider configurato in `.env`. I test sono in
+`poc/tests/test_repl_interattiva.py`.
+
 Come prova dei limiti, il corpus
 [Aurora Demo](poc/docs/azienda_demo/README.md) contiene 80 schede salariali
 interamente fittizie, domande con risposte note e comandi per testare il modello
