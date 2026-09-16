@@ -4,25 +4,29 @@ from __future__ import annotations
 
 import argparse
 import json
+import logging
 import math
 import time
 from collections.abc import Sequence
+from dataclasses import replace
 from pathlib import Path
 
 from dotenv import load_dotenv
 from rich.console import Console
 from rich.table import Table
 
+from core.calibration import calibra
 from core.cloud import CloudGenerator
 from core.dataset import DatasetLoader
 from core.documents import DocumentCorpus
-from core.engine import ModelDownloadError
+from core.engine import LocalNeuralEngine, ModelDownloadError
 from core.model_config import DEFAULT_LOCAL_MODEL_CONFIG
 from core.pipeline import RequestConfig, run_request
 from core.scheduler import AdaptiveScheduler, PrivacyBudgetExhaustedError
 from core.telemetry import LangfuseTracer
 
 CONSOLE = Console()
+LOGGER = logging.getLogger(__name__)
 DEFAULT_QUERY = 'Who won Super Bowl 50?'
 
 
@@ -72,6 +76,8 @@ def build_parser() -> argparse.ArgumentParser:
                         help='Diagnostica sperimentale completa su un endpoint fidato')
     parser.add_argument('--dry-run', action='store_true',
                         help='Verifica corpus, retrieval e piano senza modello/provider/telemetria')
+    parser.add_argument('--no-calibration', action='store_true',
+                        help='Disattiva calibrazione automatica; usa i throughput di default')
     parser.add_argument('--output', type=Path, help='Report JSON locale; contiene diagnostica non DP')
     return parser
 
@@ -115,9 +121,27 @@ def main(argv: Sequence[str] | None = None) -> int:
         tracer = None if args.no_telemetry else LangfuseTracer(
             capture_sensitive=args.langfuse_capture_sensitive,
         )
+        engine = None
+        calibration_ms = 0.0
+        engine_options = {'model_path': args.model_path, 'model_url': args.model_url}
+        if not args.no_calibration:
+            engine = LocalNeuralEngine(**engine_options)
+            calibration_result = calibra(engine)
+            calibration_ms = calibration_result.calibration_ms
+            config = replace(
+                config,
+                prefill_tps=calibration_result.prefill_tps,
+                generation_tps=calibration_result.generation_tps,
+            )
+            LOGGER.info(
+                'Calibrazione: prefill=%.1f tok/s, generation=%.1f tok/s (%.0f ms)',
+                calibration_result.prefill_tps,
+                calibration_result.generation_tps,
+                calibration_ms,
+            )
         result = run_request(query, corpus, config, cloud, tracer=tracer,
-                             engine_options={'model_path': args.model_path,
-                                             'model_url': args.model_url})
+                             engine=engine, engine_options=engine_options)
+        result['calibration_ms'] = calibration_ms
         result['cli_total_ms'] = (time.perf_counter() - started) * 1000
         if args.output:
             args.output.parent.mkdir(parents=True, exist_ok=True)
@@ -135,6 +159,8 @@ def main(argv: Sequence[str] | None = None) -> int:
          f"{result['decision']['n_ensemble']} / {result['local_diagnostics']['actual_documents']}"),
         ('Keyword rilasciate', ', '.join(result['released_keywords'])),
         ('Epsilon / delta consumati', f"{result['epsilon_consumed']:.6g} / {result['delta_consumed']:.6g}"),
+        ('Calibrazione throughput (setup sessione)',
+         f"{result['calibration_ms']:.1f} ms" if result['calibration_ms'] else 'disattivata'),
         ('Richiesta misurata incl. setup modello, escl. ingestione/flush', f"{result['request_ms']:.1f} ms"),
         ('Totale CLI incl. ingestione e flush', f"{result['cli_total_ms']:.1f} ms"),
         ('SLA richiesta superato', str(result['sla_violated'])),

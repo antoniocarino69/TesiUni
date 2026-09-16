@@ -7,6 +7,7 @@ External dependencies are imported by the individual adapters; importing the
 package itself only defines the public version and re-exports.
 """
 
+from .calibration import RisultatoCalibrazione, calibra
 from .dataset import DatasetLoader, DocumentoBenchmark
 from .engine import (
     LocalNeuralEngine,
@@ -32,6 +33,8 @@ __all__ = [
     "ModelDownloadError",
     "OutputInferenza",
     "PrivacyBudgetExhaustedError",
+    "RisultatoCalibrazione",
+    "calibra",
     "probabilita_passaggio_ptr",
     "assicura_presenza_modello",
 ]
