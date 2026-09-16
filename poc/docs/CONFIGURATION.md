@@ -46,6 +46,8 @@ invece il seed opzionale.
 | `--force-zero-shot` | disattivo | Forza N=0 senza consultare i documenti |
 | `--no-calibration` | disattivo | Disattiva la calibrazione automatica delle velocità locali |
 | `--no-etichette` | disattivo | Disattiva il calcolo delle etichette sperimentali (A3) |
+| `--tok-per-sec-prefill` | 250 | Throughput prefill manuale (usato solo con `--no-calibration`); il benchmark_scheduler e la REPL rispettano questo flag |
+| `--tok-per-sec-generazione` | 50 | Throughput generazione manuale (usato solo con `--no-calibration`) |
 
 Con i default, cinque prompt da 1000 token non entrano in 1,5 secondi:
 l'adattivo va in zero-shot. Aumentare lo SLA in modo coerente con l'hardware
@@ -129,6 +131,13 @@ Preparare un JSON di casi pubblici con risposte attese:
   --epsilon 1 --session-epsilon 10 --max-latency-ms 30000 \
   --output reports/comparison.json
 ```
+
+Il benchmark calibra automaticamente le velocità locali all'avvio
+(`core/calibration.py`) e usa i valori misurati per ogni run. Il report
+JSON include `prefill_tps`, `generation_tps` e `calibration_ms` per
+documentare i parametri usati. Con `--no-calibration` i throughput sono
+quelli passati a `--tok-per-sec-prefill`/`--tok-per-sec-generazione`
+(default 250/50), come in `run_pipeline.py`.
 
 Le query devono corrispondere ai documenti scelti. Il modello viene precaricato;
 il seed controlla l'ordine dei confronti per ridurre l'effetto dell'ordine di

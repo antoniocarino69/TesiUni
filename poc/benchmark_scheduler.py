@@ -12,11 +12,13 @@ import json
 import random
 import re
 from collections import Counter
+from collections.abc import Sequence
 from dataclasses import replace
 from pathlib import Path
 
 from dotenv import load_dotenv
 
+from core.calibration import calibra
 from core.cloud import CloudGenerator
 from core.documents import DocumentCorpus
 from core.engine import LocalNeuralEngine
@@ -105,11 +107,11 @@ def run_experiment(cases, corpus, config, cloud, engine, *, fixed_sizes=(5, 10, 
             'measurement': 'warm preloaded model; corpus ingestion excluded; local report is NOT DP'}
 
 
-def main() -> int:
+def main(argv: Sequence[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--documents', type=Path, required=True)
     parser.add_argument('--cases', type=Path, required=True,
-                        help='JSON: [{"query": "...", "references": ["..."]}]')
+                        help='JSON: [{"query": "...", "references": ["..."]}]\n')
     parser.add_argument('--output', type=Path, required=True)
     parser.add_argument('--fixed-sizes', nargs='+', type=int, default=[5, 10, 20, 40])
     parser.add_argument('--repeats', type=int, default=3)
@@ -121,17 +123,39 @@ def main() -> int:
     parser.add_argument('--offline-cloud', action='store_true')
     parser.add_argument('--model-path')
     parser.add_argument('--model-url')
-    args = parser.parse_args()
+    parser.add_argument('--no-calibration', action='store_true',
+                        help='Disattiva la calibrazione automatica delle velocità locali')
+    parser.add_argument('--tok-per-sec-prefill', type=float, default=250.0,
+                        help='Throughput prefill manuale (usato solo con --no-calibration)')
+    parser.add_argument('--tok-per-sec-generazione', type=float, default=50.0,
+                        help='Throughput generazione manuale (usato solo con --no-calibration)')
+    args = parser.parse_args(argv)
     load_dotenv()
     corpus = DocumentCorpus.from_path(args.documents)
     cases = json.loads(args.cases.read_text(encoding='utf-8'))
     engine = LocalNeuralEngine(model_path=args.model_path, model_url=args.model_url)
+    prefill_tps = args.tok_per_sec_prefill
+    generation_tps = args.tok_per_sec_generazione
+    calibration_ms = 0.0
+    if not args.no_calibration:
+        calibration_result = calibra(engine)
+        calibration_ms = calibration_result.calibration_ms
+        prefill_tps = calibration_result.prefill_tps
+        generation_tps = calibration_result.generation_tps
+        print(
+            f'Calibrazione: prefill={prefill_tps:.1f} tok/s, '
+            f'generazione={generation_tps:.1f} tok/s ({calibration_ms:.0f} ms)'
+        )
     report = run_experiment(cases, corpus, RequestConfig(
         epsilon=args.epsilon, sla_ms=args.max_latency_ms,
         prompt_token_budget=args.prompt_token_budget,
+        prefill_tps=prefill_tps, generation_tps=generation_tps,
     ), CloudGenerator(offline=args.offline_cloud), engine,
         fixed_sizes=args.fixed_sizes, repeats=args.repeats, order_seed=args.order_seed,
         session_epsilon=args.session_epsilon)
+    report['calibration_ms'] = calibration_ms
+    report['prefill_tps'] = prefill_tps
+    report['generation_tps'] = generation_tps
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding='utf-8')
     print(json.dumps(report['summary'], indent=2))

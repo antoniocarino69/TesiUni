@@ -201,8 +201,8 @@ Report e telemetria sono diagnostica sperimentale separata dalla garanzia DP; la
  - **Soglia di sforamento accettabile (A2):** lo scheduler espone `--sforamento-k`. Con `k>0`, se il piano minimo non entra nello SLA, lo sforamento previsto per `N_MIN` viene confrontato con `k × E2E_cloud_ms`; se rientra nella tolleranza pianifica `N=N_MIN` e segnala `sforamento_accettato`. Con `k=0` (default) resta il comportamento prudente. `--force-zero-shot` forza `N=0` ignorando SLA e tolleranza.
  - **Probe cloud E2E (A1):** la CLI esegue una sola generazione pubblica di sessione (`core/cloud.py::CloudGenerator.probe`) e usa il valore misurato di `E2E_cloud_ms` per alimentare la tolleranza A2 al posto della somma manuale `RTT + tempo_cloud_ms`. Il costo del probe (`cloud_probe_ms`) entra in `cli_total_ms`, mai in `request_ms`. Con `--offline-cloud` o senza credenziali il probe viene saltato e `cloud_probe_skipped=True`.
  - **Etichette sperimentali (A3):** dopo la risposta cloud, `core/etichette.py::classifica_risultato` calcola una label (`insufficienti`, `errore`, `completo`, `degradato`) su `(decisione, dp, risposta)` con la variante stretta per ticket quando il `RequestConfig` include `riferimenti_ticket`. Sono metadati di analisi: non cambiano prompt, sequenza di chiamate né comportamento. Disattivabili con `--no-etichette`.
+ - **Estensioni benchmark (A4):** `benchmark_scheduler.py` calibra automaticamente le velocità locali all'avvio (default) e propaga i valori misurati a ogni `RequestConfig`. CLI e REPL accettano `--no-calibration`, `--tok-per-sec-prefill`, `--tok-per-sec-generazione`. Allineato con `run_pipeline.py`.
  
  ## Sviluppi concordati, ancora da implementare
- 
- - Estensioni al benchmark dello scheduler per usare throughput calibrati (A4).
+
 

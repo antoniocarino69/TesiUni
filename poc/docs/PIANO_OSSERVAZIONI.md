@@ -21,6 +21,7 @@ misura conseguenti.
 | Soglia di sforamento accettabile + parametro k                   | Implementata; default `k=0` conserva il comportamento prudente, `--sforamento-k` apre la tolleranza; visibile in `sforamento_previsto_ms`, `sforamento_piano_minimo_ms`, `tolleranza_sforamento_ms` | CONCEZIONE §3                                                     |
 | Etichette sperimentali (completo/degradato/insufficienti/errore) | Implementate in `core/etichette.py`; calcolate a posteriori in `core/pipeline.py`; euristiche documentate in CONCEZIONE §4 (variante stretta per ticket via `riferimenti_ticket`); disattivabili con `--no-etichette` | CONCEZIONE §4                                                     |
 | Sweep su k in `docs/esplorazione_soglia/`                        | **Non eseguito**, directory assente                                                                                                                                                                 | CONCEZIONE §3                                                     |
+| Estensioni benchmark (calibrazione automatica, flag throughput)  | Implementate; `benchmark_scheduler.py` calibra per default; `--no-calibration`, `--tok-per-sec-prefill/--generazione` su CLI/REPL | CONCEZIONE §3                                                     |
 | Campagne offline (cloud simulato)                                | Eseguite: corpus salariale e ticket                                                                                                                                                                 | `docs/azienda_demo/RISULTATI.md`, `docs/ticket_demo/RISULTATI.md` |
 | Esecuzioni con provider reale                                    | 4 run singole, non ripetute                                                                                                                                                                         | `docs/test_preliminari_settembre2026.md`                          |
 | Capitoli bozza                                                   | Cap. 4 riscritto sui dati misurati; cap. 3 in parte generico e da allineare dopo le campagne                                                                                                        | `Bozza/`                                                          |
@@ -155,13 +156,25 @@ qualità.
 
 ### A4. Estensioni minori agli strumenti di benchmark
 
-- `benchmark_scheduler.py` non usa la calibrazione e non espone i
-  throughput: aggiungere o la calibrazione automatica o i flag
-  `--tok-per-sec-prefill/--tok-per-sec-generazione`, altrimenti il
-  confronto adattivo/fisso resta tarato sui default 250/50 tok/s, smentiti
-  dalle misure (~1950/~480).
-- Verificare che `repl_interattiva.py` resti coerente con A1–A3 (stesso
-  `run_request`).
+- Implementato. `benchmark_scheduler.py` ora calibra automaticamente le
+  velocità locali all'avvio della sessione (default) e propaga i valori
+  misurati nel `RequestConfig` di ogni run. Senza calibrazione il
+  confronto adattivo/fisso era tarato sui default `250/50 tok/s`, smentiti
+  dalle misure reali (`~1950/~480` nei test preliminari).
+- Flag nuovi su `benchmark_scheduler.py` e `repl_interattiva.py`:
+  `--no-calibration` (disattiva), `--tok-per-sec-prefill`,
+  `--tok-per-sec-generazione` (manuali, usati solo con
+  `--no-calibration`). Comportamento allineato a `run_pipeline.py`.
+- Report JSON del benchmark include `prefill_tps`, `generation_tps`,
+  `calibration_ms` per documentare i valori usati nelle run.
+- `repl_interattiva.py` coerente con A1–A3: probe A1 all'avvio,
+  `--sforamento-k`, `--force-zero-shot`, `--no-etichette`,
+  calibrazione automatica all'avvio.
+- Test: 2 in `tests/test_benchmark_scheduler.py` (calibrazione attiva
+  + manuale); 1 in `tests/test_repl_interattiva.py` (parser flags).
+- Documenti aggiornati: `CONFIGURATION.md` (tabella parametri).
+- Vincoli non toccati: `core/privacy` non modificato, REPL invariato
+  come sessione DP cumulativa.
 
 ## 4. Fase B — Sweep sul coefficiente k
 
