@@ -2,10 +2,21 @@
 
 ## Ambito
 
+- La materia di riferimento della tesi triennale è **Architetture e Reti di Elaboratori**. Il taglio della tesi deve privilegiare l'elaborazione locale e cloud, la gestione del carico computazionale, le risorse hardware e i tempi di risposta. RAG e privacy differenziale costituiscono il contesto applicativo e i vincoli del progetto.
 - Questa root è un vault di materiali per la tesi. Il codice eseguibile e i test sono in `poc/`; Markdown, traduzioni e PDF della root sono materiale di ricerca, non input di build.
 - L'entrypoint supportato è `poc/run_pipeline.py`. `poc/poc_real_dp_ksa.py` è solo un wrapper di compatibilità legacy; `poc/archive/` contiene prototipi storici e non va esteso.
 - Per il flusso, le invarianti e le assunzioni privacy leggere `poc/ARCHITECTURE.md`; per configurazione e formule usare rispettivamente `poc/docs/CONFIGURATION.md` e `poc/docs/PRIVACY_ACCOUNTING.md`.
+- `pseudocodice.md` e `schemaablocchi.md` nella root spiegano il funzionamento del sistema in linguaggio semplice. A ogni modifica del codice verificare entrambi e aggiornare, nella stessa modifica, le parti interessate del pseudocodice, del diagramma e delle spiegazioni. Devono descrivere il comportamento effettivamente implementato, distinguendo esplicitamente gli sviluppi previsti; non considerare conclusa una modifica lasciandoli incoerenti con il codice. Se una modifica interna non cambia quanto descritto, verificarne comunque la coerenza senza introdurre aggiornamenti artificiali.
 - Il paper di riferimento è: Tang et al., *"Differentially Private Retrieval-Augmented Generation"*, PDF locale con metadati editoriali provvisori YYYY(X); non attribuire una pubblicazione PoPETS 2025 verificata. Ogni scelta implementativa che tocca il meccanismo DP deve essere ricondotta agli Algoritmi 1, 2, 3 e alla dimostrazione in Appendice A di quel paper.
+
+## Priorità del progetto e obiettivo di latenza
+
+- L'obiettivo dello scheduler è adattare il numero di inferenze locali per ridurre il lavoro computazionale e la latenza, mantenendo il meccanismo di privacy e un'utilità delle risposte verificata sperimentalmente. Il solo rispetto del tempo previsto non dimostra il successo del progetto.
+- Lo SLA è un obiettivo flessibile (soft SLA): sono accettabili sforamenti occasionali dovuti alla variabilità del computer, della rete o del servizio cloud. Misurare e riportare sia la frequenza sia l'entità degli sforamenti; non presentare le stime come scadenze garantite.
+- Privacy e utilità hanno precedenza sul rispetto puntuale dello SLA. Non saltare il filtro, aumentare il budget privacy o inviare documenti grezzi al provider per ottenere risposte più rapide o utili. La garanzia DP resta quella del meccanismo e delle ipotesi documentate, non una promessa di rischio zero; resta valida la distinzione già prevista per la diagnostica sperimentale autorizzata.
+- Una risposta rapida ma priva delle informazioni necessarie non è un risultato soddisfacente. Valutare la correttezza e l'utilità delle risposte insieme a tempi e lavoro locale. Quando mancano elementi sufficienti, il comportamento desiderato è dichiarare il limite; non presentare una risposta di conoscenza generale come fondata sui documenti dell'utente.
+- Direzione di sviluppo concordata, non ancora implementata: calibrare automaticamente le stime all'avvio con inferenze su testi pubblici rappresentativi, tenendo modello e misure in memoria per la sessione. Distinguere il costo di preparazione dalle richieste successive. Per il cloud, un semplice GET non misura la generazione: una prova di generazione pubblica misura il tempo complessivo della chiamata, senza sommare nuovamente la rete. Le misure che determinano N devono restare indipendenti dal contenuto privato.
+- Il comportamento attuale N=0 quando il piano minimo non entra nello SLA stimato, descritto sotto e coperto dai test, resta una descrizione dell'implementazione esistente. Va riesaminato rispetto a queste priorità: non assumere che rinunciare ai documenti sia sempre preferibile a uno sforamento. Eventuali modifiche richiedono aggiornamenti coerenti a codice, test e documentazione; questa indicazione non significa che siano già state implementate.
 
 ## Ambiente e comandi
 
