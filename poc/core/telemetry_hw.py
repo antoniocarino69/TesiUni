@@ -365,6 +365,26 @@ class HwSampler:
             self.snapshots.append(snapshot())
         return self.snapshots
 
+    def sample_until(self, stop_event) -> list[HwSnapshot]:
+        """Sample until ``stop_event.is_set()`` becomes ``True``.
+
+        Designed for ``threading.Event`` integration: the caller starts
+        this method on a background thread, then sets the event when the
+        instrumented operation completes. The first snapshot is taken
+        immediately; subsequent ones every ``period_seconds`` until the
+        event fires. ``None`` event handling degrades to a single sample.
+        """
+        self.snapshots = []
+        if stop_event is None:
+            self.snapshots.append(snapshot())
+            return self.snapshots
+        self.snapshots.append(snapshot())
+        while not stop_event.is_set():
+            if stop_event.wait(self.period_seconds):
+                break
+            self.snapshots.append(snapshot())
+        return self.snapshots
+
 
 # ---------------------------------------------------------------------------
 # Re-export for tooling

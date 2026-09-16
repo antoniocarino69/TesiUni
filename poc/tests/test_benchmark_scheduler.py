@@ -150,3 +150,37 @@ def test_calibration_feeds_throughputs_to_request_config(
     for row in report["runs"]:
         decision = row["decision"]
         assert decision["tempo_stimato_ms"] > 0.0
+
+
+def test_hw_metrics_attach_snapshot_to_each_row(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """``--hw-metrics`` adds an ``hw_before`` snapshot to every benchmark row."""
+    doc, cases = _write_inputs(tmp_path)
+    output = tmp_path / "report.json"
+    monkeypatch.setattr(benchmark_scheduler, "LocalNeuralEngine", _StubEngine)
+    monkeypatch.setattr(
+        benchmark_scheduler, "calibra",
+        lambda _engine: SimpleNamespace(
+            prefill_tps=250.0, generation_tps=50.0, calibration_ms=10.0
+        ),
+    )
+    exit_code = benchmark_scheduler.main([
+        "--documents", str(doc),
+        "--cases", str(cases),
+        "--output", str(output),
+        "--repeats", "1",
+        "--max-latency-ms", "30000",
+        "--offline-cloud",
+        "--hw-metrics",
+    ])
+    assert exit_code == 0
+    report = json.loads(output.read_text(encoding="utf-8"))
+    assert report["runs"], "no benchmark rows produced"
+    for row in report["runs"]:
+        assert "hw_before" in row
+        # The snapshot is a flat dict with at least the documented keys.
+        snapshot = row["hw_before"]
+        assert "timestamp" in snapshot
+        assert "cpu_util_pct" in snapshot
+        assert "ram_used_gb" in snapshot

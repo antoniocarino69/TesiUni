@@ -24,6 +24,8 @@ from core.model_config import DEFAULT_LOCAL_MODEL_CONFIG
 from core.pipeline import RequestConfig, run_request
 from core.scheduler import AdaptiveScheduler, PrivacyBudgetExhaustedError
 from core.telemetry import LangfuseTracer
+from core.telemetry_hw import HwSampler
+from core.telemetry_hw import snapshot as hw_snapshot
 
 CONSOLE = Console()
 LOGGER = logging.getLogger(__name__)
@@ -84,6 +86,10 @@ def build_parser() -> argparse.ArgumentParser:
                         help='Disattiva il calcolo delle etichette sperimentali (A3)')
     parser.add_argument('--no-calibration', action='store_true',
                         help='Disattiva calibrazione automatica; usa i throughput di default')
+    parser.add_argument('--hw-metrics', action='store_true',
+                        help='Abilita letture hardware (snapshot istantanei prima/dopo)')
+    parser.add_argument('--hw-sample-period', type=_non_negative_float, default=0.0,
+                        help='Periodo in secondi del sampler continuo (0 = disattivato). Implica --hw-metrics')
     parser.add_argument('--output', type=Path, help='Report JSON locale; contiene diagnostica non DP')
     return parser
 
@@ -155,8 +161,31 @@ def main(argv: Sequence[str] | None = None) -> int:
             )
         if probe.e2e_cloud_ms is not None:
             config = replace(config, e2e_cloud_ms=probe.e2e_cloud_ms)
+        hw_metrics_enabled = args.hw_metrics or args.hw_sample_period > 0.0
+        hw_before = hw_snapshot().to_dict() if hw_metrics_enabled else None
+        hw_after: dict | None = None
+        hw_samples: list[dict] | None = None
+        hw_stop_event = None
+        hw_thread = None
+        hw_sampler = None
+        if args.hw_sample_period > 0.0:
+            from threading import Event, Thread
+
+            hw_stop_event = Event()
+            hw_sampler = HwSampler(period_seconds=args.hw_sample_period)
+
+            def _campiona_hw() -> None:
+                hw_sampler.sample_until(hw_stop_event)
+
+            hw_thread = Thread(target=_campiona_hw, daemon=True)
+            hw_thread.start()
         result = run_request(query, corpus, config, cloud, tracer=tracer,
                              engine=engine, engine_options=engine_options)
+        if hw_thread is not None and hw_stop_event is not None:
+            hw_stop_event.set()
+            hw_thread.join(timeout=args.hw_sample_period + 2.0)
+            hw_samples = [s.to_dict() for s in hw_sampler.snapshots]
+        hw_after = hw_snapshot().to_dict() if hw_metrics_enabled else None
         result['calibration_ms'] = calibration_ms
         result['cli_total_ms'] = (time.perf_counter() - started) * 1000
         result['cloud_probe_ms'] = probe_elapsed_ms
@@ -165,6 +194,12 @@ def main(argv: Sequence[str] | None = None) -> int:
         result['cloud_probe_skipped'] = probe.cloud_probe_skipped
         result['cloud_probe_simulato'] = probe.simulato
         result['cloud_probe_errore'] = probe.errore
+        if hw_before is not None:
+            result['hw_before'] = hw_before
+        if hw_after is not None:
+            result['hw_after'] = hw_after
+        if hw_samples is not None:
+            result['hw_samples'] = hw_samples
         if args.output:
             args.output.parent.mkdir(parents=True, exist_ok=True)
             args.output.write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding='utf-8')
@@ -192,6 +227,14 @@ def main(argv: Sequence[str] | None = None) -> int:
          else f"non eseguito (skipped={result.get('cloud_probe_skipped')})"),
         ('Tempo probe cloud',
          f"{result.get('cloud_probe_ms', 0.0):.1f} ms"),
+        ('Hardware prima della run',
+         f"cpu={result['hw_before'].get('cpu_util_pct')}%, ram={result['hw_before'].get('ram_used_gb')}/{result['hw_before'].get('ram_total_gb')} GB"
+         if result.get('hw_before') else 'non misurato'),
+        ('Hardware dopo la run',
+         f"cpu={result['hw_after'].get('cpu_util_pct')}%, ram={result['hw_after'].get('ram_used_gb')}/{result['hw_after'].get('ram_total_gb')} GB"
+         if result.get('hw_after') else 'non misurato'),
+        ('Campioni hardware durante la run',
+         f"{len(result['hw_samples'])} snapshot" if result.get('hw_samples') is not None else 'sampler non attivo'),
         ('Esito sperimentale (A3)',
          f"{result['esito']['label']} — {result['esito']['motivazione']}"),
         ('Keyword rilasciate', ', '.join(result['released_keywords'])),
