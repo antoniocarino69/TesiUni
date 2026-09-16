@@ -23,6 +23,7 @@ from dotenv import load_dotenv
 from rich.console import Console
 from rich.table import Table
 
+from core.calibration import calibra
 from core.cloud import CloudGenerator
 from core.documents import DocumentCorpus
 from core.engine import LocalNeuralEngine, ModelDownloadError
@@ -212,8 +213,12 @@ def build_parser() -> argparse.ArgumentParser:
                         help='SLA stimato della richiesta (default 60000 ms)')
     parser.add_argument('--rtt-ms', type=_non_negative_float, default=50.0)
     parser.add_argument('--tempo-cloud-ms', type=_non_negative_float, default=150.0)
-    parser.add_argument('--tok-per-sec-prefill', type=float, default=250.0)
-    parser.add_argument('--tok-per-sec-generazione', type=float, default=50.0)
+    parser.add_argument('--tok-per-sec-prefill', type=float, default=250.0,
+                        help='Throughput prefill manuale (usato solo con --no-calibration)')
+    parser.add_argument('--tok-per-sec-generazione', type=float, default=50.0,
+                        help='Throughput generazione manuale (usato solo con --no-calibration)')
+    parser.add_argument('--no-calibration', action='store_true',
+                        help='Disattiva la calibrazione automatica delle velocità locali')
     parser.add_argument('--prompt-token-budget', type=_positive_int, default=1000)
     parser.add_argument('--max-tokens', type=_positive_int,
                         default=DEFAULT_LOCAL_MODEL_CONFIG.max_tokens)
@@ -287,10 +292,26 @@ def main(argv: Sequence[str] | None = None) -> int:
         tracer = LangfuseTracer(
             capture_sensitive=args.langfuse_capture_sensitive,
         ) if args.telemetry else None
+        engine = None
+        engine_options = {'model_path': args.model_path, 'model_url': args.model_url}
+        if not args.no_calibration:
+            engine = LocalNeuralEngine(**engine_options)
+            calibration_result = calibra(engine)
+            config = replace(
+                config,
+                prefill_tps=calibration_result.prefill_tps,
+                generation_tps=calibration_result.generation_tps,
+            )
+            CONSOLE.print(
+                f"[dim]Calibrazione: prefill={calibration_result.prefill_tps:.1f} "
+                f"tok/s, generazione={calibration_result.generation_tps:.1f} "
+                f"tok/s ({calibration_result.calibration_ms:.0f} ms)[/]"
+            )
         session = ReplSession(
             corpus, config, cloud,
             max_queries=args.max_queries,
-            engine_options={'model_path': args.model_path, 'model_url': args.model_url},
+            engine=engine,
+            engine_options=engine_options if engine is None else None,
             tracer=tracer,
         )
     except (ValueError, OSError) as exc:

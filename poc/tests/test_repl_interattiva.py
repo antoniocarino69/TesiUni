@@ -144,3 +144,26 @@ def test_sforamento_k_e_force_zero_shot_via_parser(tmp_path):
         config = dc_replace(config, fixed_n=0)
     assert config.fixed_n == 0
 
+
+def test_repl_parser_accepts_no_calibration_and_manual_throughputs(tmp_path):
+    """The REPL parser honours ``--no-calibration`` and the manual flags."""
+    import repl_interattiva
+
+    (tmp_path / 'doc.md').write_text('synthetic')
+    args = repl_interattiva.build_parser().parse_args([
+        '--documents', str(tmp_path / 'doc.md'),
+        '--no-calibration',
+        '--tok-per-sec-prefill', '1950.0',
+        '--tok-per-sec-generazione', '480.0',
+    ])
+    assert args.no_calibration is True
+    assert args.tok_per_sec_prefill == pytest.approx(1950.0)
+    assert args.tok_per_sec_generazione == pytest.approx(480.0)
+    # Defaults still apply when the flags are not given.
+    default_args = repl_interattiva.build_parser().parse_args([
+        '--documents', str(tmp_path / 'doc.md'),
+    ])
+    assert default_args.no_calibration is False
+    assert default_args.tok_per_sec_prefill == pytest.approx(250.0)
+    assert default_args.tok_per_sec_generazione == pytest.approx(50.0)
+
