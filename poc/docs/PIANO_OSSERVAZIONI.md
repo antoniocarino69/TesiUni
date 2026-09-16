@@ -19,7 +19,7 @@ misura conseguenti.
 | Calibrazione locale delle velocità                               | Implementata, testata, usata nei test preliminari                                                                                                                                                   | `core/calibration.py`, `--no-calibration`                         |
 | Probe cloud di latenza (E2E)                                     | Implementato; una sola chiamata pubblica per sessione, costo in `cli_total_ms` non in `request_ms`, salta con `--offline-cloud` o senza credenziali; vedi `core/cloud.py::CloudGenerator.probe` | CONCEZIONE §2.2                                                   |
 | Soglia di sforamento accettabile + parametro k                   | Implementata; default `k=0` conserva il comportamento prudente, `--sforamento-k` apre la tolleranza; visibile in `sforamento_previsto_ms`, `sforamento_piano_minimo_ms`, `tolleranza_sforamento_ms` | CONCEZIONE §3                                                     |
-| Etichette sperimentali (completo/degradato/insufficienti/errore) | **Non implementate**                                                                                                                                                                                | CONCEZIONE §4                                                     |
+| Etichette sperimentali (completo/degradato/insufficienti/errore) | Implementate in `core/etichette.py`; calcolate a posteriori in `core/pipeline.py`; euristiche documentate in CONCEZIONE §4 (variante stretta per ticket via `riferimenti_ticket`); disattivabili con `--no-etichette` | CONCEZIONE §4                                                     |
 | Sweep su k in `docs/esplorazione_soglia/`                        | **Non eseguito**, directory assente                                                                                                                                                                 | CONCEZIONE §3                                                     |
 | Campagne offline (cloud simulato)                                | Eseguite: corpus salariale e ticket                                                                                                                                                                 | `docs/azienda_demo/RISULTATI.md`, `docs/ticket_demo/RISULTATI.md` |
 | Esecuzioni con provider reale                                    | 4 run singole, non ripetute                                                                                                                                                                         | `docs/test_preliminari_settembre2026.md`                          |
@@ -120,17 +120,38 @@ lo scheduler pianifica N_MIN e marca lo sforamento previsto nel report.
 
 ### A3. Etichette sperimentali
 
-- Campo `esito` in `RisultatoCloud` e calcolo a posteriori in
-  `core/pipeline.py` secondo le euristiche della CONCEZIONE §4
-  (insufficienti / errore / completo / degradato), inclusa la variante
-  stretta per il caso ticket (passaggi presenti e nell'ordine atteso).
-- Disattivabili da CLI; parametri documentati in `CONFIGURATION.md`.
-- Sono metadati di analisi: non cambiano prompt, sequenza di chiamate né
-  comportamento. Nessun claim di privacy o correttezza su di esse.
-- Test: euristiche su risposte fittizie, nessun client reale.
+- Implementate in `core/etichette.py` con la funzione
+  `classifica_risultato(decisione, dp, risposta, riferimenti) -> EsitoRisultato`.
+  Quattro label: `insufficienti`, `errore`, `completo`, `degradato`. Gerarchia
+  deterministica: `insufficienti` (rilascio vuoto o zero-shot) > `errore`
+  (provider fallito) > `completo` (riusa keyword e niente astensione,
+  oppure passaggi in ordine se `riferimenti_ticket` sono forniti) >
+  `degradato` (rilascio e risposta arrivata ma non soddisfano la euristica
+  di completo).
+- Pattern di astensione dichiarati in `ASTENSIONE_PATTERN` (italiano e
+  inglese). Sono conservativi: servono a raggruppare i risultati per
+  discussione, non a certificare la qualità.
+- Variante stretta per ticket: campo `riferimenti_ticket: tuple[PatternRiferimento, ...]`
+  sul `RequestConfig`. Ogni `PatternRiferimento` ha `passaggi: tuple[str, ...]`
+  che devono comparire nella risposta nell'ordine dato (substring match
+  case-insensitive). Almeno un riferimento completo → `completo`,
+  altrimenti `degradato`.
+- Calcolate a posteriori in `core/pipeline.py` senza modificare prompt,
+  query, sequenza di chiamate né comportamento. Il campo `esito` del
+  report JSON ha `label`, `motivazione`, `riferimenti_usati`.
+- Disattivabili da CLI/REPL con `--no-etichette` (campo
+  `etichette_attive: bool = True` sul `RequestConfig`). Quando disattivate
+  il report registra `motivazione="etichette disattivate via CLI"`.
+- Test: 17 in `tests/test_etichette.py` (gerarchia, astensione, ticket in
+  ordine e ordine sbagliato, zero-shot, serializzazione JSON,
+  riferimenti vuoti); 2 in `tests/test_pipeline_integration.py`
+  (`test_cli_full_run_attaches_esito_label`,
+  `test_cli_full_run_no_etichette_disables_label`).
 
-Chiusura: gate verdi; le etichette compaiono nel report JSON dei run di
-smoke.
+Chiusura: gate verdi; il report JSON dei run di smoke include il campo
+`esito` con label e motivazione. Le etichette sono euristiche: il
+capitolo 4 le discute come metadati di analisi, non come claim di
+qualità.
 
 ### A4. Estensioni minori agli strumenti di benchmark
 

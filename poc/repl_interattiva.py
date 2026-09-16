@@ -204,6 +204,8 @@ def build_parser() -> argparse.ArgumentParser:
                         help='Coefficiente k per tolleranza sforamento SLA (default 0)')
     parser.add_argument('--force-zero-shot', action='store_true',
                         help='Forza N=0 senza consultare i documenti')
+    parser.add_argument('--no-etichette', action='store_true',
+                        help='Disattiva il calcolo delle etichette sperimentali (A3)')
     parser.add_argument('--r-min-k', type=_positive_int, default=1)
     parser.add_argument('--r-max-k', type=_positive_int, default=10)
     parser.add_argument('--max-latency-ms', type=_non_negative_float, default=60000.0,
@@ -245,6 +247,8 @@ def _stampa_risultato(result: dict[str, Any]) -> None:
          f"{result.get('e2e_cloud_ms_ms')} ms "
          f"(skipped={result.get('cloud_probe_skipped')})" if result.get('e2e_cloud_ms_ms') is not None
          else f"non eseguito (skipped={result.get('cloud_probe_skipped')})"),
+        ('Esito sperimentale (A3)',
+         f"{result['esito']['label']} — {result['esito']['motivazione']}"),
         ('Keyword rilasciate', ', '.join(result['released_keywords']) or '(nessuna)'),
         ('Epsilon / delta consumati',
          f"{result['epsilon_consumed']:.6g} / {result['delta_consumed']:.6g}"),
@@ -275,6 +279,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             candidates=args.ensemble_size, fixed_n=args.fixed_n,
             r_min_k=args.r_min_k, r_max_k=args.r_max_k,
             k_sforamento=args.sforamento_k,
+            etichette_attive=not args.no_etichette,
         )
         if args.force_zero_shot:
             config = replace(config, fixed_n=0)
