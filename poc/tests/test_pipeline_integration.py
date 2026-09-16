@@ -362,3 +362,110 @@ def test_cli_full_run_skips_probe_when_offline(tmp_path, monkeypatch):
     payload = json.loads(output.read_text(encoding="utf-8"))
     assert payload["cloud_probe_skipped"] is True
     assert payload["e2e_cloud_ms_ms"] is None
+
+
+def test_cli_full_run_attaches_esito_label(tmp_path, monkeypatch):
+    """The CLI writes the A3 esito to the JSON report and the CLI table."""
+    import run_pipeline
+
+    path = _write_synthetic_document(tmp_path)
+    output = tmp_path / "report.json"
+
+    class _StubProbe:
+        def probe(self):
+            return SimpleNamespace(
+                e2e_cloud_ms=None,
+                ttft_cloud_ms=None,
+                simulato=True,
+                cloud_probe_skipped=True,
+                errore=None,
+            )
+
+        def genera(self, domanda, parole, contesti):
+            # Reuse a released keyword so the heuristic can mark "completo".
+            testo = (
+                "Risposta cloud che contiene alpha tra le keyword rilasciate."
+                if parole and "alpha" in parole
+                else "Risposta generica senza keyword."
+            )
+            return SimpleNamespace(
+                risposta_testuale=testo,
+                latenza_rete_sec=0.0,
+                byte_trasmessi_dp=10,
+                byte_grezzi_rag=0,
+                risparmio_percentuale=0.0,
+                simulato=True,
+                errore=None,
+            )
+
+    stub = _StubProbe()
+    monkeypatch.setattr(run_pipeline, "LangfuseTracer", lambda **kwargs: pytest.fail("No trace"))
+    monkeypatch.setattr(run_pipeline, "CloudGenerator", lambda **_kwargs: stub)
+    _install_fake_engine(monkeypatch)
+
+    exit_code = _run_cli([
+        "--documents", str(path), "--query", "public query",
+        "--ensemble-size", "5",
+        "--prompt-token-budget", "256",
+        "--epsilon", "8",
+        "--delta", "0.01",
+        "--no-calibration",
+        "--offline-cloud",
+        "--no-telemetry",
+        "--output", str(output),
+    ])
+    assert exit_code == 0
+    payload = json.loads(output.read_text(encoding="utf-8"))
+    assert "esito" in payload
+    assert payload["esito"]["label"] in {
+        "insufficienti", "errore", "completo", "degradato"
+    }
+    assert payload["esito"]["motivazione"]
+
+
+def test_cli_full_run_no_etichette_disables_label(tmp_path, monkeypatch):
+    """``--no-etichette`` overrides the heuristic and records the disabled state."""
+    import run_pipeline
+
+    path = _write_synthetic_document(tmp_path)
+    output = tmp_path / "report.json"
+
+    class _StubProbe:
+        def probe(self):
+            return SimpleNamespace(
+                e2e_cloud_ms=None,
+                ttft_cloud_ms=None,
+                simulato=True,
+                cloud_probe_skipped=True,
+                errore=None,
+            )
+
+        def genera(self, domanda, parole, contesti):
+            return SimpleNamespace(
+                risposta_testuale="alpha è la risposta.",
+                latenza_rete_sec=0.0,
+                byte_trasmessi_dp=10,
+                byte_grezzi_rag=0,
+                risparmio_percentuale=0.0,
+                simulato=True,
+                errore=None,
+            )
+
+    stub = _StubProbe()
+    monkeypatch.setattr(run_pipeline, "LangfuseTracer", lambda **kwargs: pytest.fail("No trace"))
+    monkeypatch.setattr(run_pipeline, "CloudGenerator", lambda **_kwargs: stub)
+    _install_fake_engine(monkeypatch)
+
+    exit_code = _run_cli([
+        "--documents", str(path), "--query", "public query",
+        "--ensemble-size", "5",
+        "--prompt-token-budget", "256",
+        "--no-calibration",
+        "--offline-cloud",
+        "--no-telemetry",
+        "--no-etichette",
+        "--output", str(output),
+    ])
+    assert exit_code == 0
+    payload = json.loads(output.read_text(encoding="utf-8"))
+    assert payload["esito"]["motivazione"] == "etichette disattivate via CLI"

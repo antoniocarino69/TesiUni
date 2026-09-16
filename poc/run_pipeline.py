@@ -80,6 +80,8 @@ def build_parser() -> argparse.ArgumentParser:
                         help='Verifica corpus, retrieval e piano senza modello/provider/telemetria')
     parser.add_argument('--force-zero-shot', action='store_true',
                         help='Forza zero-shot (N=0) ignorando SLA e politica di tolleranza')
+    parser.add_argument('--no-etichette', action='store_true',
+                        help='Disattiva il calcolo delle etichette sperimentali (A3)')
     parser.add_argument('--no-calibration', action='store_true',
                         help='Disattiva calibrazione automatica; usa i throughput di default')
     parser.add_argument('--output', type=Path, help='Report JSON locale; contiene diagnostica non DP')
@@ -105,6 +107,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             candidates=args.ensemble_size, fixed_n=args.fixed_n,
             r_min_k=args.r_min_k, r_max_k=args.r_max_k,
             k_sforamento=args.sforamento_k,
+            etichette_attive=not args.no_etichette,
         )
         if not 5 <= config.candidates <= 40 or config.r_min_k > config.r_max_k:
             raise ValueError('Servono 5..40 slot e r_min_k <= r_max_k')
@@ -189,6 +192,8 @@ def main(argv: Sequence[str] | None = None) -> int:
          else f"non eseguito (skipped={result.get('cloud_probe_skipped')})"),
         ('Tempo probe cloud',
          f"{result.get('cloud_probe_ms', 0.0):.1f} ms"),
+        ('Esito sperimentale (A3)',
+         f"{result['esito']['label']} — {result['esito']['motivazione']}"),
         ('Keyword rilasciate', ', '.join(result['released_keywords'])),
         ('Epsilon / delta consumati', f"{result['epsilon_consumed']:.6g} / {result['delta_consumed']:.6g}"),
         ('Calibrazione throughput (setup sessione)',

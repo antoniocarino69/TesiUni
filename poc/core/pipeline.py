@@ -2,12 +2,13 @@
 from __future__ import annotations
 
 import time
-from dataclasses import asdict, dataclass
+from dataclasses import asdict, dataclass, field
 from typing import Any
 
 from .cloud import CloudGenerator
 from .documents import DocumentCorpus
 from .engine import LocalNeuralEngine
+from .etichette import PatternRiferimento, classifica_risultato
 from .model_config import DEFAULT_LOCAL_MODEL_CONFIG
 from .privacy import DEFAULT_DELTA, DP_KSA_Filter
 from .scheduler import AdaptiveScheduler
@@ -30,6 +31,13 @@ class RequestConfig:
     r_max_k: int = 10
     k_sforamento: float = 0.0
     e2e_cloud_ms: float | None = None
+    # Optional ticket-style references for the strict A3 heuristic. Empty
+    # by default so the generic keyword-reuse heuristic applies.
+    riferimenti_ticket: tuple[PatternRiferimento, ...] = field(default_factory=tuple)
+    # When False, ``run_request`` still produces the esito field but with a
+    # stub label that records the disabled state. ``True`` is the default
+    # because A3 metadata is harmless when ignored.
+    etichette_attive: bool = True
 
 
 def run_request(
@@ -123,6 +131,20 @@ def run_request(
             response.risposta_testuale, response.byte_trasmessi_dp,
             response.risparmio_percentuale, response.latenza_rete_sec, model=cloud.model,
         )
+    if config.etichette_attive:
+        esito = classifica_risultato(
+            decisione=decision,
+            dp=dp,
+            risposta=response,
+            riferimenti=config.riferimenti_ticket,
+        )
+    else:
+        from .etichette import EsitoRisultato
+        esito = EsitoRisultato(
+            label="insufficienti",
+            motivazione="etichette disattivate via CLI",
+            riferimenti_usati=False,
+        )
     return {
         'config': asdict(config), 'decision': asdict(decision),
         'response': response.risposta_testuale, 'provider_error': response.errore,
@@ -142,5 +164,6 @@ def run_request(
         'local_diagnostics': {'selected_document_ids': selected_ids,
                               'actual_documents': len(contexts)},
         'trace_url': trace_url,
+        'esito': esito.to_dict(),
         'account_scope': 'supplied_session' if privacy_filter is not None else 'single_request',
     }
