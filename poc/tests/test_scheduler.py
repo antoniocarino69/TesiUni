@@ -97,7 +97,8 @@ def test_scheduler_validates_inputs() -> None:
     scheduler = AdaptiveScheduler()
     with pytest.raises(ValueError):
         scheduler.schedule([], epsilon_budget=1.0)
-    assert scheduler.schedule([1, 2], epsilon_budget=1.0).n_ensemble == 0
+    with pytest.raises(ValueError):
+        scheduler.schedule([1, 2], epsilon_budget=1.0)
     with pytest.raises(ValueError):
         scheduler.schedule(_documents(), epsilon_budget=1.0, tok_per_sec_prefill=0.0)
     with pytest.raises(ValueError):
@@ -127,3 +128,188 @@ def test_fixed_baseline_explicitly_reports_estimated_sla_violation():
 def test_invalid_or_unfundable_schedule(kwargs):
     with pytest.raises(ValueError):
         AdaptiveScheduler().schedule([10] * 40, **{'epsilon_budget': 1.0, **kwargs})
+
+
+def test_sforamento_k_zero_reproduces_conservative_behavior():
+    """With k=0 (default), SLA incompatible with N_MIN falls back to zero-shot."""
+    decision = AdaptiveScheduler().schedule(
+        _documents(),
+        epsilon_budget=1.0,
+        latenza_rete_ms=1_400.0,
+        latenza_massima_ms=1_500.0,
+        tempo_cloud_ms=150.0,
+        k_sforamento=0.0,
+    )
+    assert decision.n_ensemble == 0
+    assert decision.sforamento_accettato is False
+    assert decision.k_sforamento == 0.0
+
+
+def test_sforamento_k_positive_accepts_small_overrun():
+    """With k>0, SLA slightly below N_MIN plan accepts overrun and plans N_MIN."""
+    # SLA = 1500ms, RTT=1400ms, cloud=150ms → residual = -50ms
+    # N_MIN=5 would add ~3200ms local → overrun ~3200ms
+    # E2E_cloud = 1400+150 = 1550ms
+    # With k=0.5, tolerance = 775ms → still not enough
+    # With k=3.0, tolerance = 4650ms → accepts
+    decision = AdaptiveScheduler().schedule(
+        _documents(),
+        epsilon_budget=1.0,
+        latenza_rete_ms=1_400.0,
+        latenza_massima_ms=1_500.0,
+        tempo_cloud_ms=150.0,
+        k_sforamento=3.0,
+    )
+    assert decision.n_ensemble == 5
+    assert decision.sforamento_accettato is True
+    assert decision.k_sforamento == 3.0
+    assert decision.sforamento_previsto_ms > 0
+    assert decision.modalita == "ensemble"
+
+
+def test_sforamento_k_positive_but_insufficient_still_zero_shot():
+    """With k>0 but overrun exceeds tolerance, still falls back to zero-shot."""
+    decision = AdaptiveScheduler().schedule(
+        _documents(),
+        epsilon_budget=1.0,
+        latenza_rete_ms=1_400.0,
+        latenza_massima_ms=1_500.0,
+        tempo_cloud_ms=150.0,
+        k_sforamento=0.1,  # tolerance = 155ms, overrun ~3200ms
+    )
+    assert decision.n_ensemble == 0
+    assert decision.sforamento_accettato is False
+    assert decision.k_sforamento == 0.1
+
+
+def test_fixed_baseline_does_not_apply_sforamento_policy():
+    """Fixed N baseline never applies the k policy, even if it would accept."""
+    decision = AdaptiveScheduler().schedule(
+        _documents(),
+        epsilon_budget=1.0,
+        latenza_rete_ms=1_400.0,
+        latenza_massima_ms=1_500.0,
+        tempo_cloud_ms=150.0,
+        fixed_n=5,
+        k_sforamento=3.0,
+    )
+    assert decision.n_ensemble == 5
+    assert decision.sforamento_accettato is False
+    assert decision.k_sforamento == 3.0
+
+
+def test_sforamento_previsto_describes_the_executed_plan():
+    """sforamento_previsto_ms is comparable with the measured overrun."""
+    # Rejected tolerance: N=0 runs, so the executed plan does not overrun,
+    # while the N_MIN candidate overrun is reported separately.
+    rejected = AdaptiveScheduler().schedule(
+        _documents(),
+        epsilon_budget=1.0,
+        latenza_rete_ms=1_400.0,
+        latenza_massima_ms=1_500.0,
+        tempo_cloud_ms=150.0,
+        k_sforamento=0.1,
+    )
+    assert rejected.n_ensemble == 0
+    assert rejected.tempo_stimato_ms == 1_550.0
+    assert rejected.sforamento_previsto_ms == pytest.approx(50.0)
+    assert rejected.sforamento_piano_minimo_ms == pytest.approx(3_250.0)
+    assert rejected.tolleranza_sforamento_ms == pytest.approx(155.0)
+    # Fixed baseline: the executed plan is the fixed one, not N_MIN.
+    fixed = AdaptiveScheduler().schedule([10] * 40, 1.0, fixed_n=5)
+    assert fixed.sforamento_previsto_ms == pytest.approx(3_400.0 - 1_500.0)
+    assert fixed.sforamento_accettato is False
+
+
+def test_force_zero_shot_is_explicit_and_bypasses_tolerance():
+    """fixed_n=0 is the --force-zero-shot path: no documents, no policy."""
+    decision = AdaptiveScheduler().schedule(
+        _documents(),
+        epsilon_budget=1.0,
+        latenza_rete_ms=1.0,
+        latenza_massima_ms=30_000.0,
+        tempo_cloud_ms=1.0,
+        fixed_n=0,
+        k_sforamento=3.0,
+    )
+    assert decision.n_ensemble == 0
+    assert decision.modalita == "zero_shot"
+    assert decision.sforamento_accettato is False
+    assert decision.sforamento_previsto_ms == 0.0
+    assert decision.sla_fattibile
+    assert "Zero-shot forzato" in decision.motivazione
+
+
+def test_accepted_overrun_is_declared_as_an_estimate():
+    """An accepted overrun must not be presented as a guaranteed deadline."""
+    decision = AdaptiveScheduler().schedule(
+        _documents(),
+        epsilon_budget=1.0,
+        latenza_rete_ms=1_400.0,
+        latenza_massima_ms=1_500.0,
+        tempo_cloud_ms=150.0,
+        k_sforamento=3.0,
+    )
+    assert decision.sforamento_accettato is True
+    assert not decision.sla_fattibile
+    assert "non una scadenza garantita" in decision.motivazione
+    assert decision.tolleranza_sforamento_ms == pytest.approx(3.0 * 1_550.0)
+    assert decision.sforamento_previsto_ms == decision.sforamento_piano_minimo_ms
+
+
+def test_tolerance_does_not_change_a_plan_that_already_fits():
+    """k only matters when the minimum plan does not fit the SLA."""
+    common = dict(
+        epsilon_budget=1.0,
+        latenza_rete_ms=1.0,
+        latenza_massima_ms=30_000.0,
+        tempo_cloud_ms=1.0,
+    )
+    prudent = AdaptiveScheduler().schedule(_documents(), **common)
+    tolerant = AdaptiveScheduler().schedule(_documents(), k_sforamento=5.0, **common)
+    assert prudent.n_ensemble == tolerant.n_ensemble == 40
+    assert tolerant.sforamento_accettato is False
+    assert prudent.sforamento_previsto_ms == tolerant.sforamento_previsto_ms == 0.0
+
+
+def test_k_sforamento_is_validated():
+    scheduler = AdaptiveScheduler()
+    with pytest.raises(ValueError):
+        scheduler.schedule(_documents(), epsilon_budget=1.0, k_sforamento=-1.0)
+    with pytest.raises(ValueError):
+        scheduler.schedule(_documents(), epsilon_budget=1.0, k_sforamento=float("nan"))
+    with pytest.raises(ValueError):
+        scheduler.schedule(_documents(), epsilon_budget=1.0, k_sforamento=float("inf"))
+
+
+def test_tolerance_requires_enough_candidates():
+    """The library refuses to plan N_MIN when fewer than N_MIN slots exist.
+
+    The CLI guarantees 5..40 slots, but the library is general-purpose and
+    must not invent ensemble members that the corpus cannot supply.
+    """
+    scheduler = AdaptiveScheduler()
+    with pytest.raises(ValueError):
+        scheduler.schedule(
+            [100, 100, 100],  # only 3 slots, n_min=5
+            epsilon_budget=1.0,
+            latenza_rete_ms=10_000.0,
+            latenza_massima_ms=10_500.0,
+            tempo_cloud_ms=100.0,
+            k_sforamento=10.0,
+        )
+
+
+def test_accepted_overrun_message_does_not_claim_infeasibility():
+    """An accepted overrun must not be followed by 'SLA non fattibile'."""
+    decision = AdaptiveScheduler().schedule(
+        _documents(),
+        epsilon_budget=1.0,
+        latenza_rete_ms=1_400.0,
+        latenza_massima_ms=1_500.0,
+        tempo_cloud_ms=150.0,
+        k_sforamento=3.0,
+    )
+    assert decision.sforamento_accettato is True
+    assert "SLA non fattibile secondo le stime configurate" not in decision.motivazione
+    assert "non una scadenza garantita" in decision.motivazione

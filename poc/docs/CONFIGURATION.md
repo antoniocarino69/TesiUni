@@ -42,11 +42,43 @@ invece il seed opzionale.
 | `--delta` | 1e-4 | Delta PTR; default delta totale 2e-4 |
 | `--r-min-k`, `--r-max-k` | 1, 10 | Dominio pubblico per risposte brevi |
 | `--fixed-n` | assente | Baseline sperimentale che esegue N anche oltre lo SLA stimato |
+| `--sforamento-k` | 0 | Coefficiente di tolleranza sullo sforamento stimato dello SLA |
+| `--force-zero-shot` | disattivo | Forza N=0 senza consultare i documenti |
+| `--no-calibration` | disattivo | Disattiva la calibrazione automatica delle velocità locali |
 
 Con i default, cinque prompt da 1000 token non entrano in 1,5 secondi:
 l'adattivo va in zero-shot. Aumentare lo SLA in modo coerente con l'hardware
 oppure misurare throughput migliori, senza inventare valori per ottenere N.
 La probabilità PTR per gap=3 è un riferimento analitico, non una previsione.
+
+### Tolleranza sullo sforamento (`--sforamento-k`)
+
+Quando il piano minimo non entra nello SLA stimato, lo scheduler confronta lo
+sforamento previsto con una tolleranza proporzionale al round trip cloud:
+
+```text
+E2E_cloud_ms              = rtt_ms + tempo_cloud_ms
+tolleranza_ms             = k · E2E_cloud_ms
+sforamento_piano_minimo   = (E2E_cloud_ms + tempo_locale_N_MIN) − max_latency_ms
+
+SE k > 0 E sforamento_piano_minimo <= tolleranza_ms:
+    N = N_MIN, sforamento_accettato = true
+ALTRIMENTI:
+    N = 0
+```
+
+Con `k = 0` (default) resta il comportamento prudente: SLA incompatibile con
+N_MIN produce N=0. Il valore di default andrà deciso dopo lo sweep della fase B
+di `docs/PIANO_OSSERVAZIONI.md`; fino ad allora non alzare k per ottenere
+rilasci. `sforamento_previsto_ms` descrive sempre il piano che verrà eseguito,
+quindi resta confrontabile con lo sforamento misurato; 
+`sforamento_piano_minimo_ms` è la quantità valutata dalla politica.
+
+La tolleranza è una stima: `sla_fattibile` resta `false` quando il piano sfora
+e il report dichiara lo sforamento previsto. Non è una scadenza garantita.
+`--fixed-n` non applica la politica (è una baseline di confronto) e
+`--force-zero-shot` resta l'unico percorso utente verso N=0 esplicito; l'altro
+è l'esaurimento del budget privacy.
 
 ## Modello e provider
 

@@ -1,6 +1,6 @@
 # Schema a blocchi del sistema
 
-Il diagramma descrive il funzionamento attuale della modalità adattiva. **N** è il numero di inferenze locali pianificate; **k** è il numero di parole proposte al filtro. La calibrazione automatica delle velocità è implementata e attivata di default all'avvio della sessione.
+Il diagramma descrive il funzionamento attuale della modalità adattiva. **N** è il numero di inferenze locali pianificate; **k** è il numero di parole proposte al filtro. La calibrazione automatica delle velocità è implementata e attivata di default all'avvio della sessione. La soglia di sforamento accettabile (A2) è implementata: con `k_sforamento > 0` lo scheduler può pianificare N=5 anche se lo SLA stimato non basta, se lo sforamento previsto rientra in `k × E2E_cloud_ms`. Il flag `--force-zero-shot` forza N=0.
 
 ```mermaid
 flowchart TD
@@ -10,32 +10,37 @@ flowchart TD
 
     subgraph LOCALE["Sul tuo computer"]
         B["Lo scheduler legge le velocità calibrate<br/>e il tempo disponibile"] --> C["Decide N: quante inferenze pianificare"]
-        C --> D{"N è maggiore di zero?"}
-        D -->|No| E["Nessuna parola dai documenti"]
+        C --> D{"N >= 5?"}
         D -->|Sì| F["Verifica che il budget privacy basti"]
+        D -->|No| H{"k_sforamento > 0<br/>e sforamento <= k × E2E_cloud?"}
+        H -->|Sì| F
+        H -->|No| I{"--force-zero-shot?"}
+        I -->|Sì| E["Nessuna parola dai documenti<br/>(N=0, zero-shot forzato)"]
+        I -->|No| E2["Nessuna parola dai documenti<br/>(N=0, SLA incompatibile)"]
         F --> G{"Budget sufficiente?"}
         G -->|No| X["Interrompe con un errore"]
-        G -->|Sì| H["Cerca N documenti pertinenti"]
-        H --> I["Per ogni documento, in sequenza:<br/>domanda + estratto → modello locale"]
-        I --> J["Raccoglie le brevi risposte<br/>Posti senza documento: risposte vuote"]
-        J --> K["Conta in quante risposte<br/>compare ogni parola"]
-        K --> L["FindBestK + rumore Gumbel:<br/>sceglie k"]
-        L --> M["TopKWithPTR + rumore gaussiano:<br/>verifica il rilascio delle k parole"]
-        M --> O{"Il test passa?"}
-        O -->|Sì| P["Rilascia le parole osservate selezionate<br/>in ordine alfabetico"]
-        O -->|No| E
-        P --> Q["Prepara domanda + parole rilasciate"]
-        E --> Q
+        G -->|Sì| J["Cerca N documenti pertinenti"]
+        J --> K["Per ogni documento, in sequenza:<br/>domanda + estratto → modello locale"]
+        K --> L["Raccoglie le brevi risposte<br/>Posti senza documento: risposte vuote"]
+        L --> M["Conta in quante risposte<br/>compare ogni parola"]
+        M --> N["FindBestK + rumore Gumbel:<br/>sceglie k"]
+        N --> O["TopKWithPTR + rumore gaussiano:<br/>verifica il rilascio delle k parole"]
+        O --> P{"Il test passa?"}
+        P -->|Sì| Q["Rilascia le parole osservate selezionate<br/>in ordine alfabetico"]
+        P -->|No| E
+        Q --> R2["Prepara domanda + parole rilasciate"]
+        E --> R2
+        E2 --> R2
     end
 
-    Q --> R["Modello cloud<br/>oppure simulazione offline dichiarata"]
-    R --> S["Risposta finale all'utente<br/>oppure segnalazione dell'errore del provider"]
+    R2 --> S["Modello cloud<br/>oppure simulazione offline dichiarata"]
+    S --> T["Risposta finale all'utente<br/>oppure segnalazione dell'errore del provider"]
 ```
 
 ## Come leggere il percorso
 
 1. **La domanda avvia il lavoro.** I documenti provengono dai percorsi locali esplicitamente indicati oppure dal benchmark previsto. Il programma non cerca liberamente nei file personali.
-2. **Lo scheduler sceglie N prima della ricerca.** Stima quante inferenze entrano nel tempo rimasto dopo aver riservato il tempo di rete e cloud. Normalmente sceglie fra 5 e 40; se non entra il minimo, oggi sceglie zero. Le velocità sono misurate dalla calibrazione all'avvio della sessione, oppure impostate manualmente con `--no-calibration`.
+2. **Lo scheduler sceglie N prima della ricerca.** Stima quante inferenze entrano nel tempo rimasto dopo aver riservato il tempo di rete e cloud. Normalmente sceglie fra 5 e 40; se il piano minimo non entra, con `k=0` (default) ricade in zero-shot, mentre con `k>0` valuta se lo sforamento rientra nella tolleranza `k × E2E_cloud` (somma manuale di `RTT` e `tempo_cloud_ms` finché il probe A1 non è in piedi) e in tal caso pianifica comunque `N=5`, marcando lo sforamento accettato. Le velocità sono misurate dalla calibrazione all'avvio della sessione, oppure impostate manualmente con `--no-calibration`.
 3. **Il modello locale lavora su un documento alla volta.** Riceve sempre la domanda, insieme a un estratto del documento. Non vengono creati voti duplicando lo stesso documento; eventuali posti mancanti restano vuoti.
 4. **Si contano le parole delle risposte.** Una parola contribuisce al massimo una volta per risposta, anche se vi compare più volte.
 5. **FindBestK sceglie quante parole proporre.** Guarda i distacchi fra conteggi consecutivi e aggiunge rumore Gumbel alla scelta. Il dominio predefinito di k è da 1 a 10.
@@ -46,7 +51,7 @@ flowchart TD
 
 La scelta di N viene effettuata una volta prima delle inferenze, non aggiornata continuamente durante il lavoro. La calibrazione automatica iniziale con prove pubbliche è implementata: misura le velocità del modello su testi pubblici a lunghezze rappresentative (256, 512, 1024 token) una volta per sessione. Il tempo di calibrazione è riportato separatamente dal tempo delle singole richieste.
 
-Lo SLA è un obiettivo flessibile: gli sforamenti occasionali vanno misurati. Privacy e utilità delle risposte hanno la precedenza. Per questo va riesaminata la scelta attuale di rinunciare ai documenti quando il tempo stimato non basta; il diagramma mostra il comportamento esistente, non anticipa quella modifica.
+Lo SLA è un obiettivo flessibile: gli sforamenti occasionali vanno misurati. Privacy e utilità delle risposte hanno la precedenza. La policy A2 (parametro `k`, default 0) recepisce questa indicazione: con `k>0` la rinuncia ai documenti non è più automatica quando il piano minimo non entra, ma è subordinata a una stima di sforamento accettabile. La tolleranza è una stima, non una scadenza garantita; `sla_fattibile` resta `false` quando il piano sfora e il diagramma mostra sia il ramo accettato sia quello rifiutato.
 
 Il test di privacy non garantisce che la risposta sia corretta o utile. Non promette neppure rischio zero: la garanzia è quella del meccanismo, della contabilizzazione e delle ipotesi in `poc/docs/PRIVACY_ACCOUNTING.md`.
 

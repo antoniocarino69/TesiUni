@@ -189,6 +189,10 @@ def build_parser() -> argparse.ArgumentParser:
                         help='Slot pubblici candidati (5..40)')
     parser.add_argument('--fixed-n', type=_positive_int,
                         help='Baseline sperimentale a N fisso')
+    parser.add_argument('--sforamento-k', type=_non_negative_float, default=0.0,
+                        help='Coefficiente k per tolleranza sforamento SLA (default 0)')
+    parser.add_argument('--force-zero-shot', action='store_true',
+                        help='Forza N=0 senza consultare i documenti')
     parser.add_argument('--r-min-k', type=_positive_int, default=1)
     parser.add_argument('--r-max-k', type=_positive_int, default=10)
     parser.add_argument('--max-latency-ms', type=_non_negative_float, default=60000.0,
@@ -219,6 +223,13 @@ def _stampa_risultato(result: dict[str, Any]) -> None:
     for label, value in [
         ('N pianificato / documenti effettivi',
          f"{result['decision']['n_ensemble']} / {result['local_diagnostics']['actual_documents']}"),
+        ('Modalità', result['decision']['modalita']),
+        ('Sforamento previsto (piano eseguito)',
+         f"{result['decision']['sforamento_previsto_ms']:.1f} ms"),
+        ('Tolleranza sforamento (k, applicata solo se N=0 accettato)',
+         f"k={result['decision']['k_sforamento']:.2f}, "
+         f"margine={result['decision']['tolleranza_sforamento_ms']:.1f} ms, "
+         f"accettato={result['decision']['sforamento_accettato']}"),
         ('Keyword rilasciate', ', '.join(result['released_keywords']) or '(nessuna)'),
         ('Epsilon / delta consumati',
          f"{result['epsilon_consumed']:.6g} / {result['delta_consumed']:.6g}"),
@@ -248,7 +259,10 @@ def main(argv: Sequence[str] | None = None) -> int:
             prompt_token_budget=args.prompt_token_budget, max_tokens=args.max_tokens,
             candidates=args.ensemble_size, fixed_n=args.fixed_n,
             r_min_k=args.r_min_k, r_max_k=args.r_max_k,
+            k_sforamento=args.sforamento_k,
         )
+        if args.force_zero_shot:
+            config = replace(config, fixed_n=0)
         cloud = CloudGenerator(offline=not args.online)
         tracer = LangfuseTracer(
             capture_sensitive=args.langfuse_capture_sensitive,

@@ -115,3 +115,32 @@ def test_delta_sessione_fuori_soglia_rifiutato():
             max_queries=3,
             engine=FakeEngine(),
         )
+
+
+def test_sforamento_k_e_force_zero_shot_via_parser(tmp_path):
+    """--sforamento-k and --force-zero-shot reach the scheduler through the REPL parser."""
+    import repl_interattiva
+
+    (tmp_path / 'doc.md').write_text('synthetic')
+    args = repl_interattiva.build_parser().parse_args([
+        '--documents', str(tmp_path / 'doc.md'),
+        '--sforamento-k', '3.5',
+        '--force-zero-shot',
+    ])
+    config = RequestConfig(
+        epsilon=args.epsilon, delta=args.delta, sla_ms=args.max_latency_ms,
+        rtt_ms=args.rtt_ms, cloud_ms=args.tempo_cloud_ms,
+        prefill_tps=args.tok_per_sec_prefill,
+        generation_tps=args.tok_per_sec_generazione,
+        prompt_token_budget=args.prompt_token_budget,
+        max_tokens=args.max_tokens,
+        candidates=args.ensemble_size, fixed_n=args.fixed_n,
+        r_min_k=args.r_min_k, r_max_k=args.r_max_k,
+        k_sforamento=args.sforamento_k,
+    )
+    assert config.k_sforamento == pytest.approx(3.5)
+    if args.force_zero_shot:
+        from dataclasses import replace as dc_replace
+        config = dc_replace(config, fixed_n=0)
+    assert config.fixed_n == 0
+
