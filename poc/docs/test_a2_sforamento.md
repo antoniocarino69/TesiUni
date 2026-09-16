@@ -186,3 +186,94 @@ cd poc
 - ruff: pulito
 - pytest: 148 passed (17 nuovi `test_etichette.py` + 2 integrazione CLI)
 - `core/etichette.py`: modulo nuovo, indipendente dal resto, 0 dipendenze pesanti
+
+# Test della telemetria hardware (A5)
+
+I test coprono sia il modulo `core/telemetry_hw` (snapshot e sampler)
+sia l'integrazione nella CLI, REPL e benchmark.
+
+## Comandi
+
+```bash
+cd poc
+.venv/bin/python -m pytest -v tests/test_telemetry_hw.py
+.venv/bin/python -m pytest -v tests/test_engine_runtime.py
+.venv/bin/python -m pytest -v tests/test_pipeline_integration.py -k "hw_metrics"
+.venv/bin/python -m pytest -v tests/test_benchmark_scheduler.py -k "hw_metrics"
+```
+
+## Mappa dei test
+
+### Modulo hardware (`tests/test_telemetry_hw.py`)
+
+| Test | Cosa verifica |
+| --- | --- |
+| `test_is_platform_supported_recognises_current_host` | macOS / Linux riconosciuti; altre piattaforme no |
+| `test_snapshot_returns_a_complete_dataclass` | Tutti i 12 campi sono presenti, anche come `None` |
+| `test_snapshot_returns_floats_or_none` | I valori non-`None` sono `float`, non solleva eccezioni |
+| `test_sampler_rejects_non_positive_period` | Validazione del periodo |
+| `test_sampler_with_zero_seconds_returns_empty_list` | Finestra zero → lista vuota |
+| `test_sampler_collects_at_least_two_snapshots_over_a_short_window` | Finestra 0.3 s con periodo 0.1 s → almeno 2 snapshot |
+| `test_sampler_collects_exactly_one_snapshot_on_instant_window` | Finestra 0 s → lista vuota |
+| `test_snapshot_is_json_serialisable` | `to_dict()` sopravvive a `json.dumps`/`loads` |
+| `test_run_helper_handles_missing_tool` | `_run` ritorna stringa vuota se tool manca |
+| `test_first_float_returns_none_on_garbage` | `_first_float` tollera input malformato |
+| `test_first_float_extracts_first_match` | `_first_float` cattura il primo match |
+
+### TTFT locale reale (`tests/test_engine_runtime.py`)
+
+| Test | Cosa verifica |
+| --- | --- |
+| `test_genera_bozza_misura_ttft_dal_primo_chunk` | Il primo chunk imposta `tempo_prefill_reale_sec` ≥ delay configurato |
+| `test_genera_bozza_testo_vuoto_cade_su_none` | Nessun chunk → `tempo_prefill_reale_sec` = None |
+| `test_genera_bozza_completion_tokens_da_fallback_quando_stream_non_emettono_usage` | Fallback non-streaming quando lo stream omette `usage` |
+| `test_genera_bozza_rifiuta_max_tokens_non_positivo` | Validazione input |
+
+### Integrazione CLI (`tests/test_pipeline_integration.py`)
+
+| Test | Cosa verifica |
+| --- | --- |
+| `test_cli_hw_metrics_adds_before_after_snapshots` | `--hw-metrics` scrive `hw_before` e `hw_after` nel JSON |
+| `test_cli_without_hw_metrics_omits_hardware_fields` | Default non include campi hardware |
+
+### Integrazione benchmark (`tests/test_benchmark_scheduler.py`)
+
+| Test | Cosa verifica |
+| --- | --- |
+| `test_hw_metrics_attach_snapshot_to_each_row` | `--hw-metrics` aggiunge `hw_before` a ogni riga del report |
+
+## Comandi di riferimento (CLI reale)
+
+```bash
+cd poc
+
+# Snapshot istantanei
+.venv/bin/python run_pipeline.py --documents /tmp/doc.md --query "q" \
+  --no-calibration --offline-cloud --hw-metrics \
+  --output /tmp/report.json
+# atteso: hw_before + hw_after nel JSON
+
+# Sampler continuo
+.venv/bin/python run_pipeline.py --documents /tmp/doc.md --query "q" \
+  --no-calibration --offline-cloud --hw-metrics --hw-sample-period 0.5 \
+  --output /tmp/report.json
+# atteso: hw_samples con N campioni presi durante run_request
+
+# Benchmark con metriche
+.venv/bin/python benchmark_scheduler.py --documents /tmp/docs \
+  --cases /tmp/cases.json --output /tmp/report.json \
+  --no-calibration --offline-cloud --hw-metrics
+# atteso: ogni riga del report ha hw_before
+
+# REPL con metriche
+.venv/bin/python repl_interattiva.py --documents /tmp/docs \
+  --no-calibration --hw-metrics
+# atteso: ogni domanda stampa "Hardware prima/dopo" nella tabella
+```
+
+## Stato al merge di A5
+
+- ruff: pulito
+- pytest: 169 passed (3 nuovi in `test_pipeline_integration.py` + 1 in `test_benchmark_scheduler.py` rispetto al merge A4)
+- `core/telemetry_hw.py`: modulo nuovo, cross-platform, 0 dipendenze nuove
+- `LocalNeuralEngine.genera_bozza`: TTFT reale via stream llama-cpp
