@@ -19,6 +19,7 @@ import time
 from collections.abc import Mapping
 from dataclasses import dataclass
 from pathlib import Path
+from typing import Any, cast
 
 import requests
 from rich.progress import Progress
@@ -58,6 +59,7 @@ class OutputInferenza:
     completion_tokens: int
     durata_totale_sec: float
     tempo_prefill_stimato_sec: float
+    tempo_prefill_reale_sec: float | None
     token_al_secondo: float
 
 
@@ -263,30 +265,83 @@ class LocalNeuralEngine:
         prompt = costruisci_prompt(contesto, domanda)
 
         t0 = time.perf_counter()
-        risultato = self.llm(
+        # We drive llama-cpp in streaming mode to measure the time the
+        # engine takes to emit the first token. llama-cpp returns the full
+        # chunk iterator synchronously, so the wall-clock delta between
+        # ``t0`` and the first ``next()`` is the *real* TTFT, not a
+        # surrogate derived from token counts.
+        stream_iter = iter(self.llm(
             prompt,
             max_tokens=max_tokens,
             temperature=DEFAULT_LOCAL_MODEL_CONFIG.temperature,
             stop=list(DEFAULT_LOCAL_MODEL_CONFIG.stop),
-        )
+            stream=True,
+        ))
+        pezzi_testo: list[str] = []
+        usage: dict[str, Any] | None = None
+        try:
+            primo_pezzo_raw: Any = next(stream_iter)
+            primo_pezzo: dict[str, Any] | None = cast(
+                dict[str, Any] | None, primo_pezzo_raw
+            ) if primo_pezzo_raw is not None else None
+        except StopIteration:
+            primo_pezzo = None
+        first_token_at = time.perf_counter() if primo_pezzo is not None else None
+        if primo_pezzo is not None:
+            choices = primo_pezzo.get("choices") or [{}]
+            testo_primo = (choices[0].get("text") if choices else "") or ""
+            if testo_primo:
+                pezzi_testo.append(testo_primo)
+            for chunk_raw in stream_iter:
+                if not isinstance(chunk_raw, dict):
+                    continue
+                chunk = cast(dict[str, Any], chunk_raw)
+                choices_chunk = chunk.get("choices") or [{}]
+                testo_chunk = (choices_chunk[0].get("text") if choices_chunk else "") or ""
+                if testo_chunk:
+                    pezzi_testo.append(testo_chunk)
+                chunk_usage = chunk.get("usage")
+                if chunk_usage is not None and isinstance(chunk_usage, dict):
+                    usage = cast(dict[str, Any], chunk_usage)
+        if usage is None:
+            # llama-cpp occasionally omits the usage field in streaming
+            # mode; fall back to a non-streaming call once for the token
+            # counts so downstream metrics stay defined.
+            fallback_raw = self.llm(
+                prompt,
+                max_tokens=max_tokens,
+                temperature=DEFAULT_LOCAL_MODEL_CONFIG.temperature,
+                stop=list(DEFAULT_LOCAL_MODEL_CONFIG.stop),
+            )
+            fallback = cast(dict[str, Any], fallback_raw)
+            fb_usage = fallback.get("usage")
+            if isinstance(fb_usage, dict):
+                usage = cast(dict[str, Any], fb_usage)
+            if not pezzi_testo:
+                fb_choices = fallback.get("choices") or [{}]
+                if fb_choices:
+                    pezzi_testo.append(str(fb_choices[0].get("text", "")))
         durata = time.perf_counter() - t0
 
-        testo_generato = str(risultato["choices"][0]["text"]).strip()
-        usage = risultato["usage"]
-        n_prompt_tok = int(usage["prompt_tokens"])
-        n_comp_tok = int(usage["completion_tokens"])
+        testo_aggregato = "".join(pezzi_testo).strip()
+        n_prompt_tok = int((usage or {}).get("prompt_tokens", 0))
+        n_comp_tok = int((usage or {}).get("completion_tokens", 0))
         prefill_stima = stima_tempo_prefill(
             durata,
             n_prompt_tok,
             n_comp_tok,
         )
+        prefill_reale = (
+            max(0.0, first_token_at - t0) if first_token_at is not None else None
+        )
         velocita = n_comp_tok / durata if durata > 0.0 else 0.0
 
         return OutputInferenza(
-            testo=testo_generato,
+            testo=testo_aggregato,
             prompt_tokens=n_prompt_tok,
             completion_tokens=n_comp_tok,
             durata_totale_sec=durata,
             tempo_prefill_stimato_sec=prefill_stima,
+            tempo_prefill_reale_sec=prefill_reale,
             token_al_secondo=velocita,
         )

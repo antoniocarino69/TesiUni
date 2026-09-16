@@ -469,3 +469,105 @@ def test_cli_full_run_no_etichette_disables_label(tmp_path, monkeypatch):
     assert exit_code == 0
     payload = json.loads(output.read_text(encoding="utf-8"))
     assert payload["esito"]["motivazione"] == "etichette disattivate via CLI"
+
+
+def test_cli_hw_metrics_adds_before_after_snapshots(tmp_path, monkeypatch):
+    """``--hw-metrics`` writes ``hw_before`` and ``hw_after`` to the JSON report."""
+    import run_pipeline
+
+    path = _write_synthetic_document(tmp_path)
+    output = tmp_path / "report.json"
+
+    class _StubProbe:
+        def probe(self):
+            return SimpleNamespace(
+                e2e_cloud_ms=None,
+                ttft_cloud_ms=None,
+                simulato=True,
+                cloud_probe_skipped=True,
+                errore=None,
+            )
+
+        def genera(self, domanda, parole, contesti):
+            return SimpleNamespace(
+                risposta_testuale="alpha ok",
+                latenza_rete_sec=0.0,
+                byte_trasmessi_dp=10,
+                byte_grezzi_rag=0,
+                risparmio_percentuale=0.0,
+                simulato=True,
+                errore=None,
+            )
+
+    stub = _StubProbe()
+    monkeypatch.setattr(run_pipeline, "LangfuseTracer", lambda **kwargs: pytest.fail("No trace"))
+    monkeypatch.setattr(run_pipeline, "CloudGenerator", lambda **_kwargs: stub)
+    _install_fake_engine(monkeypatch)
+
+    exit_code = _run_cli([
+        "--documents", str(path), "--query", "public query",
+        "--ensemble-size", "5",
+        "--prompt-token-budget", "256",
+        "--no-calibration",
+        "--offline-cloud",
+        "--no-telemetry",
+        "--hw-metrics",
+        "--output", str(output),
+    ])
+    assert exit_code == 0
+    payload = json.loads(output.read_text(encoding="utf-8"))
+    assert "hw_before" in payload
+    assert "hw_after" in payload
+    assert "timestamp" in payload["hw_before"]
+    assert "cpu_util_pct" in payload["hw_before"]
+    # No sampler thread without --hw-sample-period.
+    assert "hw_samples" not in payload
+
+
+def test_cli_without_hw_metrics_omits_hardware_fields(tmp_path, monkeypatch):
+    """Default behaviour does not include any hardware fields."""
+    import run_pipeline
+
+    path = _write_synthetic_document(tmp_path)
+    output = tmp_path / "report.json"
+
+    class _StubProbe:
+        def probe(self):
+            return SimpleNamespace(
+                e2e_cloud_ms=None,
+                ttft_cloud_ms=None,
+                simulato=True,
+                cloud_probe_skipped=True,
+                errore=None,
+            )
+
+        def genera(self, domanda, parole, contesti):
+            return SimpleNamespace(
+                risposta_testuale="alpha ok",
+                latenza_rete_sec=0.0,
+                byte_trasmessi_dp=10,
+                byte_grezzi_rag=0,
+                risparmio_percentuale=0.0,
+                simulato=True,
+                errore=None,
+            )
+
+    stub = _StubProbe()
+    monkeypatch.setattr(run_pipeline, "LangfuseTracer", lambda **kwargs: pytest.fail("No trace"))
+    monkeypatch.setattr(run_pipeline, "CloudGenerator", lambda **_kwargs: stub)
+    _install_fake_engine(monkeypatch)
+
+    exit_code = _run_cli([
+        "--documents", str(path), "--query", "public query",
+        "--ensemble-size", "5",
+        "--prompt-token-budget", "256",
+        "--no-calibration",
+        "--offline-cloud",
+        "--no-telemetry",
+        "--output", str(output),
+    ])
+    assert exit_code == 0
+    payload = json.loads(output.read_text(encoding="utf-8"))
+    assert "hw_before" not in payload
+    assert "hw_after" not in payload
+    assert "hw_samples" not in payload

@@ -48,6 +48,8 @@ invece il seed opzionale.
 | `--no-etichette` | disattivo | Disattiva il calcolo delle etichette sperimentali (A3) |
 | `--tok-per-sec-prefill` | 250 | Throughput prefill manuale (usato solo con `--no-calibration`); il benchmark_scheduler e la REPL rispettano questo flag |
 | `--tok-per-sec-generazione` | 50 | Throughput generazione manuale (usato solo con `--no-calibration`) |
+| `--hw-metrics` | disattivo | Snapshot hardware istantanei prima/dopo ogni run (telemetria A5) |
+| `--hw-sample-period` | 0 | Periodo in secondi del sampler continuo durante la run (0 = disattivato). Implica `--hw-metrics` |
 
 Con i default, cinque prompt da 1000 token non entrano in 1,5 secondi:
 l'adattivo va in zero-shot. Aumentare lo SLA in modo coerente con l'hardware

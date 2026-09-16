@@ -24,6 +24,7 @@ from core.documents import DocumentCorpus
 from core.engine import LocalNeuralEngine
 from core.pipeline import RequestConfig, run_request
 from core.privacy import DP_KSA_Filter, DPBudgetExhaustedError, deriva_sigma_da_budget
+from core.telemetry_hw import snapshot as hw_snapshot
 
 
 def answer_scores(answer: str, references: list[str]) -> dict[str, float]:
@@ -41,11 +42,16 @@ def answer_scores(answer: str, references: list[str]) -> dict[str, float]:
 
 
 def run_experiment(cases, corpus, config, cloud, engine, *, fixed_sizes=(5, 10, 20, 40),
-                   repeats=3, order_seed=42, session_epsilon=10.0):
+                   repeats=3, order_seed=42, session_epsilon=10.0,
+                   hw_metrics=False):
     """Reuse the same corpus, prompt cap, mechanism and preloaded model.
 
     The seed randomizes execution order only; DP randomness is not seeded or
     exposed. Independent reruns estimate variability, not bitwise reproducibility.
+
+    When ``hw_metrics`` is true, every row carries a ``hw_before`` snapshot
+    so the campaign report can correlate edge latency with thermal /
+    utilisation drift across runs.
     """
     if not cases or repeats < 1 or any(
         not isinstance(case.get('query'), str) or not case['query'].strip()
@@ -80,6 +86,8 @@ def run_experiment(cases, corpus, config, cloud, engine, *, fixed_sizes=(5, 10, 
             break
         result.update(case_index=case_index, repeat=repeat,
                       variant='adaptive' if fixed_n is None else f'fixed_{fixed_n}')
+        if hw_metrics:
+            result['hw_before'] = hw_snapshot().to_dict()
         result['quality'] = (None if result['cloud_simulated'] or result['provider_error']
                              else answer_scores(result['response'], case['references']))
         rows.append(result)
@@ -129,6 +137,8 @@ def main(argv: Sequence[str] | None = None) -> int:
                         help='Throughput prefill manuale (usato solo con --no-calibration)')
     parser.add_argument('--tok-per-sec-generazione', type=float, default=50.0,
                         help='Throughput generazione manuale (usato solo con --no-calibration)')
+    parser.add_argument('--hw-metrics', action='store_true',
+                        help='Snapshot hardware prima di ogni run (istantaneo)')
     args = parser.parse_args(argv)
     load_dotenv()
     corpus = DocumentCorpus.from_path(args.documents)
@@ -152,7 +162,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         prefill_tps=prefill_tps, generation_tps=generation_tps,
     ), CloudGenerator(offline=args.offline_cloud), engine,
         fixed_sizes=args.fixed_sizes, repeats=args.repeats, order_seed=args.order_seed,
-        session_epsilon=args.session_epsilon)
+        session_epsilon=args.session_epsilon, hw_metrics=args.hw_metrics)
     report['calibration_ms'] = calibration_ms
     report['prefill_tps'] = prefill_tps
     report['generation_tps'] = generation_tps

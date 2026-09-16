@@ -102,6 +102,30 @@ tolleranza A2 sostituendo la somma manuale `RTT + tempo_cloud_ms`;
 altrimenti lo scheduler usa il fallback manuale e la sezione
 "tolleranza_sforamento_ms" del report resta calcolata sulla stima.
 
+### Telemetria hardware (A5)
+
+`core.telemetry_hw` raccoglie metriche sul "ferro" durante la campagna,
+fondamentali per la tesi (Architetture e Reti): temperatura CPU/GPU/SoC,
+utilizzo core, RAM, VRAM, Watt, memory pressure. Il modulo espone
+`snapshot()` (istantaneo) e `HwSampler.sample_until(stop_event)` (campioni
+a frequenza configurabile durante la run). Letture via `subprocess` su
+tool nativi: `powermetrics` (macOS), `nvidia-smi` e `sensors` (Linux),
+`top`, `vm_stat`, `/proc/meminfo`, `sysctl`. Zero dipendenze nuove.
+
+I sensori che richiedono sudo (`powermetrics` su macOS, letture di
+temperatura/watt) restituiscono `None` quando il tool manca o non è
+invocabile: il prototipo non solleva. Per abilitare le letture
+privilegiate in ambiente controllato, aggiungere `NOPASSWD` per
+`powermetrics` (macOS) o `sensors` (Linux) in `/etc/sudoers.d/` e
+impostare la variabile d'ambiente `POC_HW_SUDO=1`. Documentato ma non
+attivo di default: la password sudo non è un artefatto di produzione
+del prototipo, è un'operazione di setup del laboratorio.
+
+CLI/REPL accettano `--hw-metrics` (istantanei prima/dopo) e
+`--hw-sample-period N` (sampler continuo durante la run, su thread
+separato). Default spento, determinismo pytest preservato. Le metriche
+finiscono nel report JSON come `hw_before`, `hw_after`, `hw_samples`.
+
 Il campo storico `ptr_pass_rate_attesa` contiene soltanto `P(pass | gap=3)`.
 Non è una previsione sul corpus e non descrive l'effetto di N. La frequenza di
 rilascio effettiva si misura con esperimenti ripetuti.

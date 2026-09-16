@@ -22,6 +22,7 @@ misura conseguenti.
 | Etichette sperimentali (completo/degradato/insufficienti/errore) | Implementate in `core/etichette.py`; calcolate a posteriori in `core/pipeline.py`; euristiche documentate in CONCEZIONE §4 (variante stretta per ticket via `riferimenti_ticket`); disattivabili con `--no-etichette` | CONCEZIONE §4                                                     |
 | Sweep su k in `docs/esplorazione_soglia/`                        | **Non eseguito**, directory assente                                                                                                                                                                 | CONCEZIONE §3                                                     |
 | Estensioni benchmark (calibrazione automatica, flag throughput)  | Implementate; `benchmark_scheduler.py` calibra per default; `--no-calibration`, `--tok-per-sec-prefill/--generazione` su CLI/REPL | CONCEZIONE §3                                                     |
+| Telemetria hardware (misure sul "ferro") | Implementata in `core/telemetry_hw.py` cross-platform (macOS + Linux); `--hw-metrics` e `--hw-sample-period N` su CLI/REPL; TTFT locale reale via stream llama-cpp; default spento per preservare il determinismo pytest | AGENTS.md (Architetture e Reti)                |
 | Campagne offline (cloud simulato)                                | Eseguite: corpus salariale e ticket                                                                                                                                                                 | `docs/azienda_demo/RISULTATI.md`, `docs/ticket_demo/RISULTATI.md` |
 | Esecuzioni con provider reale                                    | 4 run singole, non ripetute                                                                                                                                                                         | `docs/test_preliminari_settembre2026.md`                          |
 | Capitoli bozza                                                   | Cap. 4 riscritto sui dati misurati; cap. 3 in parte generico e da allineare dopo le campagne                                                                                                        | `Bozza/`                                                          |
@@ -175,6 +176,36 @@ qualità.
 - Documenti aggiornati: `CONFIGURATION.md` (tabella parametri).
 - Vincoli non toccati: `core/privacy` non modificato, REPL invariato
   come sessione DP cumulativa.
+
+### A5. Telemetria hardware (misure sul "ferro")
+
+- Implementata in `core/telemetry_hw.py` con `snapshot()` e
+  `HwSampler.sample_until(stop_event)`. Cross-platform: macOS
+  (`powermetrics`, `top`, `vm_stat`, `sysctl`) e Linux (`nvidia-smi`,
+  `sensors`, `top`, `/proc/meminfo`).
+- Metriche: temperatura CPU/GPU/SoC, util CPU/GPU, RAM used/total,
+  VRAM, Watt CPU/GPU, memory pressure. Sensori che richiedono sudo
+  (`powermetrics` su macOS, `sensors` su Linux) restituiscono `None`
+  quando il tool manca o non è invocabile: il prototipo non solleva.
+  Per abilitare letture sudo senza prompt: configurare
+  `NOPASSWD` in `/etc/sudoers.d/` e impostare `POC_HW_SUDO=1`.
+  Operazione di setup laboratorio, non artefatto di produzione.
+- CLI e REPL accettano `--hw-metrics` (istantanei prima/dopo) e
+  `--hw-sample-period N` (sampler continuo durante la run, su thread
+  separato). Default spento, determinismo pytest preservato.
+- `LocalNeuralEngine.genera_bozza` misura il TTFT reale via stream
+  llama-cpp (`tempo_prefill_reale_sec`), distinto dalla stima
+  euristica (`tempo_prefill_stimato_sec`). `prefill_real_ms` nel
+  report JSON (None se non misurato).
+- `benchmark_scheduler.py` con `--hw-metrics` aggiunge `hw_before` a
+  ogni riga del report: la campagna può correlare edge latency con
+  drift termico/utilizzo fra run.
+- Test: 11 in `tests/test_telemetry_hw.py`, 4 in
+  `tests/test_engine_runtime.py`, 1 in `test_benchmark_scheduler.py`
+  (`hw_metrics`), 2 in `test_pipeline_integration.py` (CLI con e
+  senza `--hw-metrics`).
+- Documenti aggiornati: `ARCHITECTURE.md`, `CONFIGURATION.md`,
+  `pseudocodice.md`, `schemaablocchi.md`.
 
 ## 4. Fase B — Sweep sul coefficiente k
 

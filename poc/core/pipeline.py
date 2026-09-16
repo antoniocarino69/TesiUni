@@ -82,6 +82,7 @@ def run_request(
     retrieval_ms = 0.0
     completion_tokens = 0
     prefill_estimated_ms = 0.0
+    prefill_real_ms: float | None = 0.0
     dp = None
     if decision.n_ensemble:
         # Account validation precedes model setup or reading document excerpts.
@@ -113,6 +114,13 @@ def run_request(
             selected_ids.append(doc.id)
             completion_tokens += output.completion_tokens
             prefill_estimated_ms += output.tempo_prefill_stimato_sec * 1000
+            prefill_real_chunk = getattr(output, 'tempo_prefill_reale_sec', None)
+            if prefill_real_chunk is not None:
+                prefill_real_ms = (
+                    (prefill_real_ms or 0.0) + prefill_real_chunk * 1000
+                )
+            else:
+                prefill_real_ms = None
         edge_ms = (time.perf_counter() - phase) * 1000
         if tracer is not None:
             tracer.registra_fase_edge(len(contexts), drafts, edge_ms,
@@ -157,6 +165,7 @@ def run_request(
         'retrieval_ms': retrieval_ms, 'edge_ms': edge_ms, 'privacy_ms': privacy_ms,
         'cloud_call_ms': response.latenza_rete_sec * 1000,
         'prefill_estimated_ms': prefill_estimated_ms,
+        'prefill_real_ms': prefill_real_ms,
         'sla_violated': request_ms > config.sla_ms,
         'prompt_text_bytes': response.byte_trasmessi_dp,
         'context_text_bytes': response.byte_grezzi_rag,
