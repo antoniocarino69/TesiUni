@@ -17,7 +17,7 @@ misura conseguenti.
 | Elemento                                                         | Stato                                                                                                                                                                                               | Riferimento                                                       |
 | ---------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------- |
 | Calibrazione locale delle velocità                               | Implementata, testata, usata nei test preliminari                                                                                                                                                   | `core/calibration.py`, `--no-calibration`                         |
-| Probe cloud di latenza (E2E)                                     | **Non implementato**; `--tempo-cloud-ms` è un valore manuale                                                                                                                                        | CONCEZIONE §2.2                                                   |
+| Probe cloud di latenza (E2E)                                     | Implementato; una sola chiamata pubblica per sessione, costo in `cli_total_ms` non in `request_ms`, salta con `--offline-cloud` o senza credenziali; vedi `core/cloud.py::CloudGenerator.probe` | CONCEZIONE §2.2                                                   |
 | Soglia di sforamento accettabile + parametro k                   | Implementata; default `k=0` conserva il comportamento prudente, `--sforamento-k` apre la tolleranza; visibile in `sforamento_previsto_ms`, `sforamento_piano_minimo_ms`, `tolleranza_sforamento_ms` | CONCEZIONE §3                                                     |
 | Etichette sperimentali (completo/degradato/insufficienti/errore) | **Non implementate**                                                                                                                                                                                | CONCEZIONE §4                                                     |
 | Sweep su k in `docs/esplorazione_soglia/`                        | **Non eseguito**, directory assente                                                                                                                                                                 | CONCEZIONE §3                                                     |
@@ -70,25 +70,20 @@ l'accounting RDP non si toccano.
 
 ### A1. Probe cloud di latenza
 
-- Metodo di probe in `core/cloud.py`: una generazione breve pubblica per
-  sessione, senza contenuti privati. Registra `E2E_cloud_ms` e, se il
-  client lo espone, `TTFT_cloud_ms`. Nessun retry, nessuna somma separata
-  di rete: il valore è quello che vede il client.
-- Il probe si esegue solo con credenziali ed endpoint configurati. Con
-  `--offline-cloud` è saltato e il report marca `cloud_probe_skipped: true`
-  con `tempo_cloud_ms` esplicitamente indicato come stima.
-- Il costo del probe entra in `cli_total_ms` ma non in `request_ms`;
-  esporlo come `cloud_probe_ms` e stamparlo in riga separata, come già
-  avviene per `calibration_ms`.
-- Test: client fittizio (nessuna chiamata reale), comportamento con e
-  senza credenziali, campi nel report.
-- Documenti: `CONFIGURATION.md` (sostituire la nota "non sonde
-  automatiche"), `ARCHITECTURE.md` §Scheduler e tempi, `pseudocodice.md`,
-  `schemaablocchi.md` (sezione "Sviluppi concordati" → implementato).
+- Implementato in `core/cloud.py` con `CloudGenerator.probe() -> RisultatoProbe`.
+  Una sola generazione pubblica per sessione (prompt `PROBE_QUERY`, max
+  16 token). Niente retry, niente contenuti privati.
+- Esegue solo con credenziali+endpoint configurati e `offline=False`. Con
+  `--offline-cloud` o senza `api_key`/`base_url`/`client`, il probe viene
+  saltato e `cloud_probe_skipped=True` con `e2e_cloud_ms=None`.
+- Il costo del probe (`cloud_probe_ms`) entra in `cli_total_ms` ma non in
+  `request_ms`. Il campo `E2E_cloud_ms` misurato alimenta la tolleranza A2
+  sostituendo la somma manuale `RTT + tempo_cloud_ms`.
+- Test: `tests/test_cloud.py::test_probe_*` (5 test), `tests/test_scheduler.py::test_e2e_cloud_ms_*` (2 test), `tests/test_pipeline_integration.py::test_cli_full_run_records_probe_when_credentials_are_configured`, `test_cli_full_run_skips_probe_when_offline`.
+- Documenti aggiornati: `ARCHITECTURE.md` §Scheduler e tempi, `pseudocodice.md`, `schemaablocchi.md` (sezione "Sviluppi concordati" → implementato), `CONFIGURATION.md` (tabella parametri).
+- Campi del report JSON: `cloud_probe_ms`, `e2e_cloud_ms_ms`, `ttft_cloud_ms`, `cloud_probe_skipped`, `cloud_probe_simulato`, `cloud_probe_errore`.
 
-Chiusura: gate verdi, un run reale di smoke con probe attivo il cui report
-mostra `cloud_probe_ms` e `E2E_cloud_ms` plausibili (confronto con i
-4,9–10,1 s osservati nei test preliminari).
+Chiusura: gate verdi; con `cloud_probe_ms` e `E2E_cloud_ms_ms` plausibili (confronto con i 4,9–10,1 s osservati nei test preliminari) il report JSON riporta correttamente il probe. Lo smoke run con provider reale è ancora da eseguire (account OpenCode al momento segnala limite mensile raggiunto).
 
 ### A2. Soglia di sforamento accettabile
 

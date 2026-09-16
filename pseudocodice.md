@@ -38,6 +38,14 @@ Le misure valgono per la macchina, il regime termico e la versione del modello d
 ```text
 QUANDO ARRIVA UNA DOMANDA:
 
+    ALL'AVVIO DELLA SESSIONE:
+        SE la calibrazione è attiva (default): misura velocità locali
+        SE credenziali cloud configurate: esegui una generazione pubblica
+            per misurare E2E_cloud_ms (probe). Costo in cli_total_ms,
+            mai in request_ms.
+        SE --offline-cloud o niente credenziali: probe saltato,
+            E2E_cloud_ms = RTT + tempo_cloud_ms (stima manuale).
+
     leggi il tempo massimo desiderato
     leggi le velocità locali (calibrate all'avvio o di default)
     leggi il tempo previsto per rete e cloud
@@ -190,11 +198,11 @@ Report e telemetria sono diagnostica sperimentale separata dalla garanzia DP; la
 ## Setup implementato
  
  - La calibrazione automatica delle velocità di inferenza è implementata nel modulo `core/calibration.py` e attivata di default nella CLI. Il flag `--no-calibration` la disattiva e ripristina i valori di default.
- - **Soglia di sforamento accettabile (A2):** lo scheduler espone `--sforamento-k`. Con `k>0`, se il piano minimo non entra nello SLA, lo sforamento previsto per `N_MIN` viene confrontato con `k × (RTT + tempo_cloud_ms)`; se rientra nella tolleranza pianifica `N=N_MIN` e segnala `sforamento_accettato`. Con `k=0` (default) resta il comportamento prudente. `--force-zero-shot` forza `N=0` ignorando SLA e tolleranza. `E2E_cloud_ms = RTT + tempo_cloud_ms` è una stima manuale finché il probe (A1) non è in piedi; la tolleranza non è una scadenza garantita.
+ - **Soglia di sforamento accettabile (A2):** lo scheduler espone `--sforamento-k`. Con `k>0`, se il piano minimo non entra nello SLA, lo sforamento previsto per `N_MIN` viene confrontato con `k × E2E_cloud_ms`; se rientra nella tolleranza pianifica `N=N_MIN` e segnala `sforamento_accettato`. Con `k=0` (default) resta il comportamento prudente. `--force-zero-shot` forza `N=0` ignorando SLA e tolleranza.
+ - **Probe cloud E2E (A1):** la CLI esegue una sola generazione pubblica di sessione (`core/cloud.py::CloudGenerator.probe`) e usa il valore misurato di `E2E_cloud_ms` per alimentare la tolleranza A2 al posto della somma manuale `RTT + tempo_cloud_ms`. Il costo del probe (`cloud_probe_ms`) entra in `cli_total_ms`, mai in `request_ms`. Con `--offline-cloud` o senza credenziali il probe viene saltato e `cloud_probe_skipped=True`.
  
  ## Sviluppi concordati, ancora da implementare
  
- - Probe cloud di latenza (E2E) automatica per sessione (A1).
  - Etichette sperimentali di utilità (completo/degradato/insufficienti/errore) (A3).
  - Estensioni al benchmark dello scheduler per usare throughput calibrati (A4).
 
