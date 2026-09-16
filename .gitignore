@@ -32,3 +32,6 @@ __pycache__/
 poc/private_documents/
 poc/reports/
 .coverage*
+
+# Handover notes for chat continuity (not part of the PoC)
+HANDOVER.md
