@@ -98,6 +98,11 @@ class ReplSession:
         self.engine = engine
         self.engine_options = engine_options
         self.tracer = tracer
+        # Probe the configured cloud once at session start so subsequent
+        # queries share the same E2E cloud latency estimate (A1).
+        self.probe = cloud.probe()
+        if self.probe.e2e_cloud_ms is not None:
+            self.config = replace(self.config, e2e_cloud_ms=self.probe.e2e_cloud_ms)
 
     def _assicura_engine(self) -> None:
         if self.engine is None:
@@ -111,6 +116,12 @@ class ReplSession:
             privacy_filter=self.filtro if con_filtro else None,
         )
         result['zero_shot_forzato'] = not con_filtro
+        result['cloud_probe_ms'] = 0.0  # probe ran at session start, not here
+        result['e2e_cloud_ms_ms'] = self.probe.e2e_cloud_ms
+        result['ttft_cloud_ms'] = self.probe.ttft_cloud_ms
+        result['cloud_probe_skipped'] = self.probe.cloud_probe_skipped
+        result['cloud_probe_simulato'] = self.probe.simulato
+        result['cloud_probe_errore'] = self.probe.errore
         return result
 
     def rispondi(self, query: str) -> dict[str, Any]:
@@ -230,6 +241,10 @@ def _stampa_risultato(result: dict[str, Any]) -> None:
          f"k={result['decision']['k_sforamento']:.2f}, "
          f"margine={result['decision']['tolleranza_sforamento_ms']:.1f} ms, "
          f"accettato={result['decision']['sforamento_accettato']}"),
+        ('Probe cloud E2E (A1)',
+         f"{result.get('e2e_cloud_ms_ms')} ms "
+         f"(skipped={result.get('cloud_probe_skipped')})" if result.get('e2e_cloud_ms_ms') is not None
+         else f"non eseguito (skipped={result.get('cloud_probe_skipped')})"),
         ('Keyword rilasciate', ', '.join(result['released_keywords']) or '(nessuna)'),
         ('Epsilon / delta consumati',
          f"{result['epsilon_consumed']:.6g} / {result['delta_consumed']:.6g}"),

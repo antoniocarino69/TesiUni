@@ -282,6 +282,50 @@ def test_k_sforamento_is_validated():
         scheduler.schedule(_documents(), epsilon_budget=1.0, k_sforamento=float("inf"))
 
 
+def test_e2e_cloud_ms_replaces_manual_sum_for_tolerance():
+    """When the A1 probe supplies ``e2e_cloud_ms`` it overrides ``RTT + cloud``."""
+    # Manual fallback: RTT=100 + cloud=100 = 200 ms. k=10 -> tolerance 2000 ms.
+    # The N_MIN plan overruns by far more than 2000 ms, so the policy rejects.
+    manual = AdaptiveScheduler().schedule(
+        _documents(),
+        epsilon_budget=1.0,
+        latenza_rete_ms=100.0,
+        latenza_massima_ms=200.0,
+        tempo_cloud_ms=100.0,
+        k_sforamento=10.0,
+    )
+    assert manual.sforamento_accettato is False
+    # Probe measurement: e2e=1000 ms. k=10 -> tolerance 10000 ms. The N_MIN
+    # overrun stays below the tolerance, so the policy accepts.
+    probed = AdaptiveScheduler().schedule(
+        _documents(),
+        epsilon_budget=1.0,
+        latenza_rete_ms=100.0,
+        latenza_massima_ms=200.0,
+        tempo_cloud_ms=100.0,
+        k_sforamento=10.0,
+        e2e_cloud_ms=1000.0,
+    )
+    assert probed.sforamento_accettato is True
+    assert probed.tolleranza_sforamento_ms == pytest.approx(10000.0)
+
+
+def test_e2e_cloud_ms_is_validated():
+    scheduler = AdaptiveScheduler()
+    with pytest.raises(ValueError):
+        scheduler.schedule(
+            _documents(), epsilon_budget=1.0, e2e_cloud_ms=-1.0
+        )
+    with pytest.raises(ValueError):
+        scheduler.schedule(
+            _documents(), epsilon_budget=1.0, e2e_cloud_ms=float("nan")
+        )
+    with pytest.raises(ValueError):
+        scheduler.schedule(
+            _documents(), epsilon_budget=1.0, e2e_cloud_ms=float("inf")
+        )
+
+
 def test_tolerance_requires_enough_candidates():
     """The library refuses to plan N_MIN when fewer than N_MIN slots exist.
 

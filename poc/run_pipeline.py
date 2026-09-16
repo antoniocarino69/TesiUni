@@ -126,6 +126,9 @@ def main(argv: Sequence[str] | None = None) -> int:
             return 0
         cloud = CloudGenerator(api_key=args.api_key, base_url=args.cloud_base_url,
                                model=args.cloud_model, offline=args.offline_cloud)
+        probe_t0 = time.perf_counter()
+        probe = cloud.probe()
+        probe_elapsed_ms = (time.perf_counter() - probe_t0) * 1000
         tracer = None if args.no_telemetry else LangfuseTracer(
             capture_sensitive=args.langfuse_capture_sensitive,
         )
@@ -147,10 +150,18 @@ def main(argv: Sequence[str] | None = None) -> int:
                 calibration_result.generation_tps,
                 calibration_ms,
             )
+        if probe.e2e_cloud_ms is not None:
+            config = replace(config, e2e_cloud_ms=probe.e2e_cloud_ms)
         result = run_request(query, corpus, config, cloud, tracer=tracer,
                              engine=engine, engine_options=engine_options)
         result['calibration_ms'] = calibration_ms
         result['cli_total_ms'] = (time.perf_counter() - started) * 1000
+        result['cloud_probe_ms'] = probe_elapsed_ms
+        result['e2e_cloud_ms_ms'] = probe.e2e_cloud_ms
+        result['ttft_cloud_ms'] = probe.ttft_cloud_ms
+        result['cloud_probe_skipped'] = probe.cloud_probe_skipped
+        result['cloud_probe_simulato'] = probe.simulato
+        result['cloud_probe_errore'] = probe.errore
         if args.output:
             args.output.parent.mkdir(parents=True, exist_ok=True)
             args.output.write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding='utf-8')
@@ -172,6 +183,12 @@ def main(argv: Sequence[str] | None = None) -> int:
          f"k={result['decision']['k_sforamento']:.2f}, "
          f"margine={result['decision']['tolleranza_sforamento_ms']:.1f} ms, "
          f"accettato={result['decision']['sforamento_accettato']}"),
+        ('Probe cloud E2E (A1)',
+         f"{result.get('e2e_cloud_ms_ms')} ms "
+         f"(skipped={result.get('cloud_probe_skipped')})" if result.get('e2e_cloud_ms_ms') is not None
+         else f"non eseguito (skipped={result.get('cloud_probe_skipped')})"),
+        ('Tempo probe cloud',
+         f"{result.get('cloud_probe_ms', 0.0):.1f} ms"),
         ('Keyword rilasciate', ', '.join(result['released_keywords'])),
         ('Epsilon / delta consumati', f"{result['epsilon_consumed']:.6g} / {result['delta_consumed']:.6g}"),
         ('Calibrazione throughput (setup sessione)',

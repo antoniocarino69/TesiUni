@@ -188,6 +188,7 @@ class AdaptiveScheduler:
         tok_per_sec_generazione: float = DEFAULT_TOK_PER_SEC_GENERAZIONE,
         fixed_n: int | None = None,
         k_sforamento: float = DEFAULT_SFORAMENTO_K,
+        e2e_cloud_ms: float | None = None,
     ) -> DecisioneScheduler:
         """Compute an adaptive ensemble decision.
 
@@ -206,7 +207,12 @@ class AdaptiveScheduler:
             k_sforamento: Tolerance coefficient. ``0`` keeps the conservative
                 behaviour (SLA incompatible with N_MIN yields N=0). With
                 ``k > 0`` the N_MIN plan is adopted when its expected overrun
-                stays within ``k * (latenza_rete_ms + tempo_cloud_ms)``.
+                stays within ``k * e2e_cloud_ms``.
+            e2e_cloud_ms: End-to-end cloud latency measured by the A1 probe.
+                When provided, it replaces the manual ``RTT + tempo_cloud``
+                sum used for the A2 tolerance comparison. ``None`` keeps the
+                manual fallback so the prototype stays usable when no probe
+                is available.
 
         Returns:
             A :class:`DecisioneScheduler` with the selected N and privacy
@@ -229,6 +235,8 @@ class AdaptiveScheduler:
         _validate_finite_non_negative(tempo_cloud_ms, "tempo_cloud_ms")
         _validate_finite_non_negative(delta, "delta")
         _validate_finite_non_negative(k_sforamento, "k_sforamento")
+        if e2e_cloud_ms is not None:
+            _validate_finite_non_negative(e2e_cloud_ms, "e2e_cloud_ms")
         if not 0.0 < delta < 0.5:
             raise ValueError("delta PTR deve essere tra 0 e 0.5 (delta totale = 2*delta)")
 
@@ -251,7 +259,12 @@ class AdaptiveScheduler:
             tok_per_sec_generazione,
             self.max_tokens,
         )
-        tempo_residuo = latenza_massima_ms - latenza_rete_ms - tempo_cloud_ms
+        e2e_cloud_ms_for_capacity = (
+            e2e_cloud_ms
+            if e2e_cloud_ms is not None
+            else latenza_rete_ms + tempo_cloud_ms
+        )
+        tempo_residuo = latenza_massima_ms - e2e_cloud_ms_for_capacity
         capacita_temporale = 0
         tempo_locale_capacita = 0.0
         if tempo_residuo > 0.0:
@@ -269,13 +282,18 @@ class AdaptiveScheduler:
         if fixed_n is not None:
             n_ensemble = fixed_n
         tempo_locale_scelto = sum(tempi_locali[:n_ensemble])
-        tempo_stimato = latenza_rete_ms + tempo_cloud_ms + tempo_locale_scelto
+
+        # End-to-end cloud latency: prefer the A1 probe measurement when
+        # available, otherwise fall back to the manual ``RTT + tempo_cloud``
+        # sum. Using a single variable keeps the capacity check above, the
+        # estimate below, and the A2 tolerance comparison all aligned.
+        e2e_cloud_ms = e2e_cloud_ms_for_capacity
+        tempo_stimato = e2e_cloud_ms + tempo_locale_scelto
 
         # Tolerance policy (A2): the minimum plan is evaluated against a
         # tolerance proportional to the cloud round trip, so an SLA that is
         # slightly too tight still buys local work instead of dropping it.
         # ``tolleranza_ms`` is an estimate, not a guaranteed deadline.
-        e2e_cloud_ms = latenza_rete_ms + tempo_cloud_ms
         tolleranza_ms = k_sforamento * e2e_cloud_ms
         tempo_locale_n_min = sum(tempi_locali[:self.n_min])
         tempo_stimato_n_min = e2e_cloud_ms + tempo_locale_n_min

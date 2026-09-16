@@ -29,6 +29,7 @@ class RequestConfig:
     r_min_k: int = 1
     r_max_k: int = 10
     k_sforamento: float = 0.0
+    e2e_cloud_ms: float | None = None
 
 
 def run_request(
@@ -59,6 +60,7 @@ def run_request(
         tempo_cloud_ms=config.cloud_ms, tok_per_sec_prefill=config.prefill_tps,
         tok_per_sec_generazione=config.generation_tps, fixed_n=config.fixed_n,
         k_sforamento=config.k_sforamento,
+        e2e_cloud_ms=config.e2e_cloud_ms,
     )
     if tracer is not None:
         tracer.avvia_richiesta(query, metadata={'scheduler_inputs': 'public_config'})
