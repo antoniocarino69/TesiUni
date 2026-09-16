@@ -25,14 +25,46 @@ def corpus():
     return DocumentCorpus([LocalDocument(str(i), f'public context {i}', '') for i in range(6)])
 
 
-def test_impossible_sla_skips_retrieval_and_engine(monkeypatch):
+def test_impossible_sla_with_tolerance_runs_retrieval_and_engine():
+    """A2: an SLA slightly below the minimum plan still buys local work when k>0.
+
+    This replaces the old meaning of
+    ``test_impossible_sla_skips_retrieval_and_engine``: an infeasible SLA is no
+    longer by itself a reason to drop the documents.
+    """
+    engine = FakeEngine()
+    config = RequestConfig(sla_ms=20_000, k_sforamento=20.0)
+    result = run_request('public query', corpus(), config, CloudGenerator(offline=True),
+                         engine=engine)
+    decision = result['decision']
+    assert decision['n_ensemble'] == 5
+    assert decision['sforamento_accettato'] is True
+    assert decision['sforamento_previsto_ms'] > 0
+    assert not decision['sla_fattibile']
+    assert len(engine.contexts) == 5
+
+
+def test_impossible_sla_with_k_zero_skips_retrieval_and_engine(monkeypatch):
+    """Previous conservative behaviour, preserved explicitly for k=0 (default)."""
     data = corpus()
     monkeypatch.setattr(data, 'retrieve', lambda *args: pytest.fail('No retrieval on zero-shot'))
     result = run_request('public query', data, RequestConfig(), CloudGenerator(offline=True))
     assert result['decision']['n_ensemble'] == 0
+    assert result['decision']['sforamento_accettato'] is False
     assert result['model_setup_ms'] == 0
     assert result['epsilon_consumed'] == result['delta_consumed'] == 0
     assert result['cloud_simulated']
+
+
+def test_force_zero_shot_skips_retrieval_even_with_a_roomy_sla(monkeypatch):
+    """--force-zero-shot is the only remaining user-facing path to N=0."""
+    data = corpus()
+    monkeypatch.setattr(data, 'retrieve', lambda *args: pytest.fail('No retrieval on zero-shot'))
+    config = RequestConfig(sla_ms=100_000, fixed_n=0)
+    result = run_request('public query', data, config, CloudGenerator(offline=True))
+    assert result['decision']['n_ensemble'] == 0
+    assert result['decision']['modalita'] == 'zero_shot'
+    assert result['epsilon_consumed'] == result['delta_consumed'] == 0
 
 
 def test_public_schedule_independent_of_document_lengths_and_count():

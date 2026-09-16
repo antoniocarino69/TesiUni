@@ -66,6 +66,8 @@ def build_parser() -> argparse.ArgumentParser:
                         help='Cap pubblico del prompt completo, incluso query/template')
     parser.add_argument('--max-tokens', type=_positive_int,
                         default=DEFAULT_LOCAL_MODEL_CONFIG.max_tokens)
+    parser.add_argument('--sforamento-k', type=_non_negative_float, default=0.0,
+                        help='Coefficiente k per tolleranza sforamento SLA (default 0 = conservativo)')
     parser.add_argument('--seed', type=int, help='Compatibilità: retrieval deterministico, seed non usato')
     for option in ['api-key', 'cloud-base-url', 'cloud-model', 'model-path', 'model-url']:
         parser.add_argument('--' + option)
@@ -76,6 +78,8 @@ def build_parser() -> argparse.ArgumentParser:
                         help='Diagnostica sperimentale completa su un endpoint fidato')
     parser.add_argument('--dry-run', action='store_true',
                         help='Verifica corpus, retrieval e piano senza modello/provider/telemetria')
+    parser.add_argument('--force-zero-shot', action='store_true',
+                        help='Forza zero-shot (N=0) ignorando SLA e politica di tolleranza')
     parser.add_argument('--no-calibration', action='store_true',
                         help='Disattiva calibrazione automatica; usa i throughput di default')
     parser.add_argument('--output', type=Path, help='Report JSON locale; contiene diagnostica non DP')
@@ -100,9 +104,12 @@ def main(argv: Sequence[str] | None = None) -> int:
             prompt_token_budget=args.prompt_token_budget, max_tokens=args.max_tokens,
             candidates=args.ensemble_size, fixed_n=args.fixed_n,
             r_min_k=args.r_min_k, r_max_k=args.r_max_k,
+            k_sforamento=args.sforamento_k,
         )
         if not 5 <= config.candidates <= 40 or config.r_min_k > config.r_max_k:
             raise ValueError('Servono 5..40 slot e r_min_k <= r_max_k')
+        if args.force_zero_shot:
+            config = replace(config, fixed_n=0)
         if args.dry_run:
             decision = AdaptiveScheduler(max_tokens=config.max_tokens).schedule(
                 [config.prompt_token_budget] * config.candidates, config.epsilon,
@@ -110,6 +117,7 @@ def main(argv: Sequence[str] | None = None) -> int:
                 latenza_rete_ms=config.rtt_ms, tempo_cloud_ms=config.cloud_ms,
                 tok_per_sec_prefill=config.prefill_tps,
                 tok_per_sec_generazione=config.generation_tps, fixed_n=config.fixed_n,
+                k_sforamento=config.k_sforamento,
             )
             preview = corpus.retrieve(query, config.candidates)
             CONSOLE.print(f'Documenti unici: {len(corpus.documents)}; '
@@ -157,6 +165,13 @@ def main(argv: Sequence[str] | None = None) -> int:
     for label, value in [
         ('N pianificato / documenti effettivi',
          f"{result['decision']['n_ensemble']} / {result['local_diagnostics']['actual_documents']}"),
+        ('Modalità', result['decision']['modalita']),
+        ('Sforamento previsto (piano eseguito)',
+         f"{result['decision']['sforamento_previsto_ms']:.1f} ms"),
+        ('Tolleranza sforamento (k, applicata solo se N=0 accettato)',
+         f"k={result['decision']['k_sforamento']:.2f}, "
+         f"margine={result['decision']['tolleranza_sforamento_ms']:.1f} ms, "
+         f"accettato={result['decision']['sforamento_accettato']}"),
         ('Keyword rilasciate', ', '.join(result['released_keywords'])),
         ('Epsilon / delta consumati', f"{result['epsilon_consumed']:.6g} / {result['delta_consumed']:.6g}"),
         ('Calibrazione throughput (setup sessione)',

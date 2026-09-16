@@ -57,6 +57,22 @@ Le lunghezze effettive restano diagnostica locale e non cambiano N.
 La modalità `fixed_n` è una baseline sperimentale: esegue N anche quando
 `sla_fattibile=False`, per misurare le violazioni e confrontarle con l'adattivo.
 
+### Tolleranza sullo sforamento (A2)
+
+Quando il piano minimo non entra nello SLA stimato, lo scheduler confronta lo
+sforamento previsto per `N_MIN` con `k · (RTT + tempo_cloud_ms)`. Se rientra
+nella tolleranza (`k > 0`), pianifica `N = N_MIN` e marca `sforamento_accettato`
+nella decisione; altrimenti ricade in `N = 0`. Con `k = 0` (default) resta il
+comportamento prudente: SLA incompatibile con `N_MIN` produce `N = 0`.
+`sforamento_previsto_ms` descrive sempre il piano che verrà eseguito, così da
+restare confrontabile con lo sforamento misurato; `sforamento_piano_minimo_ms`
+e `tolleranza_sforamento_ms` registrano i valori confrontati dalla policy.
+`E2E_cloud_ms = RTT + tempo_cloud_ms` è una stima manuale finché il probe di
+sessione (A1) non sarà implementato. La tolleranza non è una scadenza
+garantita: `sla_fattibile` resta `false` quando il piano sfora. Le opzioni
+CLI `--sforamento-k` e `--force-zero-shot` sono gli unici punti di ingresso
+utente della policy.
+
 Il campo storico `ptr_pass_rate_attesa` contiene soltanto `P(pass | gap=3)`.
 Non è una previsione sul corpus e non descrive l'effetto di N. La frequenza di
 rilascio effettiva si misura con esperimenti ripetuti.

@@ -46,14 +46,29 @@ QUANDO ARRIVA UNA DOMANDA:
         tempo per leggere il massimo testo consentito
         + tempo per scrivere il massimo output consentito
 
-    tempo_disponibile =
+tempo_disponibile =
         tempo_massimo - tempo_rete - tempo_cloud
-
-    N = quante inferenze entrano nel tempo_disponibile
-    limita N al numero di posti pubblici disponibili e al massimo di 40
-
-    SE N è minore di 5:
-        N = 0
+ 
+     N = quante inferenze entrano nel tempo_disponibile
+     limita N al numero di posti pubblici disponibili e al massimo di 40
+ 
+     SE N è minore di 5:
+         SE k_sforamento > 0:
+             calcola sforamento_previsto = tempo_per_5_inferenze - tempo_massimo
+             tolleranza = k_sforamento × (tempo_rete + tempo_cloud)
+             SE sforamento_previsto <= tolleranza:
+                 N = 5
+                 sforamento_accettato = vero
+             ALTRIMENTI:
+                 N = 0
+                 sforamento_accettato = falso
+         ALTRIMENTI:
+             N = 0
+             sforamento_accettato = falso
+ 
+     SE flag force_zero_shot:
+         N = 0
+         sforamento_accettato = falso
 
     parole_da_inviare = lista vuota
 
@@ -173,11 +188,13 @@ Non è garantito che le parole siano sufficienti per una risposta utile: questo 
 Report e telemetria sono diagnostica sperimentale separata dalla garanzia DP; la modalità di diagnostica completa autorizzata può contenere informazioni sensibili, come specificato in `AGENTS.md`.
 
 ## Setup implementato
-
-- La calibrazione automatica delle velocità di inferenza è implementata nel modulo `core/calibration.py` e attivata di default nella CLI. Il flag `--no-calibration` la disattiva e ripristina i valori di default.
-
-## Sviluppi concordati, ancora da implementare
-
-- Riesaminare il passaggio a N=0 per mancanza di tempo: lo SLA è un obiettivo flessibile e privacy e utilità hanno la precedenza. Il comportamento attuale resta quello descritto sopra.
-- Favorire una dichiarazione di informazioni insufficienti quando mancano elementi per rispondere, senza presentare una risposta generale come fondata sui documenti.
+ 
+ - La calibrazione automatica delle velocità di inferenza è implementata nel modulo `core/calibration.py` e attivata di default nella CLI. Il flag `--no-calibration` la disattiva e ripristina i valori di default.
+ - **Soglia di sforamento accettabile (A2):** lo scheduler espone `--sforamento-k`. Con `k>0`, se il piano minimo non entra nello SLA, lo sforamento previsto per `N_MIN` viene confrontato con `k × (RTT + tempo_cloud_ms)`; se rientra nella tolleranza pianifica `N=N_MIN` e segnala `sforamento_accettato`. Con `k=0` (default) resta il comportamento prudente. `--force-zero-shot` forza `N=0` ignorando SLA e tolleranza. `E2E_cloud_ms = RTT + tempo_cloud_ms` è una stima manuale finché il probe (A1) non è in piedi; la tolleranza non è una scadenza garantita.
+ 
+ ## Sviluppi concordati, ancora da implementare
+ 
+ - Probe cloud di latenza (E2E) automatica per sessione (A1).
+ - Etichette sperimentali di utilità (completo/degradato/insufficienti/errore) (A3).
+ - Estensioni al benchmark dello scheduler per usare throughput calibrati (A4).
 

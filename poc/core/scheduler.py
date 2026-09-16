@@ -35,6 +35,7 @@ DEFAULT_MAX_TOKENS = 30
 DEFAULT_EPSILON_SPLIT = 0.5
 MIN_EPSILON_REQUIRED = 1e-6
 PTR_REPRESENTATIVE_GAP = 3.0
+DEFAULT_SFORAMENTO_K = 0.0
 
 
 @dataclass(frozen=True, slots=True)
@@ -49,6 +50,15 @@ class DecisioneScheduler:
         tempo_stimato_ms: End-to-end latency estimate.
         ptr_pass_rate_attesa: Heuristic PTR pass-rate estimate.
         motivazione: Human-readable explanation of the decision.
+        sla_fattibile: Whether the estimate fits within the SLA.
+        modalita: "ensemble" or "zero_shot".
+        sforamento_previsto_ms: Expected SLA overrun in ms (>= 0) for the
+            plan that will actually be executed.
+        sforamento_accettato: Whether the overrun was accepted per k policy.
+        k_sforamento: The k coefficient used for tolerance calculation.
+        sforamento_piano_minimo_ms: Overrun the N_MIN plan would cause; the
+            quantity the tolerance policy compares with ``k * E2E_cloud``.
+        tolleranza_sforamento_ms: ``k_sforamento * (latenza_rete + tempo_cloud)``.
     """
 
     n_ensemble: int
@@ -60,6 +70,11 @@ class DecisioneScheduler:
     motivazione: str
     sla_fattibile: bool = True
     modalita: str = "ensemble"
+    sforamento_previsto_ms: float = 0.0
+    sforamento_accettato: bool = False
+    k_sforamento: float = 0.0
+    sforamento_piano_minimo_ms: float = 0.0
+    tolleranza_sforamento_ms: float = 0.0
 
 
 class PrivacyBudgetExhaustedError(ValueError):
@@ -172,6 +187,7 @@ class AdaptiveScheduler:
         tok_per_sec_prefill: float = DEFAULT_TOK_PER_SEC_PREFILL,
         tok_per_sec_generazione: float = DEFAULT_TOK_PER_SEC_GENERAZIONE,
         fixed_n: int | None = None,
+        k_sforamento: float = DEFAULT_SFORAMENTO_K,
     ) -> DecisioneScheduler:
         """Compute an adaptive ensemble decision.
 
@@ -185,6 +201,12 @@ class AdaptiveScheduler:
             tempo_cloud_ms: Estimated remote generation latency.
             tok_per_sec_prefill: Measured local prompt-processing throughput.
             tok_per_sec_generazione: Measured local generation throughput.
+            fixed_n: Experimental baseline; forces this N. ``0`` forces
+                zero-shot and is the ``--force-zero-shot`` path.
+            k_sforamento: Tolerance coefficient. ``0`` keeps the conservative
+                behaviour (SLA incompatible with N_MIN yields N=0). With
+                ``k > 0`` the N_MIN plan is adopted when its expected overrun
+                stays within ``k * (latenza_rete_ms + tempo_cloud_ms)``.
 
         Returns:
             A :class:`DecisioneScheduler` with the selected N and privacy
@@ -206,13 +228,22 @@ class AdaptiveScheduler:
         _validate_finite_non_negative(latenza_massima_ms, "latenza_massima_ms")
         _validate_finite_non_negative(tempo_cloud_ms, "tempo_cloud_ms")
         _validate_finite_non_negative(delta, "delta")
+        _validate_finite_non_negative(k_sforamento, "k_sforamento")
         if not 0.0 < delta < 0.5:
             raise ValueError("delta PTR deve essere tra 0 e 0.5 (delta totale = 2*delta)")
 
         numero_documenti = len(token_per_documento)
+        if numero_documenti < self.n_min:
+            raise ValueError(
+                f"Servono almeno {self.n_min} slot pubblici per pianificare un ensemble "
+                f"significativo; ne sono stati forniti {numero_documenti}."
+            )
         n_massimo_disponibile = min(self.n_max, numero_documenti)
-        if fixed_n is not None and not self.n_min <= fixed_n <= n_massimo_disponibile:
-            raise ValueError("fixed_n deve essere tra n_min e i candidati pubblici disponibili")
+        # fixed_n == 0 is the explicit zero-shot path; any other value must be
+        # a realizable ensemble size.
+        if fixed_n is not None and fixed_n != 0:
+            if not self.n_min <= fixed_n <= n_massimo_disponibile:
+                raise ValueError("fixed_n deve essere tra n_min e i candidati pubblici disponibili")
 
         tempi_locali = self._stima_tempi_locali(
             token_per_documento,
@@ -240,6 +271,26 @@ class AdaptiveScheduler:
         tempo_locale_scelto = sum(tempi_locali[:n_ensemble])
         tempo_stimato = latenza_rete_ms + tempo_cloud_ms + tempo_locale_scelto
 
+        # Tolerance policy (A2): the minimum plan is evaluated against a
+        # tolerance proportional to the cloud round trip, so an SLA that is
+        # slightly too tight still buys local work instead of dropping it.
+        # ``tolleranza_ms`` is an estimate, not a guaranteed deadline.
+        e2e_cloud_ms = latenza_rete_ms + tempo_cloud_ms
+        tolleranza_ms = k_sforamento * e2e_cloud_ms
+        tempo_locale_n_min = sum(tempi_locali[:self.n_min])
+        tempo_stimato_n_min = e2e_cloud_ms + tempo_locale_n_min
+        sforamento_piano_minimo_ms = max(0.0, tempo_stimato_n_min - latenza_massima_ms)
+        sforamento_accettato = False
+        if fixed_n is None and n_ensemble == 0 and k_sforamento > 0.0:
+            if sforamento_piano_minimo_ms <= tolleranza_ms:
+                n_ensemble = self.n_min
+                tempo_locale_scelto = tempo_locale_n_min
+                tempo_stimato = tempo_stimato_n_min
+                sforamento_accettato = True
+        # ``sforamento_previsto_ms`` always describes the plan that will be
+        # executed, so it stays comparable with the measured overrun.
+        sforamento_previsto_ms = max(0.0, tempo_stimato - latenza_massima_ms)
+
         epsilon_find = epsilon_budget * self.epsilon_split
         epsilon_top = epsilon_budget - epsilon_find
         try:
@@ -255,16 +306,34 @@ class AdaptiveScheduler:
             ) from exc
 
         ptr_pass_rate = self._stima_ptr_pass_rate(epsilon_top, sigma, delta)
-        if fixed_n is not None:
+        if fixed_n == 0:
+            motivo_tempo = "Zero-shot forzato dall'utente; i documenti non vengono consultati."
+        elif fixed_n is not None:
             motivo_tempo = f"Baseline fissa N={n_ensemble}."
+        elif sforamento_accettato:
+            motivo_tempo = (
+                f"SLA stimato incompatibile con {self.n_min} inferenze; "
+                f"sforamento previsto {sforamento_previsto_ms:.1f} ms entro la tolleranza "
+                f"k={k_sforamento:.2f}×E2E_cloud ({tolleranza_ms:.1f} ms); "
+                f"pianifico N_MIN={self.n_min}. La tolleranza è una stima, non una scadenza garantita."
+            )
+        elif n_ensemble == 0 and k_sforamento > 0.0:
+            motivo_tempo = (
+                f"SLA stimato incompatibile con {self.n_min} inferenze; "
+                f"sforamento previsto {sforamento_piano_minimo_ms:.1f} ms oltre la tolleranza "
+                f"k={k_sforamento:.2f}×E2E_cloud ({tolleranza_ms:.1f} ms); "
+                "fallback zero-shot senza consultare i documenti."
+            )
         elif n_ensemble == 0:
             motivo_tempo = (
                 f"SLA stimato incompatibile con {self.n_min} inferenze; "
+                f"sforamento previsto {sforamento_piano_minimo_ms:.1f} ms, "
+                "tolleranza disattivata (k=0); "
                 "fallback zero-shot senza consultare i documenti."
             )
         else:
             motivo_tempo = f"La latenza residua stimata consente N={n_ensemble}."
-        if tempo_stimato > latenza_massima_ms:
+        if tempo_stimato > latenza_massima_ms and not sforamento_accettato:
             motivo_tempo += " SLA non fattibile secondo le stime configurate."
         motivazione = (
             f"{motivo_tempo} RTT={latenza_rete_ms:.1f} ms, "
@@ -286,6 +355,11 @@ class AdaptiveScheduler:
             motivazione=motivazione,
             sla_fattibile=tempo_stimato <= latenza_massima_ms,
             modalita="ensemble" if n_ensemble else "zero_shot",
+            sforamento_previsto_ms=sforamento_previsto_ms,
+            sforamento_accettato=sforamento_accettato,
+            k_sforamento=k_sforamento,
+            sforamento_piano_minimo_ms=sforamento_piano_minimo_ms,
+            tolleranza_sforamento_ms=tolleranza_ms,
         )
 
     # Italian aliases keep the public API consistent with the rest of the PoC

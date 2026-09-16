@@ -174,6 +174,12 @@ class LangfuseTracer:
                     "tempo_stimato_ms": decisione.tempo_stimato_ms,
                     "ptr_probability_reference_gap_3": decisione.ptr_pass_rate_attesa,
                     "motivazione": decisione.motivazione,
+                    "sla_fattibile": decisione.sla_fattibile,
+                    "sforamento_previsto_ms": decisione.sforamento_previsto_ms,
+                    "sforamento_piano_minimo_ms": decisione.sforamento_piano_minimo_ms,
+                    "sforamento_accettato": decisione.sforamento_accettato,
+                    "tolleranza_sforamento_ms": decisione.tolleranza_sforamento_ms,
+                    "k_sforamento": decisione.k_sforamento,
                 },
             )
             span.end()
