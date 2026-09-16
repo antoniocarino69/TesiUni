@@ -60,18 +60,30 @@ La modalità `fixed_n` è una baseline sperimentale: esegue N anche quando
 ### Tolleranza sullo sforamento (A2)
 
 Quando il piano minimo non entra nello SLA stimato, lo scheduler confronta lo
-sforamento previsto per `N_MIN` con `k · (RTT + tempo_cloud_ms)`. Se rientra
+sforamento previsto per `N_MIN` con `k · E2E_cloud_ms`. Se rientra
 nella tolleranza (`k > 0`), pianifica `N = N_MIN` e marca `sforamento_accettato`
 nella decisione; altrimenti ricade in `N = 0`. Con `k = 0` (default) resta il
 comportamento prudente: SLA incompatibile con `N_MIN` produce `N = 0`.
 `sforamento_previsto_ms` descrive sempre il piano che verrà eseguito, così da
 restare confrontabile con lo sforamento misurato; `sforamento_piano_minimo_ms`
 e `tolleranza_sforamento_ms` registrano i valori confrontati dalla policy.
-`E2E_cloud_ms = RTT + tempo_cloud_ms` è una stima manuale finché il probe di
-sessione (A1) non sarà implementato. La tolleranza non è una scadenza
-garantita: `sla_fattibile` resta `false` quando il piano sfora. Le opzioni
-CLI `--sforamento-k` e `--force-zero-shot` sono gli unici punti di ingresso
-utente della policy.
+La tolleranza non è una scadenza garantita: `sla_fattibile` resta `false`
+quando il piano sfora. Le opzioni CLI `--sforamento-k` e `--force-zero-shot`
+sono gli unici punti di ingresso utente della policy.
+
+### Probe cloud E2E (A1)
+
+`core.cloud.CloudGenerator.probe()` esegue una sola generazione pubblica di
+sessione (prompt fisso `PROBE_QUERY`, 16 token di budget) per misurare
+`E2E_cloud_ms` end-to-end sul client configurato. Il probe non fa mai retry,
+non trasporta contenuti privati, e non viene eseguito in modalità offline o
+senza credenziali (in quei casi `RisultatoProbe.cloud_probe_skipped=True` e
+`e2e_cloud_ms=None`). Il costo del probe (`cloud_probe_ms`) entra in
+`cli_total_ms` ma non in `request_ms`: il probe è setup di sessione, non
+lavoro utile. Quando il probe produce un valore, esso alimenta la
+tolleranza A2 sostituendo la somma manuale `RTT + tempo_cloud_ms`;
+altrimenti lo scheduler usa il fallback manuale e la sezione
+"tolleranza_sforamento_ms" del report resta calcolata sulla stima.
 
 Il campo storico `ptr_pass_rate_attesa` contiene soltanto `P(pass | gap=3)`.
 Non è una previsione sul corpus e non descrive l'effetto di N. La frequenza di

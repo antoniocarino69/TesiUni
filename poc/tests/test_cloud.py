@@ -86,3 +86,94 @@ def test_explicit_offline_overrides_credentials_and_never_calls_client():
     )
     assert result.simulato
     assert result.latenza_rete_sec == 0.0
+
+
+# ---------------------------------------------------------------------------
+# Cloud probe (A1)
+# ---------------------------------------------------------------------------
+
+
+def test_probe_returns_latency_when_credentials_and_endpoint_are_configured():
+    completions = _FakeCompletions(
+        response=SimpleNamespace(
+            choices=[SimpleNamespace(message=SimpleNamespace(content="four"))]
+        )
+    )
+    generator = CloudGenerator(
+        base_url="http://localhost:8000/v1",
+        model="local-instruct",
+        client=_FakeClient(completions),
+    )
+
+    result = generator.probe()
+
+    assert result.simulato is False
+    assert result.errore is None
+    assert result.e2e_cloud_ms is not None
+    assert result.e2e_cloud_ms >= 0.0
+    # Probe must be a real call: the fake client recorded the kwargs.
+    assert completions.kwargs is not None
+    assert completions.kwargs["model"] == "local-instruct"
+    # The probe prompt must not carry any private content; it is a public
+    # sanity question whose answer is irrelevant to the user workload.
+    messages = completions.kwargs["messages"]
+    assert any("public" in str(m["content"]).lower() for m in messages)
+    # Max tokens capped to keep the probe cheap.
+    assert completions.kwargs["max_tokens"] <= 16
+
+
+def test_probe_is_skipped_when_offline():
+    generator = CloudGenerator(
+        api_key="synthetic", base_url="http://localhost:8000/v1", offline=True
+    )
+    result = generator.probe()
+    assert result.simulato is True
+    assert result.cloud_probe_skipped is True
+    assert result.e2e_cloud_ms is None
+    assert result.errore is None
+
+
+def test_probe_is_skipped_without_credentials_or_endpoint(monkeypatch):
+    # No api_key, no base_url, no client -> nothing to call. Strip any
+    # credentials that may have been loaded by a prior test (e.g. via
+    # dotenv during a CLI integration test).
+    for name in ("CLOUD_API_KEY", "OPENAI_API_KEY", "CLOUD_BASE_URL", "OPENAI_BASE_URL"):
+        monkeypatch.delenv(name, raising=False)
+    generator = CloudGenerator()
+    result = generator.probe()
+    assert result.simulato is True
+    assert result.cloud_probe_skipped is True
+    assert result.e2e_cloud_ms is None
+
+
+def test_probe_records_failure_without_raising():
+    completions = _FakeCompletions(error=RuntimeError("upstream down"))
+    generator = CloudGenerator(
+        base_url="http://localhost:8000/v1",
+        client=_FakeClient(completions),
+    )
+    result = generator.probe()
+    assert result.simulato is False
+    assert result.cloud_probe_skipped is True  # failure counts as "no measurement"
+    assert result.e2e_cloud_ms is None
+    assert result.errore == "provider_error"
+
+
+def test_probe_does_not_retry_on_failure():
+    """A single failed call must not trigger a second one (PIANO A1: no retry)."""
+    calls = {"count": 0}
+
+    class CountingCompletions:
+        def create(self, **kwargs):
+            calls["count"] += 1
+            raise RuntimeError("upstream down")
+
+    class CountingClient:
+        chat = SimpleNamespace(completions=CountingCompletions())
+
+    generator = CloudGenerator(
+        base_url="http://localhost:8000/v1",
+        client=CountingClient(),
+    )
+    generator.probe()
+    assert calls["count"] == 1

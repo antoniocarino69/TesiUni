@@ -10,6 +10,7 @@ from __future__ import annotations
 import json
 import sys
 from pathlib import Path
+from types import SimpleNamespace
 
 import numpy as np
 import pytest
@@ -101,11 +102,12 @@ def _install_fake_engine(monkeypatch) -> None:
     """Replace LocalNeuralEngine with a stub that does not download a model.
 
     The CLI constructs the engine itself during the calibration phase. We
-    intercept the import inside ``run_pipeline`` so the calibration and the
-    ensemble phase both use the stub.
+    intercept the import inside both ``run_pipeline`` and ``core.pipeline``
+    so the calibration and the ensemble phase both use the stub.
     """
     from types import SimpleNamespace
 
+    import core.pipeline
     import run_pipeline
 
     class _StubEngine:
@@ -124,6 +126,7 @@ def _install_fake_engine(monkeypatch) -> None:
                 tempo_prefill_stimato_sec=0.0,
             )
 
+    monkeypatch.setattr(core.pipeline, "LocalNeuralEngine", _StubEngine)
     monkeypatch.setattr(run_pipeline, "LocalNeuralEngine", _StubEngine)
 
 
@@ -242,3 +245,120 @@ def test_cli_dry_run_rejects_invalid_k(tmp_path):
             ])
         # argparse exits with code 2 on a bad argument.
         assert exc_info.value.code == 2
+
+
+def test_cli_full_run_records_probe_when_credentials_are_configured(tmp_path, monkeypatch):
+    """With credentials and endpoint configured, the CLI runs the A1 probe."""
+    import run_pipeline
+
+    path = _write_synthetic_document(tmp_path)
+    output = tmp_path / "report.json"
+
+    class _StubProbe:
+        def __init__(self):
+            self.probe_calls = 0
+            self.genera_calls = 0
+
+        def probe(self):
+            self.probe_calls += 1
+            return SimpleNamespace(
+                e2e_cloud_ms=7777.0,
+                ttft_cloud_ms=None,
+                simulato=False,
+                cloud_probe_skipped=False,
+                errore=None,
+            )
+
+        def genera(self, domanda, parole, contesti):
+            self.genera_calls += 1
+            return SimpleNamespace(
+                risposta_testuale="probe-ok",
+                latenza_rete_sec=0.0,
+                byte_trasmessi_dp=10,
+                byte_grezzi_rag=0,
+                risparmio_percentuale=0.0,
+                simulato=True,
+                errore=None,
+            )
+
+    stub = _StubProbe()
+    monkeypatch.setattr(run_pipeline, "LangfuseTracer", lambda **kwargs: pytest.fail("No trace"))
+    monkeypatch.setattr(run_pipeline, "CloudGenerator", lambda **_kwargs: stub)
+    _install_fake_engine(monkeypatch)
+
+    exit_code = _run_cli([
+        "--documents", str(path), "--query", "public query",
+        "--ensemble-size", "5",
+        "--prompt-token-budget", "256",
+        "--api-key", "synthetic",
+        "--cloud-base-url", "http://localhost:8000/v1",
+        "--no-calibration",
+        "--offline-cloud",
+        "--no-telemetry",
+        "--output", str(output),
+    ])
+    assert exit_code == 0
+    assert stub.probe_calls == 1
+    assert stub.genera_calls == 1
+    payload = json.loads(output.read_text(encoding="utf-8"))
+    assert payload["cloud_probe_ms"] >= 0.0
+    assert payload["e2e_cloud_ms_ms"] == pytest.approx(7777.0)
+    assert payload["cloud_probe_skipped"] is False
+    # The probe's e2e_cloud_ms is propagated into the scheduler through the
+    # RequestConfig: it replaces the manual RTT+tempo_cloud sum.
+    assert payload["decision"]["tolleranza_sforamento_ms"] == pytest.approx(
+        7777.0 * payload["decision"]["k_sforamento"]
+    )
+
+
+def test_cli_full_run_skips_probe_when_offline(tmp_path, monkeypatch):
+    """With ``--offline-cloud`` the CLI marks the probe as skipped."""
+    import run_pipeline
+
+    path = _write_synthetic_document(tmp_path)
+    output = tmp_path / "report.json"
+
+    class _StubProbe:
+        def __init__(self):
+            self.probe_calls = 0
+
+        def probe(self):
+            self.probe_calls += 1
+            return SimpleNamespace(
+                e2e_cloud_ms=None,
+                ttft_cloud_ms=None,
+                simulato=True,
+                cloud_probe_skipped=True,
+                errore=None,
+            )
+
+        def genera(self, domanda, parole, contesti):
+            return SimpleNamespace(
+                risposta_testuale="offline-ok",
+                latenza_rete_sec=0.0,
+                byte_trasmessi_dp=10,
+                byte_grezzi_rag=0,
+                risparmio_percentuale=0.0,
+                simulato=True,
+                errore=None,
+            )
+
+    stub = _StubProbe()
+    monkeypatch.setattr(run_pipeline, "LangfuseTracer", lambda **kwargs: pytest.fail("No trace"))
+    monkeypatch.setattr(run_pipeline, "CloudGenerator", lambda **_kwargs: stub)
+    _install_fake_engine(monkeypatch)
+
+    exit_code = _run_cli([
+        "--documents", str(path), "--query", "public query",
+        "--ensemble-size", "5",
+        "--prompt-token-budget", "256",
+        "--no-calibration",
+        "--offline-cloud",
+        "--no-telemetry",
+        "--output", str(output),
+    ])
+    assert exit_code == 0
+    assert stub.probe_calls == 1
+    payload = json.loads(output.read_text(encoding="utf-8"))
+    assert payload["cloud_probe_skipped"] is True
+    assert payload["e2e_cloud_ms_ms"] is None

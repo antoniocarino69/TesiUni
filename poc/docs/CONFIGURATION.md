@@ -36,7 +36,7 @@ invece il seed opzionale.
 | `--prompt-token-budget` | 1000 | Cap del prompt completo, inclusi query e template |
 | `--max-tokens` | 30 | Massimo output per documento |
 | `--max-latency-ms` | 1500 | SLA confrontato con stima e tempo misurato della richiesta |
-| `--rtt-ms`, `--tempo-cloud-ms` | 50, 150 | Stime di rete e cloud, non sonde automatiche |
+| `--rtt-ms`, `--tempo-cloud-ms` | 50, 150 | Stime manuali di rete e cloud; con credenziali configurate la CLI esegue un probe E2E (A1) che le sostituisce per la tolleranza A2 |
 | `--tok-per-sec-prefill`, `--tok-per-sec-generazione` | 250, 50 | Throughput configurati pubblicamente |
 | `--epsilon` | 1 | Budget epsilon della singola richiesta |
 | `--delta` | 1e-4 | Delta PTR; default delta totale 2e-4 |
