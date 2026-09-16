@@ -71,6 +71,23 @@ La tolleranza non è una scadenza garantita: `sla_fattibile` resta `false`
 quando il piano sfora. Le opzioni CLI `--sforamento-k` e `--force-zero-shot`
 sono gli unici punti di ingresso utente della policy.
 
+### Etichette sperimentali (A3)
+
+`core.etichette.classifica_risultato` calcola a posteriori una label
+heuristica per ogni run, applicata al testo già ricevuto dal provider o
+alla risposta cloud non ancora prodotta. Le quattro label sono
+`insufficienti` (rilascio vuoto o zero-shot), `errore` (provider
+fallito), `completo` (keyword riusata, niente astensione) e `degradato`
+(rilascio presente, risposta arrivata ma le euristiche di `completo`
+non sono soddisfatte). La variante stretta per ticket usa il campo
+`riferimenti_ticket: tuple[PatternRiferimento, ...]` del
+`RequestConfig` per richiedere la presenza di passaggi procedurali
+nell'ordine atteso. Le etichette sono metadati di analisi: non
+modificano prompt, query, sequenza di chiamate né comportamento, e
+possono produrre falsi positivi e falsi negativi. Disattivabili con
+`--no-etichette`. Il campo `esito` del report JSON espone
+`label`, `motivazione` e `riferimenti_usati`.
+
 ### Probe cloud E2E (A1)
 
 `core.cloud.CloudGenerator.probe()` esegue una sola generazione pubblica di

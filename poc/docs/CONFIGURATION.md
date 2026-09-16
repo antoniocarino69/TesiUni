@@ -45,6 +45,7 @@ invece il seed opzionale.
 | `--sforamento-k` | 0 | Coefficiente di tolleranza sullo sforamento stimato dello SLA |
 | `--force-zero-shot` | disattivo | Forza N=0 senza consultare i documenti |
 | `--no-calibration` | disattivo | Disattiva la calibrazione automatica delle velocità locali |
+| `--no-etichette` | disattivo | Disattiva il calcolo delle etichette sperimentali (A3) |
 
 Con i default, cinque prompt da 1000 token non entrano in 1,5 secondi:
 l'adattivo va in zero-shot. Aumentare lo SLA in modo coerente con l'hardware

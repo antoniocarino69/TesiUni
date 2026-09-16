@@ -4,7 +4,6 @@ Catalogo dei test che verificano la policy A2 — tolleranza sullo sforamento
 previsto del piano minimo — in tutte le sue forme: libreria, integrazione
 pipeline, integrazione CLI. Tutti i test sono eseguibili offline, senza
 modello GGUF né provider reale.
-
 ## Come consultarli
 
 ```bash
@@ -117,4 +116,73 @@ Con `RTT=1400`, `cloud=150`, `prompt_budget=256`, `ensemble=5`,
 
 - ruff: pulito
 - pytest: 120 passed (5 nuovi rispetto al merge)
-- copertura `core/scheduler.py`: ≥ 90%
+- copertura `core.scheduler`: ≥ 90%
+
+# Test delle etichette sperimentali (A3)
+
+Le etichette A3 (`insufficienti`, `errore`, `completo`, `degradato`) sono
+calcolate a posteriori in `core/etichette.py` su `(decisione, dp, risposta)`.
+La variante stretta per ticket richiede `riferimenti_ticket` nel
+`RequestConfig`.
+
+## Comandi
+
+```bash
+# Solo i test delle etichette
+cd poc
+.venv/bin/python -m pytest -v tests/test_etichette.py
+
+# Integrazione CLI
+.venv/bin/python -m pytest -v tests/test_pipeline_integration.py -k esito
+```
+
+## Mappa dei test
+
+### Logica di classificazione (`tests/test_etichette.py`)
+
+| Test | Cosa verifica |
+| --- | --- |
+| `test_insufficienti_quando_il_filtro_non_rilascia_parole` | Lista keyword vuota → `insufficienti` |
+| `test_errore_quando_il_provider_fallisce` | `risposta.errore != None` → `errore` |
+| `test_errore_quando_la_risposta_e_vuota` | `risposta_testuale == ""` → `errore` |
+| `test_completo_quando_la_risposta_riusa_le_keyword` | Keyword rilasciata presente nel testo → `completo` |
+| `test_completo_non_scattato_da_pattern_di_astensione` | Pattern "non lo so", "informazioni insufficienti", ecc. → `degradato` |
+| `test_pattern_astensione_noti[*]` | Pattern multilingue (italiano + inglese) |
+| `test_degradato_quando_rilascio_non_riusato` | Keyword rilasciate ma assenti nella risposta → `degradato` |
+| `test_ticket_completo_con_passaggi_in_ordine` | Tutti i passaggi attesi presenti nell'ordine giusto → `completo` |
+| `test_ticket_degradato_se_passaggi_mancano` | Passaggi mancanti → `degradato` |
+| `test_ticket_degradato_se_ordine_sbagliato` | Passaggi presenti ma in ordine diverso → `degradato` |
+| `test_insufficienti_ha_priorita_su_errore_per_il_caso_zero_shot` | Zero-shot è osservazione di rilascio, non di provider |
+| `test_esito_e_serializzabile_in_json` | `EsitoRisultato.to_dict()` è JSON-safe |
+| `test_riferimento_vuoto_non_alza_il_livello_di_rigor` | Senza `riferimenti_ticket` vale solo l'euristica generica |
+
+### Integrazione CLI (`tests/test_pipeline_integration.py`)
+
+| Test | Cosa verifica |
+| --- | --- |
+| `test_cli_full_run_attaches_esito_label` | Il campo `esito` compare nel JSON di output con label valida e motivazione |
+| `test_cli_full_run_no_etichette_disables_label` | `--no-etichette` registra `motivazione="etichette disattivate via CLI"` |
+
+## Comandi di riferimento (CLI reale)
+
+```bash
+cd poc
+
+# Default con etichetta
+.venv/bin/python run_pipeline.py --documents docs/ticket_demo/documenti \
+  --query "Come si risolve l'errore E42?" --offline-cloud --no-calibration \
+  --output reports/a3_smoke.json
+# atteso: report con esito.label ∈ {insufficienti, errore, completo, degradato}
+
+# Etichette disattivate
+.venv/bin/python run_pipeline.py --documents docs/ticket_demo/documenti \
+  --query "Come si risolve l'errore E42?" --offline-cloud --no-calibration \
+  --no-etichette --output reports/a3_smoke_disabled.json
+# atteso: esito.motivazione == "etichette disattivate via CLI"
+```
+
+## Stato al merge di A3
+
+- ruff: pulito
+- pytest: 148 passed (17 nuovi `test_etichette.py` + 2 integrazione CLI)
+- `core/etichette.py`: modulo nuovo, indipendente dal resto, 0 dipendenze pesanti
