@@ -89,22 +89,27 @@ può garantire. La formula di partenza, da validare sperimentalmente con
 uno sweep su `k`, è:
 
 ```
-budget_sforamento_ms = k · (RTT_ms + E2E_cloud_ms)
-margine_ms = SLA_ms - (RTT_ms + E2E_cloud_ms + stima_locale_ms)
-accetta_sforamento = margine_ms < budget_sforamento_ms
+sforamento_previsto_ms = max(0, stima_totale_ms - SLA_ms)
+tolleranza_ms = k · E2E_cloud_ms
+accetta_sforamento = sforamento_previsto_ms <= tolleranza_ms
 ```
 
-`RTT_ms` ed `E2E_cloud_ms` provengono dal setup di sessione (§2.2);
-`stima_locale_ms` è la somma dei tempi stimati per le inferenze locali del
-piano corrente, calcolata come nell'implementazione esistente di
-`core/scheduler.py`. `SLA_ms` è il vincolo temporale configurato per la
-sessione.
+dove `stima_totale_ms = stima_locale_ms + E2E_cloud_ms` e `stima_locale_ms`
+è calcolata come nell'implementazione esistente di `core/scheduler.py`.
+La formula confronta la quantità di sforamento **previsto** con la
+tolleranza, entrambe espresse in millisecondi e mai negative.
+
+`E2E_cloud_ms` è la latenza end-to-end misurata dal probe (§2.2). Non si
+aggiunge separatamente un RTT: il probe misura già l'intera chiamata
+cloud, e una seconda componente di rete nella formula sarebbe un doppio
+conteggio. Anche `TTFT_cloud_ms`, quando esposto dal client, viene
+registrato a parte per analisi ma non rientra nella soglia.
 
 Quando `accetta_sforamento` è vero, lo scheduler non rinuncia al piano
 minimo: sceglie comunque `n_ensemble = N_MIN` e marca la decisione con
-`sforamento_accettato=True` e con il valore di `margine_ms` nel campo
-`motivazione`. Lo sforamento è quindi visibile nei report e discusso nel
-capitolo 4, non mascherato da un fallback.
+`sforamento_accettato=True` e con il valore di `sforamento_previsto_ms`
+nel campo `motivazione`. Lo sforamento è quindi visibile nei report e
+discusso nel capitolo 4, non mascherato da un fallback.
 
 Quando `accetta_sforamento` è falso, lo scheduler adotta il valore
 `n_ensemble` determinato dal modello dei tempi entro l'SLA. `N=0` resta una
@@ -112,56 +117,76 @@ Quando `accetta_sforamento` è falso, lo scheduler adotta il valore
 automatico** quando il budget privacy è esaurito (`PrivacyBudgetExhaustedError`).
 Non è più il comportamento di default per SLA incompatibile.
 
-Il coefficiente `k` è il parametro sperimentale della concezione. Valori
-ragionevoli per una prima esplorazione sono `k ∈ {0, 0.1, 0.25, 0.5}`.
-Per `k = 0` il comportamento coincide con l'attuale: l'unico modo per
-accettare lo sforamento è forzarlo con `--force-zero-shot` disattivato.
-Per `k > 0` la soglia cresce linearmente con la somma di `RTT_ms` ed
-`E2E_cloud_ms`, riflettendo l'idea che la variabilità naturale del sistema
-è proporzionale alla parte più rumorosa della catena.
+Il coefficiente `k` è il parametro sperimentale della concezione. Una sola
+chiamata di probe non è sufficiente a caratterizzare la variabilità del
+provider, quindi `k` non è calibrato in modo chiuso: è oggetto di sweep
+sperimentale su `k ∈ {0, 0.1, 0.25, 0.5}`. Per `k = 0` la tolleranza è
+zero e lo scheduler non accetta mai sforamento spontaneamente; serve
+`--force-zero-shot` o un budget privacy esaurito per arrivare a `N = 0`.
+Per `k > 0` la tolleranza cresce linearmente con `E2E_cloud_ms`,
+riflettendo l'ipotesi che la variabilità naturale del sistema sia
+proporzionale alla parte cloud della catena. I risultati dello sweep
+andranno riportati in `poc/docs/esplorazione_soglia/` e discussi nel
+capitolo 4 prima di scegliere un valore definitivo.
 
 ## 4. Etichette sperimentali
 
-Tre etichette affiancano il risultato della richiesta nei report JSON e nei
-trace Langfuse, calcolate a posteriori da euristiche locali non-DP:
+Quattro etichette affiancano il risultato della richiesta nei report JSON
+e nei trace Langfuse. Sono **calcolate a posteriori** da euristiche locali
+non-DP, applicate sul testo già ricevuto dal provider o sulla risposta
+cloud non ancora prodotta. Non modificano il prompt, la query, la
+sequenza di chiamate o il comportamento del prototipo: sono metadati di
+analisi per la discussione del capitolo 4.
 
-- `completo`: il filtro ha rilasciato keyword e il cloud ha restituito un
-  testo coerente con la query;
-- `insufficienti`: il filtro non ha rilasciato keyword. In questo caso il
-  cloud non riceve contenuti utili per rispondere e il suo output, quando
-  presente, è dichiarato come **non fondato sui documenti**. Il prompt
-  cloud include una nota esplicita su questa condizione;
-- `errore`: provider cloud non disponibile o risposta vuota;
-- `degradato`: il filtro ha rilasciato keyword ma la risposta cloud non le
-  utilizza in modo coerente. Rilevato da un controllo locale (numero di
-  keyword presenti nel testo, presenza di frasi "non lo so" o equivalenti).
+Le euristiche che le calcolano sono:
 
-Queste etichette **non modificano il flusso del prototipo**. Non sono
-branching condizionali sul prompt, non cambiano la query al provider, non
-producono risposte diverse per l'utente. Servono alla discussione del
-capitolo 4 sull'effetto del rilascio sull'utilità percepita.
+- `insufficienti`: il filtro DP-KSA non ha rilasciato keyword. È una
+  pura osservazione del rilascio: se la lista è vuota, l'etichetta è
+  `insufficienti`. Non altera il prompt cloud;
+- `errore`: il provider cloud non era disponibile o ha restituito una
+  risposta vuota;
+- `completo`: il filtro ha rilasciato keyword **e** la risposta cloud le
+  riutilizza in modo coerente. L'euristica è operativa: almeno una delle
+  keyword rilasciate compare nel testo della risposta, **e** la risposta
+  non contiene pattern di astensione noti (frasi del tipo "non lo so",
+  "non è possibile rispondere con queste informazioni", "informazioni
+  insufficienti"). Per il caso ticket l'euristica è più stretta: deve
+  essere presente almeno un passaggio della procedura attesa e i
+  passaggi devono comparire nell'ordine previsto dal riferimento;
+- `degradato`: il filtro ha rilasciato keyword e la risposta cloud è
+  arrivata, ma le euristiche di `completo` non sono soddisfatte. È il
+  caso in cui il rilascio non basta a produrre una risposta utilizzabile.
 
-Le euristiche che le calcolano sono disattivabili da CLI e dichiarate
-esplicitamente in `CONFIGURATION.md`. La tesi non rivendica per esse alcuna
-proprietà di privacy o di qualità.
+Queste euristiche sono disattivabili da CLI e i loro parametri sono
+dichiarati in `CONFIGURATION.md`. La tesi non rivendica per esse alcuna
+proprietà di privacy, di correttezza o di garanzia di qualità. Possono
+produrre falsi positivi e falsi negativi; servono a raggruppare i
+risultati per discuterli, non a certificare lo stato della risposta.
 
-## 5. Cosa resta invariato
+## 5. Cosa resta invariato e cosa va aggiornato
 
-La concezione non modifica nessuno dei seguenti elementi:
+La concezione non modifica l'indice dei capitoli, il ruolo del prototipo
+come strumento di misura, la garanzia del filtro DP-KSA, le ipotesi di
+adiacenza, la calibrazione del rumore Gumbel a scala `4/ε` documentata
+in `PRIVACY_ACCOUNTING.md`, il rifiuto di inviare contesti grezzi al
+cloud e la distinzione fra traccia diagnostica e rilascio protetto.
 
-- l'indice e l'articolazione dei capitoli di `struttura.md`;
-- il ruolo del prototipo come strumento di misura del capitolo 4;
-- l'interfaccia pubblica dei moduli in `poc/core/`, in particolare
-  `run_pipeline.py`, `run_request`, `AdaptiveScheduler.schedule`;
-- i 86 test esistenti (`pytest -v` deve restare verde senza modifiche);
-- la garanzia del filtro DP-KSA, le ipotesi di adiacenza, la calibrazione
-  del rumore Gumbel a scala `4/ε` documentata in `PRIVACY_ACCOUNTING.md`;
-- il rifiuto di inviare contesti grezzi al cloud;
-- la distinzione fra traccia diagnostica e rilascio protetto.
+I test esistenti vanno aggiornati per riflettere il nuovo default
+operativo:
+
+- `tests/test_scheduler.py::test_impossible_sla_skips_retrieval_and_engine`
+  documenta il comportamento "SLA incompatibile → N = 0". Il nuovo
+  default accetta lo sforamento entro la tolleranza, quindi il test va
+  aggiornato al nuovo significato e il comportamento precedente va
+  conservato in un test distinto che lo verifica esplicitamente quando
+  `k = 0` o quando è attiva la baseline di confronto;
+- eventuali altri test che si appoggiano al fallback automatico vanno
+  riesaminati con lo stesso criterio.
 
 Le modifiche al codice sono additive: nuovi parametri opzionali, nuovi
 campi nei dataclass esistenti, nuovi report in `run_request`. Nessuna
-funzione esistente cambia semantica senza un branch esplicito.
+funzione esistente cambia semantica senza un ramo di confronto che
+conservi esplicitamente il comportamento precedente.
 
 ## 6. Effetti sulla base di codice e sulla documentazione esistente
 
@@ -175,9 +200,24 @@ Per ogni punto della concezione, il punto di intervento previsto è:
 | Etichette sperimentali | `core/cloud.py` per il campo `esito` in `RisultatoCloud`; `core/pipeline.py` per il calcolo a posteriori | `Bozza/03_Capitolo3.md` §3.4, `Bozza/04_Capitolo4.md` §4.4 |
 | Aggiornamento testi di sintesi | `pseudocodice.md`, `schemaablocchi.md` (sezione "Sviluppi concordati" → "Setup di sessione") | i due file stessi |
 
-Nessun file in `poc/archive/` viene toccato. Nessun test viene rimosso.
-Il workflow git documentato in `AGENTS.md` (branch dedicato, merge `--no-ff`)
-resta la procedura operativa per ciascuno dei punti sopra.
+Nessun file in `poc/archive/` viene toccato. Nessun test viene rimosso;
+i test esistenti vengono aggiornati come descritto al §5. Il workflow
+git documentato in `AGENTS.md` (branch dedicato, merge `--no-ff`) resta la
+procedura operativa per ciascuno dei punti sopra.
+
+## 8. Stato delle funzionalità
+
+I cinque punti della concezione (calibrazione locale, probe cloud,
+formula della soglia di sforamento, etichette sperimentali, sweep su `k`)
+sono interventi **previsti dalla metodologia sperimentale** della tesi.
+Finché non risultano implementati nel codice e verificati dai test,
+vanno descritti nella tesi come previsti, non come funzionalità
+disponibili. La narrativa del capitolo 4 deve restare coerente con
+questa distinzione: i risultati del prototipo attuale sono quelli delle
+campagne descritte in `poc/docs/azienda_demo/RISULTATI.md` e
+`poc/docs/ticket_demo/RISULTATI.md`; i risultati degli interventi
+previsti saranno oggetto di una campagna successiva, da eseguire prima
+di qualsiasi conclusione che li riguardi.
 
 ## 7. Limiti dichiarati
 
