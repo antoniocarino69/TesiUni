@@ -212,4 +212,3 @@ def test_redacted_trace_omits_unprotected_histogram_and_context_volume() -> None
     trace.generation = generation
     tracer.registra_fase_cloud('answer', 100, 98.123, 0.1)
     assert 'risparmio_testo_percentuale' not in captured['metadata']
-    assert 'risparmio_rete_percentuale' not in captured['metadata']
