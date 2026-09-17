@@ -50,6 +50,7 @@ invece il seed opzionale.
 | `--tok-per-sec-generazione` | 50 | Throughput generazione manuale (usato solo con `--no-calibration`) |
 | `--hw-metrics` | disattivo | Snapshot hardware istantanei prima/dopo ogni run (telemetria A5) |
 | `--hw-sample-period` | 0 | Periodo in secondi del sampler continuo durante la run (0 = disattivato). Implica `--hw-metrics` |
+| `--dry-run` | disattivo | Valida corpus e piano senza eseguire inferenza locale né chiamate cloud |
 
 Con i default, cinque prompt da 1000 token non entrano in 1,5 secondi:
 l'adattivo va in zero-shot. Aumentare lo SLA in modo coerente con l'hardware
@@ -62,7 +63,8 @@ Quando il piano minimo non entra nello SLA stimato, lo scheduler confronta lo
 sforamento previsto con una tolleranza proporzionale al round trip cloud:
 
 ```text
-E2E_cloud_ms              = rtt_ms + tempo_cloud_ms
+E2E_cloud_ms              = probe_e2e_ms (A1) se disponibile,
+                            altrimenti rtt_ms + tempo_cloud_ms
 tolleranza_ms             = k · E2E_cloud_ms
 sforamento_piano_minimo   = (E2E_cloud_ms + tempo_locale_N_MIN) − max_latency_ms
 

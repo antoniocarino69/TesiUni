@@ -63,6 +63,8 @@ tempo_disponibile =
      SE N è minore di 5:
          SE k_sforamento > 0:
              calcola sforamento_previsto = tempo_per_5_inferenze - tempo_massimo
+             # tolleranza usa E2E_cloud_ms: probe A1 se disponibile, altrimenti
+             # fallback manuale (tempo_rete + tempo_cloud) come qui sotto.
              tolleranza = k_sforamento × (tempo_rete + tempo_cloud)
              SE sforamento_previsto <= tolleranza:
                  N = 5
@@ -197,13 +199,18 @@ Report e telemetria sono diagnostica sperimentale separata dalla garanzia DP; la
 
 ## Setup implementato
  
- - La calibrazione automatica delle velocità di inferenza è implementata nel modulo `core/calibration.py` e attivata di default nella CLI. Il flag `--no-calibration` la disattiva e ripristina i valori di default.
- - **Soglia di sforamento accettabile (A2):** lo scheduler espone `--sforamento-k`. Con `k>0`, se il piano minimo non entra nello SLA, lo sforamento previsto per `N_MIN` viene confrontato con `k × E2E_cloud_ms`; se rientra nella tolleranza pianifica `N=N_MIN` e segnala `sforamento_accettato`. Con `k=0` (default) resta il comportamento prudente. `--force-zero-shot` forza `N=0` ignorando SLA e tolleranza.
- - **Probe cloud E2E (A1):** la CLI esegue una sola generazione pubblica di sessione (`core/cloud.py::CloudGenerator.probe`) e usa il valore misurato di `E2E_cloud_ms` per alimentare la tolleranza A2 al posto della somma manuale `RTT + tempo_cloud_ms`. Il costo del probe (`cloud_probe_ms`) entra in `cli_total_ms`, mai in `request_ms`. Con `--offline-cloud` o senza credenziali il probe viene saltato e `cloud_probe_skipped=True`.
- - **Etichette sperimentali (A3):** dopo la risposta cloud, `core/etichette.py::classifica_risultato` calcola una label (`insufficienti`, `errore`, `completo`, `degradato`) su `(decisione, dp, risposta)` con la variante stretta per ticket quando il `RequestConfig` include `riferimenti_ticket`. Sono metadati di analisi: non cambiano prompt, sequenza di chiamate né comportamento. Disattivabili con `--no-etichette`.
- - **Estensioni benchmark (A4):** `benchmark_scheduler.py` calibra automaticamente le velocità locali all'avvio (default) e propaga i valori misurati a ogni `RequestConfig`. CLI e REPL accettano `--no-calibration`, `--tok-per-sec-prefill`, `--tok-per-sec-generazione`. Allineato con `run_pipeline.py`.
- - **Telemetria hardware (A5):** `core/telemetry_hw.py` raccoglie snapshot del "ferro" (temperatura CPU/GPU, util, RAM, VRAM, Watt, memory pressure) via `powermetrics`/`nvidia-smi`/`sensors`/`top`/`vm_stat`. CLI e REPL accettano `--hw-metrics` (istantanei) e `--hw-sample-period N` (sampler continuo su thread). `LocalNeuralEngine.genera_bozza` misura il TTFT reale via stream llama-cpp (`tempo_prefill_reale_sec`), distinto dalla stima euristica (`tempo_prefill_stimato_sec`). Report JSON: `prefill_real_ms`, `hw_before`, `hw_after`, `hw_samples`.
- 
- ## Sviluppi concordati, ancora da implementare
+- La calibrazione automatica delle velocità di inferenza è implementata nel modulo `core/calibration.py` e attivata di default nella CLI. Il flag `--no-calibration` la disattiva e ripristina i valori di default.
+- **Soglia di sforamento accettabile (A2):** lo scheduler espone `--sforamento-k`. Con `k>0`, se il piano minimo non entra nello SLA, lo sforamento previsto per `N_MIN` viene confrontato con `k × E2E_cloud_ms`; se rientra nella tolleranza pianifica `N=N_MIN` e segnala `sforamento_accettato`. Con `k=0` (default) resta il comportamento prudente. `--force-zero-shot` forza `N=0` ignorando SLA e tolleranza.
+- **Probe cloud E2E (A1):** la CLI esegue una sola generazione pubblica di sessione (`core/cloud.py::CloudGenerator.probe`) e usa il valore misurato di `E2E_cloud_ms` per alimentare la tolleranza A2 al posto della somma manuale `RTT + tempo_cloud_ms`. Il costo del probe (`cloud_probe_ms`) entra in `cli_total_ms`, mai in `request_ms`. Con `--offline-cloud` o senza credenziali il probe viene saltato e `cloud_probe_skipped=True`.
+- **Etichette sperimentali (A3):** dopo la risposta cloud, `core/etichette.py::classifica_risultato` calcola una label (`insufficienti`, `errore`, `completo`, `degradato`) su `(decisione, dp, risposta)` con la variante stretta per ticket quando il `RequestConfig` include `riferimenti_ticket`. Sono metadati di analisi: non cambiano prompt, sequenza di chiamate né comportamento. Disattivabili con `--no-etichette`.
+- **Estensioni benchmark (A4):** `benchmark_scheduler.py` calibra automaticamente le velocità locali all'avvio (default) e propaga i valori misurati a ogni `RequestConfig`. CLI e REPL accettano `--no-calibration`, `--tok-per-sec-prefill`, `--tok-per-sec-generazione`. Allineato con `run_pipeline.py`.
+- **Telemetria hardware (A5):** `core/telemetry_hw.py` raccoglie snapshot del "ferro" (temperatura CPU/GPU, util, RAM, VRAM, Watt, memory pressure) via `powermetrics`/`nvidia-smi`/`sensors`/`top`/`vm_stat`. CLI e REPL accettano `--hw-metrics` (istantanei) e `--hw-sample-period N` (sampler continuo su thread). `LocalNeuralEngine.genera_bozza` misura il TTFT reale via stream llama-cpp (`tempo_prefill_reale_sec`), distinto dalla stima euristica (`tempo_prefill_stimato_sec`). Report JSON: `prefill_real_ms`, `hw_before`, `hw_after`, `hw_samples`. 
+
+## Storico sviluppi (chiusi al 16/09/2026)
+
+Tutte le funzionalità concordate A1–A5 risultano implementate e coperte dai
+test al commit di audit. L'elenco originale degli sviluppi previsti si è
+esaurito; questa sezione resta come riferimento storico. Eventuali
+sviluppi futuri vanno aggiunti qui sotto, con data e branch di lavoro.
 
 
