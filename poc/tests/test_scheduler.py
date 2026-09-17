@@ -77,6 +77,55 @@ def test_epsilon_allocations_and_pass_rate_are_valid() -> None:
     )
 
 
+def test_epsilon_split_consumes_budget_exactly() -> None:
+    """Il partizionamento di ε deve saturare il budget (uguaglianza stretta).
+
+    Per costruzione (epsilon_find = ε·split, epsilon_top = ε - epsilon_find)
+    la somma è esattamente ε a meno di errori floating point. Verifica
+    esplicita dell'invariante AGENTS.md 'epsilon_find + epsilon_top ≤ epsilon'
+    in versione stretta: il budget non viene mai sprecato né sovra-allocato.
+    """
+    decision = AdaptiveScheduler().schedule(
+        _documents(),
+        epsilon_budget=1.5,
+        latenza_massima_ms=30_000.0,
+    )
+    assert decision.epsilon_find_best_k + decision.epsilon_top_k_ptr == pytest.approx(
+        1.5, abs=1e-12
+    )
+
+
+@pytest.mark.parametrize("target_n", [1, 2, 3, 4])
+def test_ensemble_size_in_forbidden_band_is_unreachable(target_n: int) -> None:
+    """AGENTS.md: N ∈ {0} ∪ [5, 40], mai 1–4.
+
+    Lo scheduler non può produrre N ∈ [1, 4] né per via adattiva né per
+    via fixed_n (la validazione di fixed_n rifiuta i valori fuori dominio
+    prima ancora del calcolo).
+    """
+    scheduler = AdaptiveScheduler()
+
+    # Caso 1: scheduling adattivo con k molto alto. Lo scheduler sceglie
+    # 0 oppure ≥ 5 (qui sceglie N_MAX per SLA ampio), mai valori intermedi.
+    adaptive = scheduler.schedule(
+        _documents(),
+        epsilon_budget=1.0,
+        latenza_massima_ms=30_000.0,
+        k_sforamento=10.0,
+    )
+    assert adaptive.n_ensemble in (0,) or adaptive.n_ensemble >= 5
+
+    # Caso 2: fixed_n esplicito chiede un valore in [1, 4] → deve essere
+    # rifiutato prima della decisione perché fuori dominio.
+    with pytest.raises(ValueError):
+        scheduler.schedule(
+            _documents(),
+            epsilon_budget=1.0,
+            latenza_massima_ms=30_000.0,
+            fixed_n=target_n,
+        )
+
+
 def test_ptr_pass_rate_uses_the_algorithm_2_gap_boundary() -> None:
     decision = AdaptiveScheduler().schedule(
         _documents(),
