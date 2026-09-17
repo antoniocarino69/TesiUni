@@ -36,6 +36,37 @@ def test_gumbel_noise_is_centered_and_has_requested_scale() -> None:
     assert estimated_scale == pytest.approx(4.0, abs=0.16)
 
 
+def test_gumbel_noise_scale_holds_for_other_epsilon() -> None:
+    """La garanzia di scala 4/ε deve valere anche per ε ≠ 1.0.
+
+    Con ε = 2.0 la scala attesa è 2.0 (= 4/2). Stima dalla stessa
+    formula di test_gumbel_noise_is_centered_and_has_requested_scale:
+    std · √6 / π.
+    """
+    samples = sample_gumbel_noise(
+        epsilon=2.0,
+        size=10_000,
+        rng=np.random.default_rng(2026),
+    )
+    assert isinstance(samples, np.ndarray)
+    estimated_scale = float(np.std(samples, ddof=1)) * math.sqrt(6.0) / math.pi
+    assert estimated_scale == pytest.approx(2.0, abs=0.10)
+
+
+def test_top_k_ptr_on_empty_histogram_never_releases() -> None:
+    """Istogramma vuoto: nessun token osservato, zero-shot sicuro."""
+    result = top_k_with_ptr(
+        {},
+        k=1,
+        delta=1e-4,
+        sigma=0.01,
+        rng=np.random.default_rng(0),
+    )
+    assert result.gap == 0.0
+    assert result.released_tokens == ()
+    assert not result.passed
+
+
 def test_find_best_k_respects_regularizer_bounds() -> None:
     histogram = {f"token{index}": 30 - index for index in range(8)}
     selected = find_best_k(
