@@ -295,6 +295,66 @@ def _linux_meminfo() -> tuple[float, float]:
 
 
 # ---------------------------------------------------------------------------
+# macmon integration (Apple Silicon, no sudo required)
+# ---------------------------------------------------------------------------
+
+
+def _macmon_snapshot() -> HwSnapshot | None:
+    """Read one JSON sample from ``macmon pipe``.
+
+    Returns ``None`` when ``macmon`` is missing or the output cannot be
+    parsed.  ``macmon`` is the preferred reader on macOS because it
+    exposes CPU/GPU temperature, power, and usage without sudo on Apple
+    Silicon.
+
+    ``macmon pipe`` is a streaming command (one JSON line per interval);
+    we read exactly one line then terminate the process.
+    """
+    if not shutil.which("macmon"):
+        return None
+    import json as _json
+
+    try:
+        proc = subprocess.Popen(
+            ["macmon", "pipe", "-i", "100"],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.DEVNULL,
+            text=True,
+        )
+        line = proc.stdout.readline()  # type: ignore[union-attr]
+        proc.terminate()
+        proc.wait(timeout=2)
+    except (OSError, subprocess.TimeoutExpired):
+        return None
+    if not line:
+        return None
+    try:
+        data = _json.loads(line)
+    except (_json.JSONDecodeError, KeyError):
+        return None
+    temp = data.get("temp", {})
+    mem = data.get("memory", {})
+    ram_total = mem.get("ram_total", 0) / (1024 ** 3)
+    ram_used = mem.get("ram_usage", 0) / (1024 ** 3)
+    cpu_temp = temp.get("cpu_temp_avg")
+    gpu_temp = temp.get("gpu_temp_avg")
+    return HwSnapshot(
+        timestamp=time.time(),
+        cpu_temp_c=cpu_temp if cpu_temp and cpu_temp > 0 else None,
+        gpu_temp_c=gpu_temp if gpu_temp and gpu_temp > 0 else None,
+        soc_temp_c=None,
+        cpu_util_pct=data.get("cpu_usage_pct"),
+        gpu_util_pct=data.get("gpu_scaled_ratio"),
+        ram_used_gb=ram_used,
+        ram_total_gb=ram_total,
+        vram_used_gb=None,  # unified memory on Apple Silicon
+        cpu_watt=data.get("cpu_power"),
+        gpu_watt=data.get("gpu_power"),
+        memory_pressure_pct=None,
+    )
+
+
+# ---------------------------------------------------------------------------
 # Snapshot
 # ---------------------------------------------------------------------------
 
@@ -304,6 +364,28 @@ def snapshot() -> HwSnapshot:
     system = platform.system()
     now = time.time()
     if system == "Darwin":
+        # macmon is preferred: temperature + power without sudo
+        mac = _macmon_snapshot()
+        if mac is not None:
+            # fill in metrics macmon doesn't provide
+            pressure = _macos_memory_pressure()
+            if pressure is not None:
+                pressure = max(0.0, min(100.0, 100.0 - pressure))
+            return HwSnapshot(
+                timestamp=mac.timestamp,
+                cpu_temp_c=mac.cpu_temp_c,
+                gpu_temp_c=mac.gpu_temp_c,
+                soc_temp_c=mac.soc_temp_c,
+                cpu_util_pct=mac.cpu_util_pct,
+                gpu_util_pct=mac.gpu_util_pct,
+                ram_used_gb=mac.ram_used_gb,
+                ram_total_gb=mac.ram_total_gb,
+                vram_used_gb=mac.vram_used_gb,
+                cpu_watt=mac.cpu_watt,
+                gpu_watt=mac.gpu_watt,
+                memory_pressure_pct=pressure,
+            )
+        # fallback to powermetrics / top / vm_stat
         cpu_temp = _macos_cpu_temp()
         gpu_temp = _macos_gpu_temp()
         soc_temp = _macos_soc_temp()
