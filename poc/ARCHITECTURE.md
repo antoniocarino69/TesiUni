@@ -108,9 +108,14 @@ altrimenti lo scheduler usa il fallback manuale e la sezione
 fondamentali per la tesi (Architetture e Reti): temperatura CPU/GPU/SoC,
 utilizzo core, RAM, VRAM, Watt, memory pressure. Il modulo espone
 `snapshot()` (istantaneo) e `HwSampler.sample_until(stop_event)` (campioni
-a frequenza configurabile durante la run). Letture via `subprocess` su
-tool nativi: `powermetrics` (macOS), `nvidia-smi` e `sensors` (Linux),
-`top`, `vm_stat`, `/proc/meminfo`, `sysctl`. Zero dipendenze nuove.
+a frequenza configurabile durante la run).
+
+Su macOS con Apple Silicon il reader primario è `macmon`
+(https://github.com/vladkens/macmon): espone temperatura, watt e utilizzo
+CPU/GPU senza sudo. Installazione: `brew install macmon`. Senza macmon il
+modulo ricade su `powermetrics` (richiede sudo per temperatura e watt),
+`top`, `vm_stat`, `sysctl`. Su Linux: `nvidia-smi`, `sensors`, `top`,
+`/proc/meminfo`. Zero dipendenze Python aggiuntive.
 
 I sensori che richiedono sudo (`powermetrics` su macOS, letture di
 temperatura/watt) restituiscono `None` quando il tool manca o non è

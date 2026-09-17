@@ -48,7 +48,7 @@ invece il seed opzionale.
 | `--no-etichette` | disattivo | Disattiva il calcolo delle etichette sperimentali (A3) |
 | `--tok-per-sec-prefill` | 250 | Throughput prefill manuale (usato solo con `--no-calibration`); il benchmark_scheduler e la REPL rispettano questo flag |
 | `--tok-per-sec-generazione` | 50 | Throughput generazione manuale (usato solo con `--no-calibration`) |
-| `--hw-metrics` | disattivo | Snapshot hardware istantanei prima/dopo ogni run (telemetria A5) |
+| `--hw-metrics` | disattivo | Snapshot hardware istantanei prima/dopo ogni run (telemetria A5). Su macOS Apple Silicon consigliato `macmon` (`brew install macmon`) per temperatura e watt senza sudo; fallback a `powermetrics` con `POC_HW_SUDO=1` |
 | `--hw-sample-period` | 0 | Periodo in secondi del sampler continuo durante la run (0 = disattivato). Implica `--hw-metrics` |
 | `--dry-run` | disattivo | Valida corpus e piano senza eseguire inferenza locale né chiamate cloud |
 

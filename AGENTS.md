@@ -22,6 +22,7 @@
 
 - Eseguire i comandi dalla directory `poc/` e usare sempre `.venv/bin/python`, non il Python di sistema.
 - Setup: `.venv/bin/python -m pip install -r requirements-dev.txt` (include anche `requirements.txt`). Se manca il benchmark, eseguire `.venv/bin/python scripts/fetch_real_dataset.py`.
+- Telemetria hardware su macOS Apple Silicon: installare `macmon` (`brew install macmon`). Espone temperatura, watt e utilizzo CPU/GPU senza sudo. Senza macmon il modulo ricade su `powermetrics` (sudo necessario per temperatura e watt). Su Linux servono `nvidia-smi` e `sensors` (lm-sensors).
 - Suite completa: `.venv/bin/python -m pytest -v`.
 - Test mirato: `.venv/bin/python -m pytest -q tests/test_scheduler.py` oppure aggiungere `::nome_del_test` al percorso.
 - Lint: `.venv/bin/python -m ruff check .`. Ruff usa Python 3.10, limite di 100 caratteri e legge `poc/pyproject.toml`; esclude `archive/`, `models/` e `.venv/`.
