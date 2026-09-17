@@ -25,7 +25,7 @@ misura conseguenti.
 | Telemetria hardware (misure sul "ferro") | Implementata in `core/telemetry_hw.py` cross-platform (macOS + Linux); `--hw-metrics` e `--hw-sample-period N` su CLI/REPL; TTFT locale reale via stream llama-cpp; default spento per preservare il determinismo pytest | AGENTS.md (Architetture e Reti)                |
 | Campagne offline (cloud simulato)                                | Eseguite: corpus salariale e ticket                                                                                                                                                                 | `docs/azienda_demo/RISULTATI.md`, `docs/ticket_demo/RISULTATI.md` |
 | Esecuzioni con provider reale                                    | 4 run singole, non ripetute                                                                                                                                                                         | `docs/test_preliminari_settembre2026.md`                          |
-| Capitoli bozza                                                   | `Bozza/` presente ma non versionato (untracked); `tesi_finale/` ancora da creare; Cap. 3 contiene riferimenti a sviluppi previsti ormai chiusi da allineare                                                              | `Bozza/`                                                          |
+| Capitoli bozza                                                   | `Bozza/` presente ma non versionato (untracked); `tesi_finale/` ancora da creare; Cap. 2, 3, 5 allineati al codice attuale al 17/09/2026; Cap. 4 in attesa dei dati delle campagne sperimentali                                                  | `Bozza/`                                                          |
 
 Conseguenza operativa: la fase A (A1 probe, A2 soglia di sforamento, A3
 etichette, A4 estensioni benchmark, A5 telemetria hardware) è chiusa al
@@ -406,9 +406,9 @@ quelle solo "interessanti" vanno in §7 o nei promemoria personali.
 | 5 | Eseguire C1 (ripetizioni provider reale, 5 repliche/caso) | Non eseguita; account OpenCode al limite mensile | Verificare disponibilità account, altrimenti provider alternativo |
 | 6 | Eseguire D (analisi utilità risposte) | Non eseguita | Dopo C1; usa `core/etichette` per il confronto con giudizio manuale |
 | 7 | Eseguire E (confronto hardware) | Non eseguita; solo Mac ARM64 misurato | Predisporre macchina x86 con GPU NVIDIA; replicare CLI + `--hw-metrics`; sintesi in `poc/docs/esplorazione_hw/CONFRONTO.md` |
-| 8 | Stesura capitoli | `Bozza/` untracked, `tesi_finale/` assente | Versionare `Bozza/`, creare `tesi_finale/`, allineare Cap. 3 al codice attuale (rimuovere riferimenti a "sviluppi previsti" ormai chiusi) |
-| 9 | Allineamento `Bozza/03_Capitolo3.md` al codice attuale | Non eseguito | Rimuovere le frasi su "calibrazione ancora da chiudere", "probe da implementare", TTFT come misura diretta (oggi è stima euristica) |
-| 10 | Allineamento `Bozza/04_Capitolo4.md` ai dati | Non eseguito | Inserire numeri solo dopo l'esecuzione delle campagne; riportare dimensione campionaria e condizioni di misura |
+| 8 | Stesura capitoli | `Bozza/` untracked, `tesi_finale/` assente | Versionare `Bozza/`, creare `tesi_finale/`; Cap. 2, 3, 5 allineati al codice attuale (17/09/2026); Cap. 4 in attesa dati campagne |
+| 9 | Allineamento `Bozza/03_Capitolo3.md` al codice attuale | **Completato** 17/09/2026: aggiunti calibrazione, probe A1, etichette A3, telemetria A5; TTFT corretto in stima vs misura reale; seed ridimensionato a compatibilità; test e audit aggiornati | Nessuna |
+| 10 | Allineamento `Bozza/04_Capitolo4.md` ai dati | Non eseguito; bozza assente (attesa campagne B-E) | Inserire numeri solo dopo l'esecuzione delle campagne; riportare dimensione campionaria e condizioni di misura |
 | 11 | Dichiarazione formale del confronto hardware al relatore | Da decidere la formulazione | Da concordare con l'utente: la fase E è ora pianificata, va comunicato che è parte integrante della tesi (non "sviluppo futuro") |
 | 12 | Limitare l'uso di `LANGFUSE_CAPTURE_SENSITIVE` ai soli esperimenti autorizzati | Policy già in `AGENTS.md`, ma va richiamata in ogni run di campagna | Promemoria da spostare in testa alle checklist di C1, B, D |
 
