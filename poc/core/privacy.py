@@ -424,6 +424,12 @@ def _find_best_k_details(
         noises[k] = noise
         # r(k) is zero in the configured interval and -infinity outside it.
         scores[k] = candidate_gaps[k] + noise
+    # Tie-break: il paper non specifica l'ordine di selezione a parità di
+    # score (scores[k] + Gumbel rumore possono coincidere con probabilità
+    # ~0 in pratica, ma la scelta deve essere deterministica). Scegliamo
+    # il k più piccolo tramite -k nel secondo elemento della tupla: è una
+    # scelta locale non documentata nel paper, ma indipendente dal
+    # contenuto privato (k_hat non è un output osservabile).
     k_hat = max(candidati, key=lambda k: (scores[k], -k))
     return FindBestKResult(
         k_hat=k_hat,
@@ -575,6 +581,12 @@ def _log_cosh(value: float) -> float:
 
 def epsilon_em_rdp(alpha: float, epsilon: float) -> float:
     """Calculate Theorem A.9's RDP bound for the exponential mechanism.
+
+    The returned value is ``min(bound_quadratico, bound_log_cosh)``: the
+    quadratic bound ``alpha * epsilon**2 / 2`` dominates for small alpha,
+    while the log-cosh bound from Theorem A.9 dominates for large alpha.
+    We take the tightest of the two at every order, which is the standard
+    composition used here and matches the implementation in line 597.
 
     Args:
         alpha: Rényi order, strictly greater than one.
