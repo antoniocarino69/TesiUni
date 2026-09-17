@@ -86,6 +86,29 @@ def test_custom_model_url_is_used_for_a_missing_destination(
     assert destination.read_bytes() == b"partial"
 
 
+def test_missing_content_length_still_accepts_non_empty_download(
+    monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+) -> None:
+    """Content-Length assente: nessuna verifica di consistenza, ma il
+    download non-vuoto deve andare a buon fine (atomicità basata sui byte
+    effettivamente ricevuti)."""
+    destination = tmp_path / "model.gguf"
+    response = _InterruptedResponse()
+    response.headers = {}
+    response.iter_content = lambda chunk_size: iter([b"partial"])  # type: ignore[method-assign]
+    monkeypatch.setattr(requests, "get", lambda *args, **kwargs: response)
+    assicura_presenza_modello(destination)
+    assert destination.read_bytes() == b"partial"
+
+
+@pytest.mark.parametrize("bad_url", ["", "   ", None, 123])
+def test_invalid_model_url_is_rejected(tmp_path: Path, bad_url: object) -> None:
+    """URL vuoto, non-stringa o None deve essere rifiutato prima del download."""
+    destination = tmp_path / "model.gguf"
+    with pytest.raises(ValueError):
+        assicura_presenza_modello(destination, model_url=bad_url)  # type: ignore[arg-type]
+
+
 def test_public_prompt_cap_includes_query_and_template() -> None:
     from core.engine import LocalNeuralEngine
     from core.model_config import costruisci_prompt
