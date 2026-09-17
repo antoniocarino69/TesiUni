@@ -4,9 +4,12 @@ Questo documento spiega il funzionamento attuale con parole leggibili. Non è co
 
 Una **inferenza locale** è una volta in cui il modello sul computer legge una domanda e un estratto e genera una breve risposta. **N** indica quante inferenze pianificare; **k** indica quante parole proporre al filtro. Sono due numeri diversi.
 
-## Setup di sessione: calibrazione delle velocità
+## Setup di sessione: calibrazione delle velocità e probe cloud
 
-All'avvio della sessione sperimentale, prima di elaborare le domande, il sistema misura le velocità reali del modello locale con prove su testi pubblici.
+All'avvio della sessione sperimentale, prima di elaborare le domande, il
+sistema misura le velocità reali del modello locale con prove su testi
+pubblici. Se sono configurate credenziali cloud, esegue anche una sola
+generazione pubblica di probe per misurare `E2E_cloud_ms` end-to-end.
 
 ```text
 ALL'AVVIO DELLA SESSIONE (una sola volta):
@@ -28,23 +31,32 @@ ALL'AVVIO DELLA SESSIONE (una sola volta):
         usa le velocità di default (prefill=250, generazione=50 tok/s)
         tempo_calibrazione = 0
 
+    SE credenziali cloud configurate e non --offline-cloud:
+        esegui una generazione pubblica di probe
+            (prompt fisso, max 16 token, niente contenuti privati)
+        misura il tempo complessivo della chiamata
+        E2E_cloud_ms = tempo misurato dal probe
+        cloud_probe_skipped = falso
+    ALTRIMENTI:
+        E2E_cloud_ms = RTT + tempo_cloud_ms (stima manuale)
+        cloud_probe_skipped = vero
+
+    # Il probe alimenta la tolleranza A2 al posto della stima manuale;
+    # il suo costo entra in cli_total_ms, mai in request_ms.
+
     mantieni il modello e le misure in memoria per tutta la sessione
 ```
 
-Le misure valgono per la macchina, il regime termico e la versione del modello della sessione corrente. Il tempo di calibrazione è riportato separatamente dal tempo delle singole richieste.
+Le misure valgono per la macchina, il regime termico e la versione del modello della sessione corrente. Il tempo di calibrazione è riportato separatamente dal tempo delle singole richieste. Il costo del probe entra in `cli_total_ms` ma non in `request_ms`: il probe è setup di sessione, non lavoro utile.
 
 ## Percorso generale
 
 ```text
 QUANDO ARRIVA UNA DOMANDA:
 
-    ALL'AVVIO DELLA SESSIONE:
-        SE la calibrazione è attiva (default): misura velocità locali
-        SE credenziali cloud configurate: esegui una generazione pubblica
-            per misurare E2E_cloud_ms (probe). Costo in cli_total_ms,
-            mai in request_ms.
-        SE --offline-cloud o niente credenziali: probe saltato,
-            E2E_cloud_ms = RTT + tempo_cloud_ms (stima manuale).
+    # setup di sessione già eseguito: velocità locali e (se disponibili)
+    # E2E_cloud_ms dal probe. Le velocità restano in memoria per tutta la
+    # sessione; il probe non viene rieseguito per ogni domanda.
 
     leggi il tempo massimo desiderato
     leggi le velocità locali (calibrate all'avvio o di default)

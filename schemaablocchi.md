@@ -4,7 +4,7 @@ Il diagramma descrive il funzionamento attuale della modalit√† adattiva. **N** √
 
 ```mermaid
 flowchart TD
-    SETUP["Calibrazione di sessione<br/>prove su testi pubblici<br/>(una volta all'avvio)"] --> A
+    SETUP["Setup di sessione (una volta all'avvio)<br/>calibrazione: prove su testi pubblici<br/>+ probe E2E cloud (se credenziali e non --offline-cloud)"] --> A
 
     A["L'utente pone una domanda"] --> B
 

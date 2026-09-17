@@ -20,17 +20,18 @@ misura conseguenti.
 | Probe cloud di latenza (E2E)                                     | Implementato; una sola chiamata pubblica per sessione, costo in `cli_total_ms` non in `request_ms`, salta con `--offline-cloud` o senza credenziali; vedi `core/cloud.py::CloudGenerator.probe` | CONCEZIONE §2.2                                                   |
 | Soglia di sforamento accettabile + parametro k                   | Implementata; default `k=0` conserva il comportamento prudente, `--sforamento-k` apre la tolleranza; visibile in `sforamento_previsto_ms`, `sforamento_piano_minimo_ms`, `tolleranza_sforamento_ms` | CONCEZIONE §3                                                     |
 | Etichette sperimentali (completo/degradato/insufficienti/errore) | Implementate in `core/etichette.py`; calcolate a posteriori in `core/pipeline.py`; euristiche documentate in CONCEZIONE §4 (variante stretta per ticket via `riferimenti_ticket`); disattivabili con `--no-etichette` | CONCEZIONE §4                                                     |
-| Sweep su k in `docs/esplorazione_soglia/`                        | **Non eseguito**, directory assente                                                                                                                                                                 | CONCEZIONE §3                                                     |
+| Sweep su k in `poc/docs/esplorazione_soglia/`                        | **Non eseguito**, directory assente                                                                                                                                                                 | CONCEZIONE §3                                                     |
 | Estensioni benchmark (calibrazione automatica, flag throughput)  | Implementate; `benchmark_scheduler.py` calibra per default; `--no-calibration`, `--tok-per-sec-prefill/--generazione` su CLI/REPL | CONCEZIONE §3                                                     |
 | Telemetria hardware (misure sul "ferro") | Implementata in `core/telemetry_hw.py` cross-platform (macOS + Linux); `--hw-metrics` e `--hw-sample-period N` su CLI/REPL; TTFT locale reale via stream llama-cpp; default spento per preservare il determinismo pytest | AGENTS.md (Architetture e Reti)                |
 | Campagne offline (cloud simulato)                                | Eseguite: corpus salariale e ticket                                                                                                                                                                 | `docs/azienda_demo/RISULTATI.md`, `docs/ticket_demo/RISULTATI.md` |
 | Esecuzioni con provider reale                                    | 4 run singole, non ripetute                                                                                                                                                                         | `docs/test_preliminari_settembre2026.md`                          |
-| Capitoli bozza                                                   | Cap. 4 riscritto sui dati misurati; cap. 3 in parte generico e da allineare dopo le campagne                                                                                                        | `Bozza/`                                                          |
+| Capitoli bozza                                                   | `Bozza/` presente ma non versionato (untracked); `tesi_finale/` ancora da creare; Cap. 3 contiene riferimenti a sviluppi previsti ormai chiusi da allineare                                                              | `Bozza/`                                                          |
 
-Conseguenza operativa: finché probe (A1) ed etichette (A3) non esistono nel
-codice, la tesi deve descriverli come previsti. Le campagne che li usano
-(fasi B, C1, D) vengono dopo la fase A. Le campagne che usano solo
-strumenti esistenti (C2, C3, C4) possono partire subito.
+Conseguenza operativa: la fase A (A1 probe, A2 soglia di sforamento, A3
+etichette, A4 estensioni benchmark, A5 telemetria hardware) è chiusa al
+commit di audit del 16/09/2026; gli strumenti esistono e i test sono
+verdi. Restano da eseguire le campagne sperimentali delle fasi B, C, D
+ed E: nessuna richiede modifiche al meccanismo DP.
 
 ## 2. Regole per chi esegue
 
@@ -90,10 +91,10 @@ Chiusura: gate verdi; con `cloud_probe_ms` e `E2E_cloud_ms_ms` plausibili (confr
 ### A2. Soglia di sforamento accettabile
 
 - Implementato in `core/scheduler.py` con la formula della CONCEZIONE §3:
-  `tolleranza_ms = k · (RTT + tempo_cloud_ms)`;
+  `tolleranza_ms = k · E2E_cloud_ms`;
   `accetta_sforamento = sforamento_piano_minimo_ms <= tolleranza_ms`.
-  Finché il probe A1 non è in piedi, `E2E_cloud_ms` è la somma manuale dei due
-  parametri.
+  `E2E_cloud_ms` è la misura reale del probe A1 quando disponibile,
+  altrimenti la somma manuale `RTT + tempo_cloud_ms`.
 - Se accetta: `n_ensemble = N_MIN`, campi `sforamento_accettato`,
   `sforamento_previsto_ms`, `sforamento_piano_minimo_ms`,
   `tolleranza_sforamento_ms` e `k_sforamento` nella decisione. Se non accetta:
@@ -330,6 +331,44 @@ esplicita, non della sola presenza di keyword.
   nascosto.
 - Sul cloud simulato nessun punteggio di qualità: dichiararlo ogni volta.
 
+## 6b. Fase E — Confronto hardware cross-platform
+
+Contributo distintivo della proposta per Architetture e Reti (analisi
+del thermal throttling, throughput edge, latenza locale al variare
+dell'hardware). Lo strumento è già implementato in `core/telemetry_hw.py`
+ed è cross-platform; manca l'esecuzione su macchine diverse dal Mac ARM64
+di sviluppo. Va dichiarata come fase di lavoro non come "sviluppo
+futuro": il confronto è parte integrante della tesi.
+
+Dipendenze: A5 (telemetria), C3 (adattivo vs fisso — produce le metriche
+edge da confrontare).
+
+- **Macchina A (riferimento):** Apple Silicon (Apple M1/M2/M3), raccolta
+  già disponibile via `powermetrics` + `top` + `vm_stat` + `sysctl`.
+  Le misure vanno in `poc/docs/esplorazione_hw/M1/RISULTATI.md` con
+  allegato il JSON del report (`poc/reports/hw_mac_*.json`).
+- **Macchina B (x86 con acceleratore):** desktop o laptop Linux con GPU
+  NVIDIA (es. RTX 2070). Letture via `nvidia-smi` + `sensors` + `top` +
+  `/proc/meminfo`. Stessa CLI, stesso modello GGUF, stesse query di C3
+  su corpus salariale e ticket. Output in
+  `poc/docs/esplorazione_hw/x86_rtx2070/RISULTATI.md`.
+- **Macchina C (x86 senza acceleratore, opzionale):** per isolare
+  l'effetto della GPU dal thermal throttling del pacchetto CPU+GPU.
+
+Per ogni macchina raccogliere: `--hw-metrics` + `--hw-sample-period 5`
+per almeno 30 minuti di run, includendo il drift termico fra run
+iniziale e run finale; stessa griglia di C3; campioni hw durante le
+inferenze per correlare `tempo_per_inferenza` con temperatura/utilizzo.
+
+Sintesi attesa in `poc/docs/esplorazione_hw/CONFRONTO.md`: tabella con
+per-macchina (P_{prefill}, P_{generazione}, T_{idle}, T_{sotto_carico},
+ΔT dopo 30 min, jitter di latency). Limitare le conclusioni alle
+misure: nessuna estrapolazione a hardware non testato.
+
+Costo indicativo: solo tempo macchina locale, nessuna chiamata cloud
+aggiuntiva. La fase E non blocca la stesura della tesi: Cap. 3 può
+partire con le sole misure Mac, Cap. 4.2 può essere esteso dopo.
+
 ## 7. Ordine di esecuzione consigliato
 
 | #   | Fase                           | Dipende da | Costo provider         | Tempo locale stimato |
@@ -339,34 +378,63 @@ esplicita, non della sola presenza di keyword.
 | 3   | A3 etichette                   | —          | 0                      | medio                |
 | 4   | A4 benchmark scheduler         | A1, A2     | 0                      | basso                |
 | 5   | C4 effetto calibrazione        | —          | 0                      | basso                |
-| 6   | C3 adattivo vs fisso (offline) | A4         | 0                      | alto                 |
-| 7   | C2 griglia N×ε (offline)       | —          | 0                      | alto                 |
+| 6   | C2 griglia N×ε (offline)       | —          | 0                      | alto                 |
+| 7   | C3 adattivo vs fisso (offline) | A4         | 0                      | alto                 |
 | 8   | B sweep su k                   | A1, A2     | ~40 chiamate           | medio                |
 | 9   | C1 ripetizioni provider reale  | A3         | ~20 chiamate           | medio                |
 | 10  | D utilità                      | A3, C1     | 0 (analisi)            | medio                |
+| 11  | E confronto hardware           | A5, C3     | 0 (tempo macchina)     | medio–alto           |
 
 Le fasi 1–3 sono indipendenti fra loro e possono essere eseguite in
 qualunque ordine; la tabella mette prima le modifiche che sbloccano più
 campagne. Le fasi 5–7 non richiedono modifiche e possono partire subito se
 la fase A viene rinviata, ma C3 senza A4 va dichiarata tarata sui default.
 
-## 8. Cosa aggiornare alla fine
+## 8. Cose aperte / da fare
+
+Lista operativa, distinta dalla roadmap delle campagne. È il riferimento
+per chi riapre il vault: dice "cosa stava per essere fatto e non è stato
+chiuso". Aggiungere voci nuove solo quando sono diventate bloccanti;
+quelle solo "interessanti" vanno in §7 o nei promemoria personali.
+
+| # | Voce | Stato al 17/09/2026 | Prossima azione |
+| -:| ---- | ------------------- | --------------- |
+| 1 | Eseguire C4 (effetto calibrazione) | Non eseguita; strumenti pronti, nessun provider richiesto | Lanciare `run_pipeline.py` su corpus salariale e ticket con e senza `--no-calibration`, `--dry-run` dove basta il piano; sintesi in `docs/azienda_demo/RISULTATI.md` sezione "calibrazione" |
+| 2 | Eseguire C2 (griglia N × ε ticket) | Non eseguita dopo le modifiche A | `benchmark_ticket_demo.py --trials 500`; confrontare con `docs/ticket_demo/RISULTATI.md` |
+| 3 | Eseguire C3 (adattivo vs fisso offline) | Non eseguita dopo A4 | `benchmark_scheduler.py` con sweep SLA su corpus salariale + ticket; output in `docs/azienda_demo/RISULTATI.md` |
+| 4 | Eseguire B (sweep su k) | Non eseguita | `poc/docs/esplorazione_soglia/` da creare; ~40 chiamate cloud |
+| 5 | Eseguire C1 (ripetizioni provider reale, 5 repliche/caso) | Non eseguita; account OpenCode al limite mensile | Verificare disponibilità account, altrimenti provider alternativo |
+| 6 | Eseguire D (analisi utilità risposte) | Non eseguita | Dopo C1; usa `core/etichette` per il confronto con giudizio manuale |
+| 7 | Eseguire E (confronto hardware) | Non eseguita; solo Mac ARM64 misurato | Predisporre macchina x86 con GPU NVIDIA; replicare CLI + `--hw-metrics`; sintesi in `poc/docs/esplorazione_hw/CONFRONTO.md` |
+| 8 | Stesura capitoli | `Bozza/` untracked, `tesi_finale/` assente | Versionare `Bozza/`, creare `tesi_finale/`, allineare Cap. 3 al codice attuale (rimuovere riferimenti a "sviluppi previsti" ormai chiusi) |
+| 9 | Allineamento `Bozza/03_Capitolo3.md` al codice attuale | Non eseguito | Rimuovere le frasi su "calibrazione ancora da chiudere", "probe da implementare", TTFT come misura diretta (oggi è stima euristica) |
+| 10 | Allineamento `Bozza/04_Capitolo4.md` ai dati | Non eseguito | Inserire numeri solo dopo l'esecuzione delle campagne; riportare dimensione campionaria e condizioni di misura |
+| 11 | Dichiarazione formale del confronto hardware al relatore | Da decidere la formulazione | Da concordare con l'utente: la fase E è ora pianificata, va comunicato che è parte integrante della tesi (non "sviluppo futuro") |
+| 12 | Limitare l'uso di `LANGFUSE_CAPTURE_SENSITIVE` ai soli esperimenti autorizzati | Policy già in `AGENTS.md`, ma va richiamata in ogni run di campagna | Promemoria da spostare in testa alle checklist di C1, B, D |
+
+Le voci 1–7 sono eseguibili senza modifiche al codice. Le voci 8–11
+richiedono decisioni dell'utente. La 12 è promemoria operativo.
+
+## 9. Cosa aggiornare alla fine
 
 - `Bozza/03_Capitolo3.md`: §3.1 setup di sessione (calibrazione e probe
   con i valori misurati), §3.3 protocollo effettivo, §3.4 metriche ed
   etichette. Rimuovere o correggere le affermazioni non più aderenti al
   codice (per esempio il ruolo del seed, oggi a solo scopo di compatibilità
   nel retrieval deterministico, e il TTFT, oggi stima euristica e non
-  misura).
+  misura). Includere la fase E (confronto hardware) con le prime misure
+  Mac, segnalando che il dato x86 è pianificato e non ancora disponibile.
 - `Bozza/04_Capitolo4.md`: §4.1 stima vs osservato (C1, C4), §4.2
   adattivo vs fisso (C3, B), §4.3 rilascio in funzione di N ed ε (C2),
   §4.4 utilità (D), §4.5 limiti. I numeri vanno inseriti solo dopo
   l'esecuzione, con la dimensione campionaria e le condizioni di misura.
 - `pseudocodice.md` e `schemaablocchi.md`: spostare le voci dalla sezione
-  sviluppi previsti a quella implementata man mano che la fase A chiude.
-- `docs/CONFIGURATION.md` e `ARCHITECTURE.md`: a ogni merge della fase A.
+  sviluppi previsti a quella implementata man mano che la fase A chiude
+  (fatto al commit di audit; tenere aggiornato se A riapre).
+- `docs/CONFIGURATION.md` e `ARCHITECTURE.md`: a ogni merge della fase A
+  o di modifiche allo scheduler/probe.
 
-## 9. Divieti espliciti per chi esegue
+## 10. Divieti espliciti per chi esegue
 
 - Non modificare le costanti del meccanismo DP (scala Gumbel `4/ε`, soglia
   PTR `max(2, d_k)`, sensibilità del gap 2) né `strict_gap_guard`.
