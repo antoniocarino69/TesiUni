@@ -16,7 +16,6 @@ import os
 import time
 from dataclasses import dataclass
 from typing import Any
-from uuid import uuid4
 
 __all__ = ["CloudGenerator", "RisultatoCloud", "RisultatoProbe"]
 
@@ -178,10 +177,6 @@ class CloudGenerator:
                 }
                 if self.base_url:
                     client_kwargs["base_url"] = self.base_url
-                if self.base_url and self.base_url.startswith("https://opencode.ai/zen/go/"):
-                    client_kwargs["default_headers"] = {
-                        "x-opencode-session": f"poc-{uuid4().hex}",
-                    }
                 client = OpenAI(**client_kwargs)
             else:
                 client = self._client
@@ -262,10 +257,6 @@ class CloudGenerator:
                 }
                 if self.base_url:
                     client_kwargs["base_url"] = self.base_url
-                if self.base_url and self.base_url.startswith("https://opencode.ai/zen/go/"):
-                    client_kwargs["default_headers"] = {
-                        "x-opencode-session": f"poc-{uuid4().hex}",
-                    }
                 client = OpenAI(**client_kwargs)
             else:
                 client = self._client
