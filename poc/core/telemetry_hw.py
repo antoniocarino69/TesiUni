@@ -28,6 +28,7 @@ External dependencies:
 
 from __future__ import annotations
 
+import os
 import platform
 import re
 import shutil
@@ -104,6 +105,17 @@ def _run(command: list[str], *, timeout: float = 2.0) -> str:
     return completed.stdout
 
 
+def _use_sudo() -> bool:
+    """True when POC_HW_SUDO is set to a truthy value."""
+    return os.environ.get("POC_HW_SUDO", "").strip() in ("1", "true", "yes")
+
+
+def _powermetrics_cmd(*args: str) -> list[str]:
+    """Prefix with sudo when POC_HW_SUDO is set."""
+    base = ["powermetrics", *args]
+    return ["sudo", *base] if _use_sudo() else base
+
+
 def _first_float(text: str, pattern: str) -> float | None:
     """Return the first float captured by ``pattern`` or ``None``."""
     match = re.search(pattern, text)
@@ -123,22 +135,16 @@ def _first_float(text: str, pattern: str) -> float | None:
 def _macos_cpu_temp() -> float | None:
     """Best-effort CPU temperature on macOS.
 
-    Returns ``None`` when ``powermetrics`` cannot be invoked (sudo is
-    required). The reading is intentionally cheap: we delegate the
-    detailed Apple Silicon thermal handling to the campaign script,
-    which can run with elevated privileges.
+    Returns ``None`` when ``powermetrics`` cannot be invoked. When
+    ``POC_HW_SUDO`` is set, the command is prefixed with ``sudo`` so
+    that a NOPASSWD sudoers rule can supply the required privileges.
     """
     if not shutil.which("powermetrics"):
         return None
     output = _run(
-        [
-            "powermetrics",
-            "-n", "1",
-            "-i", "1",
-            "--samplers", "cpu_power,thermal",
-            "-b", "1",
-        ],
-        timeout=2.0,
+        _powermetrics_cmd("-n", "1", "-i", "1",
+                          "--samplers", "cpu_power,thermal", "-b", "1"),
+        timeout=3.0,
     )
     return _first_float(output, r"CPU die temperature:\s+([\d.]+)")
 
@@ -148,14 +154,9 @@ def _macos_gpu_temp() -> float | None:
     if not shutil.which("powermetrics"):
         return None
     output = _run(
-        [
-            "powermetrics",
-            "-n", "1",
-            "-i", "1",
-            "--samplers", "gpu_power",
-            "-b", "1",
-        ],
-        timeout=2.0,
+        _powermetrics_cmd("-n", "1", "-i", "1",
+                          "--samplers", "gpu_power", "-b", "1"),
+        timeout=3.0,
     )
     return _first_float(output, r"GPU die temperature:\s+([\d.]+)")
 
@@ -163,6 +164,32 @@ def _macos_gpu_temp() -> float | None:
 def _macos_soc_temp() -> float | None:
     """SoC temperature on macOS via ``powermetrics`` (sudo required)."""
     return _macos_cpu_temp()  # same sensor on Apple Silicon
+
+
+def _macos_cpu_watt() -> float | None:
+    """CPU power in watts from ``powermetrics`` (sudo required)."""
+    if not shutil.which("powermetrics"):
+        return None
+    output = _run(
+        _powermetrics_cmd("-n", "1", "-i", "1",
+                          "--samplers", "cpu_power", "-b", "1"),
+        timeout=3.0,
+    )
+    mw = _first_float(output, r"CPU Power:\s+([\d.]+)\s*mW")
+    return mw / 1000.0 if mw is not None else None
+
+
+def _macos_gpu_watt() -> float | None:
+    """GPU power in watts from ``powermetrics`` (sudo required)."""
+    if not shutil.which("powermetrics"):
+        return None
+    output = _run(
+        _powermetrics_cmd("-n", "1", "-i", "1",
+                          "--samplers", "gpu_power", "-b", "1"),
+        timeout=3.0,
+    )
+    mw = _first_float(output, r"GPU Power:\s+([\d.]+)\s*mW")
+    return mw / 1000.0 if mw is not None else None
 
 
 def _macos_cpu_util() -> float | None:
@@ -284,8 +311,8 @@ def snapshot() -> HwSnapshot:
         gpu_util = None  # ``top`` does not expose per-GPU utilisation on macOS
         ram_used, ram_total = _macos_ram()
         vram_used = None  # Apple Silicon uses unified memory; no separate VRAM
-        cpu_watt = None  # ``powermetrics`` requires sudo for power numbers
-        gpu_watt = None
+        cpu_watt = _macos_cpu_watt()
+        gpu_watt = _macos_gpu_watt()
         pressure = _macos_memory_pressure()
         if pressure is not None:
             pressure = max(0.0, min(100.0, 100.0 - pressure))
