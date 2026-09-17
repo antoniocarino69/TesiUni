@@ -125,3 +125,35 @@ def test_public_prompt_cap_includes_query_and_template() -> None:
         engine.limita_contesto('context', 'query', base - 1, 30)
     with pytest.raises(ValueError, match='n_ctx'):
         engine.limita_contesto('context', 'query', 4096, 30)
+
+
+def test_gpu_offload_supported_on_accelerated_host() -> None:
+    """If llama_cpp is installed and nvidia-smi is present, verify GPU offload."""
+    import shutil
+
+    try:
+        import llama_cpp
+    except ImportError:
+        pytest.skip("llama_cpp non installato")
+    if shutil.which("nvidia-smi"):
+        assert llama_cpp.llama_supports_gpu_offload() is True
+
+
+def test_local_neural_engine_inference_with_local_model_if_present() -> None:
+    """Run one real inference if the local GGUF model is present on disk."""
+    from core.engine import LocalNeuralEngine
+    from core.model_config import percorso_modello_predefinito
+
+    model_path = percorso_modello_predefinito()
+    if not model_path.is_file():
+        pytest.skip("Modello GGUF locale non presente")
+    try:
+        import llama_cpp  # noqa: F401
+    except ImportError:
+        pytest.skip("llama_cpp non installato")
+
+    engine = LocalNeuralEngine(model_path=model_path, n_gpu_layers=-1)
+    out = engine.genera_bozza("Contesto di test", "Domanda?", max_tokens=5)
+    assert out.durata_totale_sec > 0.0
+    assert out.prompt_tokens > 0
+

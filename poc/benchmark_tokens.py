@@ -61,7 +61,7 @@ def carica_dati_reali() -> str:
 def main() -> None:
     console.print(Panel.fit(
         "[bold cyan]Benchmark Architetturale: Impatto dei Token di Ingresso sui tempi totali[/bold cyan]\n"
-        "[dim]Valutazione sperimentale della fase di Prefill e Generazione su Apple Silicon (Metal)[/dim]",
+        "[dim]Valutazione sperimentale della fase di Prefill e Generazione con acceleratore locale[/dim]",
         border_style="cyan"
     ))
 
@@ -75,12 +75,17 @@ def main() -> None:
         sys.exit(1)
 
     try:
+        import llama_cpp
         from llama_cpp import Llama
     except ImportError:
         console.print("[red]llama_cpp non installato nel venv.[/red]")
         sys.exit(1)
 
-    console.print("[cyan]Inizializzazione del modello locale su GPU (Metal)...[/cyan]")
+    accel = "CPU"
+    if hasattr(llama_cpp, "llama_supports_gpu_offload") and llama_cpp.llama_supports_gpu_offload():
+        accel = "Metal" if sys.platform == "darwin" else "CUDA"
+
+    console.print(f"[cyan]Inizializzazione del modello locale su GPU ({accel})...[/cyan]")
     t0_load = time.perf_counter()
     llm = Llama(
         model_path=str(MODEL_PATH),

@@ -46,6 +46,23 @@ def _non_negative_float(value: str) -> float:
     return number
 
 
+def _format_hw_snapshot(hw: dict | None) -> str:
+    if not hw:
+        return 'non misurato'
+    parts: list[str] = []
+    if (cpu := hw.get('cpu_util_pct')) is not None:
+        parts.append(f"cpu={cpu:.1f}%")
+    if (gpu := hw.get('gpu_util_pct')) is not None:
+        parts.append(f"gpu={gpu:.1f}%")
+    if (gpu_t := hw.get('gpu_temp_c')) is not None:
+        parts.append(f"t_gpu={gpu_t:.0f}°C")
+    ram_u = hw.get('ram_used_gb')
+    ram_t = hw.get('ram_total_gb')
+    if ram_u is not None and ram_t is not None:
+        parts.append(f"ram={ram_u:.1f}/{ram_t:.1f} GB")
+    return ', '.join(parts) if parts else 'dati non disponibili'
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description=__doc__)
     source = parser.add_mutually_exclusive_group()
@@ -227,12 +244,8 @@ def main(argv: Sequence[str] | None = None) -> int:
          else f"non eseguito (skipped={result.get('cloud_probe_skipped')})"),
         ('Tempo probe cloud',
          f"{result.get('cloud_probe_ms', 0.0):.1f} ms"),
-        ('Hardware prima della run',
-         f"cpu={result['hw_before'].get('cpu_util_pct')}%, ram={result['hw_before'].get('ram_used_gb')}/{result['hw_before'].get('ram_total_gb')} GB"
-         if result.get('hw_before') else 'non misurato'),
-        ('Hardware dopo la run',
-         f"cpu={result['hw_after'].get('cpu_util_pct')}%, ram={result['hw_after'].get('ram_used_gb')}/{result['hw_after'].get('ram_total_gb')} GB"
-         if result.get('hw_after') else 'non misurato'),
+        ('Hardware prima della run', _format_hw_snapshot(result.get('hw_before'))),
+        ('Hardware dopo la run', _format_hw_snapshot(result.get('hw_after'))),
         ('Campioni hardware durante la run',
          f"{len(result['hw_samples'])} snapshot" if result.get('hw_samples') is not None else 'sampler non attivo'),
         ('Esito sperimentale (A3)',
